@@ -1,0 +1,16 @@
+PODS:
+  - RepositoryKit (0.1.0)
+
+DEPENDENCIES:
+  - RepositoryKit (from `../`)
+
+EXTERNAL SOURCES:
+  RepositoryKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  RepositoryKit: af34fe90d8ad68155fcb27a091ece62b5f4fae27
+
+PODFILE CHECKSUM: af1aba9fbc4c3e07b1585e058305b22a17e005af
+
+COCOAPODS: 1.0.1

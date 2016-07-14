@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'RepositoryKit_Example' do
+  pod 'RepositoryKit'
+
+  target 'RepositoryKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
