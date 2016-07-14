@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  RepositoryKit
 //
-//  Created by Luciano Polit on 07/14/2016.
-//  Copyright (c) 2016 Luciano Polit. All rights reserved.
+//  Created by Luciano Polit on 14/7/16.
+//  Copyright © 2016 Luciano Polit. All rights reserved.
 //
 
 import UIKit

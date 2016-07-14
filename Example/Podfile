@@ -1,11 +1,6 @@
-use_frameworks!
+platform :ios, '9.0'
 
-target 'RepositoryKit_Example' do
+target 'RepositoryKit' do
+  use_frameworks!
   pod 'RepositoryKit'
-
-  target 'RepositoryKit_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end

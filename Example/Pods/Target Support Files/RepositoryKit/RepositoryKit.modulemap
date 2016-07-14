@@ -1,6 +1,0 @@
-framework module RepositoryKit {
-  umbrella header "RepositoryKit-umbrella.h"
-
-  export *
-  module * { export * }
-}
