@@ -58,7 +58,7 @@ extension NetworkingSession {
         return requestWithData(method, urlString, parameters: parameters, headers: headers)
             .then { request in
                 Promise { success, failure in
-                    NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest()) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
+                    NSURLSession.sharedSession().dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
                         guard error == nil else {
                             failure(RKError.other(error!))
                             return
@@ -83,9 +83,9 @@ extension NetworkingSession {
                             failure(RKError.parsing)
                         }
                         
-                    }
+                        }.resume()
                 }
-            }
+        }
         
     }
     
@@ -113,7 +113,7 @@ extension NetworkingSession {
             }
             
             for (key, value) in requestHeaders {
-                request.addValue(key, forHTTPHeaderField: value)
+                request.addValue(value, forHTTPHeaderField: key)
             }
             
             guard let params = parameters else {
