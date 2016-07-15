@@ -84,7 +84,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func update(entity: Entity) -> Promise<Entity> {
         
-        return networking.request(.PUT, "\(url)", parameters: entity.dictionary)
+        return networking.request(.PUT, "\(url)/\(entity.id)", parameters: entity.dictionary)
             .then { entity }
         
     }
