@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F1393FAC1D37E95D00833C46"
-               BuildableName = "RepositoryKit.app"
-               BlueprintName = "RepositoryKit"
-               ReferencedContainer = "container:RepositoryKit.xcodeproj">
+               BlueprintIdentifier = "F1B9F4501D3950070049F179"
+               BuildableName = "Example.app"
+               BlueprintName = "Example"
+               ReferencedContainer = "container:Example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F1393FAC1D37E95D00833C46"
-            BuildableName = "RepositoryKit.app"
-            BlueprintName = "RepositoryKit"
-            ReferencedContainer = "container:RepositoryKit.xcodeproj">
+            BlueprintIdentifier = "F1B9F4501D3950070049F179"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F1393FAC1D37E95D00833C46"
-            BuildableName = "RepositoryKit.app"
-            BlueprintName = "RepositoryKit"
-            ReferencedContainer = "container:RepositoryKit.xcodeproj">
+            BlueprintIdentifier = "F1B9F4501D3950070049F179"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F1393FAC1D37E95D00833C46"
-            BuildableName = "RepositoryKit.app"
-            BlueprintName = "RepositoryKit"
-            ReferencedContainer = "container:RepositoryKit.xcodeproj">
+            BlueprintIdentifier = "F1B9F4501D3950070049F179"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

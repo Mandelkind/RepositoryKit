@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>RepositoryKit.xcscheme</key>
+		<key>Example.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>F1393FAC1D37E95D00833C46</key>
+		<key>F1B9F4501D3950070049F179</key>
 		<dict>
 			<key>primary</key>
 			<true/>
