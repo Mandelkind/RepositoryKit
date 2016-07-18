@@ -148,7 +148,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
      */
     public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
         
-        return networking.request(.POST, "\(url)")
+        return networking.request(.POST, "\(url)", parameters: entity)
             .then { dictionary in
                 self.merge(entity, new: dictionary)
             }
