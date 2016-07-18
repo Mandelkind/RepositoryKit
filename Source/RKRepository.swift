@@ -53,3 +53,19 @@ public protocol RKStorageRepository: RKRepository {
     var name: String { get }
     
 }
+
+/// Enables the repository to know how to synchronize *Storage Repositories*.
+public protocol RKStorageSynchronizer {
+    
+    /// The managed property name that will be the reference if a managed object is up to date or not.
+    var updateableAttribute: String { get }
+    
+}
+
+/// Enables the repository to know how to identify a `Dictionary`.
+public protocol RKDictionaryIdentifier {
+    
+    /// The key that identify the `Dictionary`.
+    var identificationKey: String { get }
+    
+}

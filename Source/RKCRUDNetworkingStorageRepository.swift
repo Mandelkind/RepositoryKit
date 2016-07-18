@@ -38,13 +38,10 @@ public protocol RKCRUDNetworkingStorageRepository: RKRepository, RKCRUDRepositor
 
 // MARK: - Methods implementation
 extension RKCRUDNetworkingStorageRepository
-    where NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    where Self: RKStorageSynchronizer,
+    NetworkingRepository: RKDictionaryIdentifier, NetworkingRepository.Entity == Dictionary<String, AnyObject>,
     Entity == StorageRepository.Entity, Entity: NSManagedObject,
     Entity: DictionaryContextInitializable, Entity: Identifiable, Entity: DictionaryRepresentable, Entity: DictionaryUpdateable {
-    
-    // MARK: - Properties
-    /// The model attribute that will be the reference if a managed object is up to date during the search method or not.
-    public var updateableAttribute: String { return "update" }
     
     // MARK: - Create
     /**
