@@ -149,7 +149,7 @@ extension RKCRUDNetworkingStorageRepository
             }.then { _ in
                 self.createNewObjects(dictionary, entities: entities)
             }.then { _ in
-                self.storage.batchDelete(NSPredicate(format: "\(self.updateableAttribute) == false"))
+                self.storage.batchDelete(NSPredicate(format: "'\(self.updateableAttribute)' == false"))
             }
         
     }
