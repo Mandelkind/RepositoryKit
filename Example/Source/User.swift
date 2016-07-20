@@ -13,6 +13,7 @@ import CoreData
 
 class User: NSManagedObject, Identifiable, DictionaryContextInitializable, DictionaryRepresentable, DictionaryUpdateable {
     
+    // MARK: - Properties
     override var description: String {
         return "\(id) - \(firstName!) - \(lastName!) - \(synchronized!)"
     }
@@ -33,6 +34,7 @@ class User: NSManagedObject, Identifiable, DictionaryContextInitializable, Dicti
         ]
     }
     
+    // MARK: - Initialization
     required convenience init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: context),
             let firstName = dictionary["firstName"] as? String,
@@ -50,6 +52,7 @@ class User: NSManagedObject, Identifiable, DictionaryContextInitializable, Dicti
         }
     }
     
+    // MARK: - Methods
     func update(dictionary: Dictionary<String, AnyObject>) {
         synchronized = true
         id ~> dictionary["_id"]

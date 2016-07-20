@@ -15,7 +15,7 @@ class UserTableViewController: CoreDataTableViewController {
     // MARK: - Properties
     var userRepository: UserRepository!
     
-    // MARK: - Loaded
+    // MARK: - Life cycle
     override func viewDidLoad() {
         userRepository = UserRepository(coreDataStack: coreDataStack, networkingSession: networkingSession)
         
@@ -29,7 +29,7 @@ class UserTableViewController: CoreDataTableViewController {
             .then(userRepository.synchronize)
     }
     
-    // MARK: - Table view delegate
+    // MARK: - Table view delegate implementation
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let user = fetchedResultsController!.objectAtIndexPath(indexPath) as! User
         

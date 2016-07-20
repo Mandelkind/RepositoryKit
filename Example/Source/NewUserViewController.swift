@@ -10,10 +10,12 @@ import UIKit
 
 class NewUserViewController: UIViewController, UITextFieldDelegate {
     
+    // MARK: - Outlets
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     
+    // MARK: - Properties
     var firstName: String {
         guard let text = firstNameTextField.text else {
             return ""
@@ -28,6 +30,7 @@ class NewUserViewController: UIViewController, UITextFieldDelegate {
         return text
     }
     
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.enabled = false
@@ -39,10 +42,12 @@ class NewUserViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - Action
     @IBAction func cancel(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // MARK: - Text field delegate implementation
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = NSString(string: textField.text!).stringByReplacingCharactersInRange(range, withString: string)
         if text.characters.count != 0 {
