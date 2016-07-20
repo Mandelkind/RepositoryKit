@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		981D08C37B71A61CDB09F211 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50272153F8D6FAD77830AC8 /* Pods_Example.framework */; };
-		F10084C21D3FB0C00058FFC0 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10084C01D3FB0C00058FFC0 /* User+CoreDataProperties.swift */; };
-		F10084C31D3FB0C00058FFC0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10084C11D3FB0C00058FFC0 /* User.swift */; };
+		F10084CA1D3FB4FD0058FFC0 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10084C81D3FB4FD0058FFC0 /* User+CoreDataProperties.swift */; };
+		F10084CB1D3FB4FD0058FFC0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10084C91D3FB4FD0058FFC0 /* User.swift */; };
 		F10DF1831D3D218D00C655A8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1821D3D218D00C655A8 /* Operators.swift */; };
 		F10DF1871D3D244000C655A8 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1861D3D244000C655A8 /* UserRepository.swift */; };
 		F10DF1891D3D246800C655A8 /* PromisePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1881D3D246800C655A8 /* PromisePrinter.swift */; };
@@ -27,8 +27,8 @@
 /* Begin PBXFileReference section */
 		44F694487764AF835EFC1BB9 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		8A9C019D799CCEBFC99AB4D9 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
-		F10084C01D3FB0C00058FFC0 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "../../Source/User+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F10084C11D3FB0C00058FFC0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = ../../Source/User.swift; sourceTree = "<group>"; };
+		F10084C81D3FB4FD0058FFC0 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F10084C91D3FB4FD0058FFC0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F10DF1821D3D218D00C655A8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		F10DF1861D3D244000C655A8 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		F10DF1881D3D246800C655A8 /* PromisePrinter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromisePrinter.swift; sourceTree = "<group>"; };
@@ -113,8 +113,8 @@
 		F10DF18E1D3D440D00C655A8 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				F10084C01D3FB0C00058FFC0 /* User+CoreDataProperties.swift */,
-				F10084C11D3FB0C00058FFC0 /* User.swift */,
+				F10084C81D3FB4FD0058FFC0 /* User+CoreDataProperties.swift */,
+				F10084C91D3FB4FD0058FFC0 /* User.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -300,10 +300,10 @@
 				F1A4D8941D3D5CAB00E5703A /* SharedInstances.swift in Sources */,
 				F165D8D31D39825C00C35FFD /* Model.xcdatamodeld in Sources */,
 				F1FEE3131D3EB68C00102117 /* NewUserViewController.swift in Sources */,
-				F10084C21D3FB0C00058FFC0 /* User+CoreDataProperties.swift in Sources */,
-				F10084C31D3FB0C00058FFC0 /* User.swift in Sources */,
 				F1A4D8961D3D5F0C00E5703A /* CoreDataTableViewController.swift in Sources */,
+				F10084CA1D3FB4FD0058FFC0 /* User+CoreDataProperties.swift in Sources */,
 				F10DF1831D3D218D00C655A8 /* Operators.swift in Sources */,
+				F10084CB1D3FB4FD0058FFC0 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
