@@ -238,7 +238,7 @@ extension RKCRUDNetworkingRepository {
     
     public typealias DictionaryEntity = Dictionary<String, AnyObject>
     
-    public func merge(old: DictionaryEntity, new: DictionaryEntity) -> Promise<DictionaryEntity> {
+    private func merge(old: DictionaryEntity, new: DictionaryEntity) -> Promise<DictionaryEntity> {
         
         return Promise { success, failure in
             
