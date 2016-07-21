@@ -104,7 +104,8 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     }
     
     // MARK: - Utils
-    private func initialization(dictionary: DictionaryEntity) -> Promise<Entity> {
+    /// Initializes an `Entity` with the specific `Dictionary`.
+    public func initialization(dictionary: DictionaryEntity) -> Promise<Entity> {
         
         return Promise { success, failure in
             guard let entity = Entity(dictionary: dictionary) else {
@@ -117,7 +118,8 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
         
     }
     
-    private func initialization(array: [DictionaryEntity]) -> Promise<[Entity]> {
+    /// Initializes an `Array` of `Entity` with the specific `Array` of `Dictionary`.
+    public func initialization(array: [DictionaryEntity]) -> Promise<[Entity]> {
         
         return Promise { success, failure in
             var entities = [Entity]()
