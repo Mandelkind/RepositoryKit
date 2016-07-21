@@ -25,7 +25,7 @@
 import Foundation
 
 /// Represent the possible errors that can be produced by the repositories methods.
-enum RKError: ErrorType {
+public enum RKError: ErrorType {
     
     case parsing
     case casting
