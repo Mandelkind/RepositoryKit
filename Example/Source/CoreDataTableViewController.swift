@@ -18,6 +18,7 @@ class CoreDataTableViewController: UITableViewController {
             // reload the table
             fetchedResultsController?.delegate = self
             executeSearch()
+            tableView.reloadData()
         }
     }
     
@@ -29,7 +30,7 @@ class CoreDataTableViewController: UITableViewController {
         
     }
     
-    // Do not worry about this initializer. It has to be implemented
+    // Do not worry about this initializer. I has to be implemented
     // because of the way Swift interfaces with an Objective C
     // protocol called NSArchiving. It's not relevant.
     required init?(coder aDecoder: NSCoder) {
@@ -93,6 +94,7 @@ extension CoreDataTableViewController{
         }
     }
     
+    
 }
 
 // MARK:  - Fetches
@@ -100,10 +102,8 @@ extension CoreDataTableViewController{
     
     func executeSearch(){
         if let fc = fetchedResultsController{
-            fc.managedObjectContext.reset()
             do{
                 try fc.performFetch()
-                tableView.reloadData()
             }catch let e as NSError{
                 print("Error while trying to perform a search: \n\(e)\n\(fetchedResultsController)")
             }
