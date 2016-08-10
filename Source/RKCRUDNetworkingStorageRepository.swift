@@ -26,7 +26,7 @@ import CoreData
 import PromiseKit
 
 // MARK: - Main
-public protocol RKCRUDNetworkingStorageRepository: RKRepository, RKCRUDRepository {
+public protocol RKCRUDNetworkingStorageRepository: RKCRUDRepository {
     
     associatedtype NetworkingRepository: RKCRUDNetworkingRepository
     associatedtype StorageRepository: RKCRUDStorageRepository
@@ -37,11 +37,15 @@ public protocol RKCRUDNetworkingStorageRepository: RKRepository, RKCRUDRepositor
 }
 
 // MARK: - Methods implementation
-extension RKCRUDNetworkingStorageRepository
-    where Self: RKStorageSynchronizer,
-    NetworkingRepository: RKDictionaryIdentifier, NetworkingRepository.Entity == Dictionary<String, AnyObject>,
-    Entity == StorageRepository.Entity, Entity: NSManagedObject,
-    Entity: DictionaryContextInitializable, Entity: Identifiable, Entity: DictionaryRepresentable, Entity: DictionaryUpdateable {
+extension RKCRUDNetworkingStorageRepository where
+    NetworkingRepository: RKDictionaryIdentifier,
+    NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    Entity == StorageRepository.Entity,
+    Entity: NSManagedObject,
+    Entity: DictionaryContextInitializable,
+    Entity: DictionaryRepresentable,
+    Entity: DictionaryUpdateable,
+    Entity: Identifiable {
     
     // MARK: - Create
     /**
@@ -79,9 +83,7 @@ extension RKCRUDNetworkingStorageRepository
      - Returns: A promise of an `Array` of `Entity`.
      */
     public func search() -> Promise<[Entity]> {
-        return networking.search()
-            .then(synchronize)
-            .then(storage.search)
+        return storage.search()
     }
     
     // MARK: - Update
@@ -116,62 +118,6 @@ extension RKCRUDNetworkingStorageRepository
     public func delete(entity: Entity) -> Promise<Void> {
         return networking.delete(entity.dictionary)
             .then { self.storage.delete(entity) }
-    }
-    
-    // MARK: - Utils
-    /**
-     Synchronize the data of the server with the data of the `Storage`.
-     
-     1. Batch update (set updateable attribute to false).
-     2. Update repeated objects.
-     3. Create objects for keys not used.
-     4. Batch delete for objects which updateable attribute is still in false.
-     
-     - Parameter entities: The networking entities fetched before.
-     
-     - Returns: A promise of `Void`.
-     */
-    public func synchronize(entities: [NetworkingRepository.Entity]) -> Promise<Void> {
-        
-        var dictionary = Dictionary<String, Int>()
-        for i in 0 ..< entities.count {
-            guard let id = entities[i][networking.identificationKey] as? String else { continue }
-            dictionary[id] = i
-        }
-        
-        let ids = Array(dictionary.keys)
-        let predicate = NSPredicate(format: "id IN %@", ids)
-        
-        return storage.batchUpdate([updateableAttribute: false])
-            .then { self.storage.search(predicate) }
-            .then { objects in
-                self.updateRepeatedObjects(&dictionary, objects: objects, entities: entities)
-            }.then { _ in
-                self.createNewObjects(dictionary, entities: entities)
-            }.then { _ in
-                self.storage.batchDelete(NSPredicate(format: "'\(self.updateableAttribute)' == false"))
-            }
-        
-    }
-    
-    private func updateRepeatedObjects(inout dictionary: Dictionary<String, Int>, objects: [StorageRepository.Entity], entities: [NetworkingRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
-        return Promise { success, failure in
-            for object in objects {
-                if let key = object.id as? String, let index = dictionary[key] {
-                    object.update(entities[index])
-                    dictionary.removeValueForKey(key)
-                }
-            }
-            success(objects)
-            }.then(storage.update)
-    }
-    
-    private func createNewObjects(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
-        var other = Array<NetworkingRepository.Entity>()
-        for (_,v) in dictionary {
-            other.append(entities[v])
-        }
-        return storage.create(other)
     }
     
 }
