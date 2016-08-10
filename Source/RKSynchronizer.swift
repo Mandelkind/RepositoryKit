@@ -57,7 +57,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     */
     public func synchronize() -> Promise<Void> {
         
-        let predicate = NSPredicate(format: "'\(synchronizableAttribute)' == false")
+        let predicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.search(predicate)
             .then(create)
@@ -88,7 +88,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         
         let ids = Array(dictionary.keys)
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
-        let deletePredicate = NSPredicate(format: "'\(synchronizableAttribute)' == false")
+        let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.batchUpdate([synchronizableAttribute: false])
             .then {
