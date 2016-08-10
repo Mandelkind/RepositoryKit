@@ -126,12 +126,15 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     
     private func create(objects: [Entity]) -> Promise<Void> {
         return Promise { success, failure in
+            var promises = Array<Promise<Void>>()
             for object in objects {
-                self.networking.create(object.dictionary)
+                var promise = self.networking.create(object.dictionary)
                     .then(object.update)
-                    .error(failure)
+                promises.append(promise)
             }
-            success()
+            when(promises)
+                .then(success)
+                .error(failure)
         }
     }
     
