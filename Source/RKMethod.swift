@@ -1,5 +1,5 @@
 //
-//  RKRepository.swift
+//  RKMethod.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,40 +24,9 @@
 
 import Foundation
 
-/// It is needed to be considered a *Repository*.
-public protocol RKRepository {
+/// HTTP methods.
+public enum RKMethod: String {
     
-    /// The associated entity type.
-    associatedtype Entity
-    
-}
-
-/// It is needed to be considered a *Networking Repository*.
-public protocol RKNetworkingRepository: RKRepository {
-    
-    /// The object that will make the HTTP requests.
-    var networking: RKNetworking { get }
-    
-    /// The url of the server.
-    var url: String { get }
-    
-}
-
-/// It is needed to be considered a *Storage Repository*.
-public protocol RKStorageRepository: RKRepository {
-    
-    /// The object that will manage the local storage.
-    var storage: RKStorage { get }
-    
-    /// The name of the entity of the model.
-    var name: String { get }
-    
-}
-
-/// Enables the repository to know how to identify a `Dictionary`.
-public protocol RKDictionaryIdentifier {
-    
-    /// The key that identify the `Dictionary`.
-    var identificationKey: String { get }
+    case GET, POST, PUT, DELETE
     
 }

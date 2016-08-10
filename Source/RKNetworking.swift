@@ -24,13 +24,6 @@
 
 import PromiseKit
 
-/// HTTP methods.
-public enum RKMethod: String {
-    
-    case GET, POST, PUT, DELETE
-    
-}
-
 /// It is needed to be considered a *Networking recipe* by a *Repository*.
 public protocol RKNetworking {
     

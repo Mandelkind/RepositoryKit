@@ -137,7 +137,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
 }
 
-// MARK: Entity is a dictionary
+// MARK: - Entity is a dictionary
 extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity == Dictionary<String, AnyObject> {
     
     // MARK: - Create
