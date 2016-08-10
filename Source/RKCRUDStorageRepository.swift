@@ -257,6 +257,7 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
                 fetchRequest.predicate = predicate
                 
                 let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                batchDeleteRequest.resultType = .ResultTypeStatusOnly
                 
                 do {
                     try context.executeRequest(batchDeleteRequest)
