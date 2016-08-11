@@ -177,10 +177,11 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
                 
                 let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription)
                 batchUpdateRequest.propertiesToUpdate = properties
+                batchUpdateRequest.predicate = predicate
                 batchUpdateRequest.resultType = .StatusOnlyResultType
                 
                 do {
-                    try context.executeRequest(batchUpdateRequest) as? NSBatchUpdateResult
+                    try context.executeRequest(batchUpdateRequest)
                     success()
                 }
                 catch {
