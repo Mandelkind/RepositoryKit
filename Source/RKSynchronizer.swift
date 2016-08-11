@@ -118,6 +118,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     }
     
     private func update(inout dictionary: Dictionary<String, Int>, objects: [StorageRepository.Entity], entities: [NetworkingRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
+        
         return Promise { success, failure in
             for object in objects {
                 if let key = object.id as? String, let index = dictionary[key] {
@@ -127,17 +128,22 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
             }
             success(objects)
             }.then(storage.update)
+        
     }
     
     private func create(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
+        
         var other = Array<NetworkingRepository.Entity>()
         for (_,v) in dictionary {
             other.append(entities[v])
         }
+        
         return storage.create(other)
+        
     }
     
     private func create(objects: [Entity]) -> Promise<Void> {
+        
         return Promise { success, failure in
             var promises = Array<Promise<Void>>()
             for object in objects {
@@ -145,10 +151,12 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
                     .then(object.update)
                 promises.append(promise)
             }
+            
             when(promises)
                 .then(success)
                 .error(failure)
         }
+        
     }
     
 }
