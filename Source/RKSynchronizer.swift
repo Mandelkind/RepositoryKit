@@ -69,7 +69,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     /**
      Synchronizes the specified data of the `Networking` with the data of the `Storage`.
      
-     1. Batch update (set synchronized attribute to false).
+     1. Unsynchronize all (set synchronized attribute to false).
      2. Update repeated objects.
      3. Create objects for keys not used.
      4. Batch delete for objects which synchronizable attribute is still in false.
@@ -90,20 +90,39 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
         let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
-        return storage.batchUpdate([synchronizableAttribute: false])
-            .then {
-                self.storage.search(searchPredicate)
-            }.then { objects in
+        return storage.search()
+            .then(unsynchronize)
+            .then { objects in
                 self.update(&dictionary, objects: objects, entities: entities)
             }.then { _ in
                 self.create(dictionary, entities: entities)
             }.then { _ in
-                self.storage.batchDelete(deletePredicate)
-            }
+                self.storage.search(deletePredicate)
+            }.then(storage.delete)
         
     }
     
     // MARK: - Utils
+    private func unsynchronize(objects: [StorageRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
+        
+        let synchronizeSelector = selector(forAttribute: synchronizableAttribute)
+        
+        return Promise { success, failure in
+            for object in objects {
+                object.performSelector(synchronizeSelector, withObject: false)
+            }
+            success(objects)
+        }.then(storage.update)
+        
+    }
+    
+    private func selector(forAttribute attr: String) -> Selector {
+        let first = String(attr.characters.prefix(1)).capitalizedString
+        let other = String(attr.characters.dropFirst())
+        let selector = "set" + first + other + ":"
+        return Selector(selector)
+    }
+    
     private func update(inout dictionary: Dictionary<String, Int>, objects: [StorageRepository.Entity], entities: [NetworkingRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
         return Promise { success, failure in
             for object in objects {

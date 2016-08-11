@@ -33,6 +33,13 @@ public protocol Identifiable {
     
 }
 
+/// Represent if an object is up to date or not.
+public protocol Synchronizable {
+    
+    var synchronized: NSNumber? { get }
+    
+}
+
 /// Initialize an object with a `Dictionary`.
 public protocol DictionaryInitializable {
     

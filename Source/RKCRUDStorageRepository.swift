@@ -157,42 +157,6 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
             .then{entities}
     }
     
-    /**
-     Updates all managed objects fetched with the specified predicate and properties on the main context.
-     
-     - Parameter properties: The properties that needs to be updated.
-     - Parameter predicate: A `NSPredicate` that is used to make the fetch request.
-     
-     - Returns: A promise of `Void`.
-     */
-    public func batchUpdate(properties: Dictionary<String, AnyObject>, predicate: NSPredicate? = nil) -> Promise<Void> {
-        
-        return storage.performOperation { context in
-            Promise { success, failure in
-                
-                guard let entityDescription = NSEntityDescription.entityForName(self.name, inManagedObjectContext: context) else {
-                    failure(RKError.notFound)
-                    return
-                }
-                
-                let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription)
-                batchUpdateRequest.propertiesToUpdate = properties
-                batchUpdateRequest.predicate = predicate
-                batchUpdateRequest.resultType = .StatusOnlyResultType
-                
-                do {
-                    try context.executeRequest(batchUpdateRequest)
-                    success()
-                }
-                catch {
-                    failure(RKError.other(error))
-                }
-                
-            }
-        }.then(storage.save)
-        
-    }
-    
 }
 
 // MARK: - Delete
@@ -241,36 +205,5 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
         }.then(storage.save)
         
     }
-    
-    /**
-     Deletes all managed objects fetched with the specified predicate on the main context.
-     
-     - Parameter predicate: A `NSPredicate` that is used to make the fetch request.
-     
-     - Returns: A promise of `Void`.
-     */
-    public func batchDelete(predicate: NSPredicate? = nil) -> Promise<Void> {
-        
-        return storage.performOperation { context in
-            Promise { success, failure in
-                
-                let fetchRequest = NSFetchRequest(entityName: self.name)
-                fetchRequest.predicate = predicate
-                
-                let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                batchDeleteRequest.resultType = .ResultTypeStatusOnly
-                
-                do {
-                    try context.executeRequest(batchDeleteRequest)
-                    success()
-                }
-                catch {
-                    failure(RKError.other(error))
-                }
-                
-            }
-        }.then(storage.save)
-        
-    }
-    
+
 }
