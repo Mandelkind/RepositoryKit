@@ -24,7 +24,7 @@
 
 import Foundation
 
-/// Represent the possible errors that can be produced by the repositories methods.
+/// Represents the possible errors that can be produced by the repositories methods.
 public enum RKError: ErrorType {
     
     case parsing

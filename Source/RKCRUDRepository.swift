@@ -29,7 +29,7 @@ public protocol RKCRUDRepository: RKRepository {
     
     // MARK: - Create
     /**
-     Create an entity in the repository
+     Creates an entity in the repository
      
      - Parameter entity: A `Dictionary` that will initialize the `Entity` object.
      
@@ -39,7 +39,7 @@ public protocol RKCRUDRepository: RKRepository {
     
     // MARK: - Read
     /**
-     Search all entities in the repository
+     Searches all entities in the repository
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -47,7 +47,7 @@ public protocol RKCRUDRepository: RKRepository {
     
     // MARK: - Update
     /**
-     Update an entity in the repository
+     Updates an entity in the repository
      
      - Parameter entity: A reference of the entity to be updated.
      
@@ -57,7 +57,7 @@ public protocol RKCRUDRepository: RKRepository {
     
     // MARK: - Delete
     /**
-     Delete an entity in the repository
+     Deletes an entity in the repository
      
      - Parameter entity: A reference of the entity to be deleted.
      

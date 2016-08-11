@@ -31,9 +31,9 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
     // MARK: - Create
     /**
-     Makes a request to the server with the purpouse of create a new `Entity`.
+     Makes a request to the `Networking` with the purpouse of create a new `Entity`.
      
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the server.
+     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Networking`.
      
      - Returns: A promise of `Entity`.
      */
@@ -49,7 +49,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
     // MARK: - Read
     /**
-     Makes a request to the server with the purpouse of find an `Entity` with a specified unique identifier.
+     Makes a request to the `Networking` with the purpouse of find an `Entity` with a specified unique identifier.
      
      - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
      
@@ -63,7 +63,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     }
     
     /**
-     Makes a request to the server with the purpouse of find all the entities.
+     Makes a request to the `Networking` with the purpouse of find all the entities.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -76,7 +76,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
     // MARK: - Update
     /**
-     Makes a request to the server with the purpouse of update an `Entity` with a specific unique identifier.
+     Makes a request to the `Networking` with the purpouse of update an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -91,7 +91,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
     // MARK: - Delete
     /**
-     Makes a request to the server with the purpouse of delete an `Entity` with a specific unique identifier.
+     Makes a request to the `Networking` with the purpouse of delete an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be deleted.
      
@@ -142,9 +142,9 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
     
     // MARK: - Create
     /**
-     Makes a request to the server with the purpouse of create a new `Entity`.
+     Makes a request to the `Networking` with the purpouse of create a new `Entity`.
      
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the server.
+     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Networking`.
      
      - Returns: A promise of `Entity`.
      */
@@ -159,7 +159,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
     
     // MARK: - Read
     /**
-     Makes a request to the server with the purpouse of find an `Entity` with a specified unique identifier.
+     Makes a request to the `Networking` with the purpouse of find an `Entity` with a specified unique identifier.
      
      - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
      
@@ -172,7 +172,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
     }
     
     /**
-     Makes a request to the server with the purpouse of find all the entities.
+     Makes a request to the `Networking` with the purpouse of find all the entities.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -184,7 +184,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
     
     // MARK: - Update
     /**
-     Makes a request to the server with the purpouse of update an `Entity` with a specific unique identifier.
+     Makes a request to the `Networking` with the purpouse of update an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -202,7 +202,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
     
     // MARK: - Delete
     /**
-     Makes a request to the server with the purpouse of delete an `Entity` with a specific unique identifier.
+     Makes a request to the `Networking` with the purpouse of delete an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be deleted.
      

@@ -52,7 +52,7 @@ extension RKCRUDNetworkingStorageRepository where
      Creates an object on the `Storage` and the `Networking`.
      
      1. Create the managed object on the `Storage`.
-     2. Make the request to the server to create it too.
+     2. Make the request to the `Networking` to create it too.
      3. Update the managed object with the networking response.
      
      - Parameter entity: A `Dictionary` that is used to create the new `Entity`.
@@ -74,10 +74,10 @@ extension RKCRUDNetworkingStorageRepository where
     
     // MARK: - Read
     /**
-     Searches all objects created on the server and creates it on the `Storage`.
+     Searches all objects created on the `Networking` and creates it on the `Storage`.
      
      1. Make the request to find all the entities.
-     2. Synchronize the data of the server with the data of the `Storage`.
+     2. Synchronize the data of the `Networking` with the data of the `Storage`.
      3. Make a storage search with all the managed objects updated.
      
      - Returns: A promise of an `Array` of `Entity`.
@@ -88,7 +88,7 @@ extension RKCRUDNetworkingStorageRepository where
     
     // MARK: - Update
     /**
-     Updates an object on the server and the `Storage`.
+     Updates an object on the `Networking` and the `Storage`.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -109,7 +109,7 @@ extension RKCRUDNetworkingStorageRepository where
     
     // MARK: - Delete
     /**
-     Deletes an object on the server and the `Storage`.
+     Deletes an object on the `Networking` and the `Storage`.
      
      - Parameter entity: The entity that needs to be deleted.
      

@@ -38,7 +38,7 @@ public protocol RKStorage {
     func save<T>(t: T) -> Promise<T>
     
     /**
-     Perform a operation in the main queue.
+     Performs a operation in the main queue.
      
      - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
      
@@ -47,7 +47,7 @@ public protocol RKStorage {
     func performOperation<T>(block: NSManagedObjectContext -> Promise<T>) -> Promise<T>
     
     /**
-     Perform a operation in a background queue.
+     Performs a operation in a background queue.
      
      - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
      

@@ -44,7 +44,7 @@ public class NetworkingSession: RKNetworking {
 extension NetworkingSession {
     
     /**
-     Create a promise with the response of a request for the specified method, url, parameters and headers.
+     Creates a promise with the response of a request for the specified method, url, parameters and headers.
      
      - Parameter method: The HTTP method.
      - Parameter urlString: The URL string.

@@ -30,7 +30,7 @@ public protocol RKSynchronizer {
     /// The property name that will be the reference if a object is up to date or not.
     var synchronizableAttribute: String { get }
     
-    /// Synchronize the data of the different repositories.
+    /// Synchronizes the data of the different repositories.
     func synchronize() -> Promise<Void>
     
 }
@@ -47,7 +47,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Synchronize methods
     /**
-     Synchronize the data of the `Networking` with the data of the `Storage`.
+     Synchronizes the data of the `Networking` with the data of the `Storage`.
      
      1. Create the unsynchronized objects on `Networking` (those that the synchronizable attribute is false).
      2. Search all the entities of `Networking`.
@@ -67,7 +67,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     }
     
     /**
-     Synchronize the specified data of the `Networking` with the data of the `Storage`.
+     Synchronizes the specified data of the `Networking` with the data of the `Storage`.
      
      1. Batch update (set synchronized attribute to false).
      2. Update repeated objects.
