@@ -106,7 +106,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     // MARK: - Utils
     private func unsynchronize(objects: [StorageRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
         
-        let synchronizeSelector = selector(forAttribute: synchronizableAttribute)
+        let synchronizeSelector = Selector(attribute: synchronizableAttribute)
         
         return Promise { success, failure in
             for object in objects {
@@ -115,13 +115,6 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
             success(objects)
         }.then(storage.update)
         
-    }
-    
-    private func selector(forAttribute attr: String) -> Selector {
-        let first = String(attr.characters.prefix(1)).capitalizedString
-        let other = String(attr.characters.dropFirst())
-        let selector = "set" + first + other + ":"
-        return Selector(selector)
     }
     
     private func update(inout dictionary: Dictionary<String, Int>, objects: [StorageRepository.Entity], entities: [NetworkingRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
