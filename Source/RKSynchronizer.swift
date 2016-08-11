@@ -43,7 +43,8 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     Self.Entity: DictionaryRepresentable,
     Self.Entity: DictionaryContextInitializable,
     Self.Entity: DictionaryUpdateable,
-    Self.Entity: Identifiable {
+    Self.Entity: Identifiable,
+    Self.Entity: Synchronizable {
     
     // MARK: - Synchronize methods
     /**
