@@ -52,7 +52,7 @@ public class CoreDataStack: RKStorage {
     /// The persistent coordinator of the model.
     public let coordinator: NSPersistentStoreCoordinator
     /// The context (in a private queue) that manages the persistence of the model.
-    public let persistentContext: NSManagedObjectContext
+    public let persistenceContext: NSManagedObjectContext
     /// The context (in a private queue) which purpose is to perform batches without blocking the application.
     public let backgroundContext: NSManagedObjectContext
     /// The context that manages all the information in the main queue.
@@ -81,11 +81,11 @@ public class CoreDataStack: RKStorage {
         
         self.coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
         
-        self.persistentContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        self.persistentContext.persistentStoreCoordinator = self.coordinator
+        self.persistenceContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        self.persistenceContext.persistentStoreCoordinator = self.coordinator
         
         self.mainContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        self.mainContext.parentContext = self.persistentContext
+        self.mainContext.parentContext = self.persistenceContext
         
         self.backgroundContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         self.backgroundContext.parentContext = self.mainContext
@@ -200,10 +200,10 @@ public extension CoreDataStack {
         
         return Promise { success, failure in
             
-            self.persistentContext.performBlock() {
+            self.persistenceContext.performBlock() {
                 
                 do {
-                    try self.persistentContext.save()
+                    try self.persistenceContext.save()
                     success()
                 }
                 catch {
