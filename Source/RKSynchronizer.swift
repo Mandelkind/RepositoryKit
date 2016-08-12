@@ -138,24 +138,35 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
             other.append(entities[v])
         }
         
-        return storage.create(other)
+        var promises = Array<Promise<Entity>>()
+        for object in other {
+            let promise = storage.create(object)
+            promises.append(promise)
+        }
+        
+        return when(promises)
+            .then{ _ in
+                Promise { success, failure in
+                    success()
+                }
+            }
         
     }
     
     private func create(objects: [Entity]) -> Promise<Void> {
         
-        return Promise { success, failure in
-            var promises = Array<Promise<Void>>()
-            for object in objects {
-                var promise = self.networking.create(object.dictionary)
-                    .then(object.update)
-                promises.append(promise)
-            }
-            
-            when(promises)
-                .then(success)
-                .error(failure)
+        var promises = Array<Promise<Void>>()
+        
+        for object in objects {
+            var promise = networking.create(object.dictionary)
+                .then(object.update)
+            promises.append(promise)
         }
+        
+        return when(promises)
+            .then {
+                self.storage.update(objects)
+            }
         
     }
     
