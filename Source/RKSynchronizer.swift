@@ -63,18 +63,23 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         
         return storage.search(predicate)
             .then(create)
-            .then(networking.search)
+            .then(storage.search)
+            .then(unsynchronize)
+            .then { _ in
+                self.networking.search()
+            }
             .then(synchronize)
+            .then { _ in
+                self.storage.search(predicate)
+            }.then(storage.delete)
         
     }
     
     /**
      Synchronizes the specified data of the `Networking` with the data of the `Storage`.
      
-     1. Unsynchronize all (set synchronized attribute to false).
-     2. Update repeated objects.
-     3. Create objects for keys not used.
-     4. Batch delete for objects which synchronizable attribute is still in false.
+     1. Update repeated objects.
+     2. Create objects for keys not used.
      
      - Parameter entities: The networking entities fetched before.
      
@@ -92,17 +97,13 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         let ids = Array(dictionary.keys)
         
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
-        let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.search(searchPredicate)
-            .then(unsynchronize)
             .then { objects in
                 self.update(&dictionary, objects: objects, entities: entities)
             }.then { _ in
                 self.create(dictionary, entities: entities)
-            }.then { _ in
-                self.storage.search(deletePredicate)
-            }.then(storage.delete)
+            }
         
     }
     
