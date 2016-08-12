@@ -34,6 +34,7 @@ private enum CoreDataStackError: String {
 }
 
 // MARK: - Main
+/// An object that manages the stack of core data with three contexts (persistence, main and background).
 public class CoreDataStack: RKStorage {
     
     // MARK: - Constants
@@ -59,10 +60,12 @@ public class CoreDataStack: RKStorage {
     public let mainContext: NSManagedObjectContext
     
     // MARK: - Initialization
+    /// Initializes and returns a newly allocated object with the specified model name.
     public convenience init?(modelName: String) {
         self.init(modelName: modelName, bundle: NSBundle.mainBundle())
     }
     
+    /// Initializes and returns a newly allocated object with the specified model name and bundle.
     public init?(modelName: String, bundle: NSBundle) {
         
         self.modelName = modelName

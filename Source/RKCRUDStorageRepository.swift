@@ -26,6 +26,7 @@ import CoreData
 import PromiseKit
 
 // MARK: - Main
+/// It is needed by a `Repository` to manage a `Storage`.
 public protocol RKCRUDStorageRepository: RKStorageRepository, RKCRUDRepository { }
 
 // MARK: - Create

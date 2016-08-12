@@ -27,14 +27,31 @@ import Foundation
 /// Represents the possible errors that can be produced by the repositories methods.
 public enum RKError: ErrorType {
     
+    /// Occurs when a JSON parsing failed.
     case parsing
+    
+    /// Occurs when a casting failed.
     case casting
+    
+    /// Occurs when a initialization failed.
     case initialization
+    
+    /// Occurs when a dictionary can not be identified.
     case unidentifiable
+    
+    /// Occurs when there is a problem in a HTTP response.
     case badResponse
+    
+    /// Occurs when there is a problem in a HTTP request.
     case badRequest
+    
+    /// Occurs when an entity can not be found.
     case notFound
+    
+    /// Occurs when a request returns with a server error.
     case server(statusCode: Int)
+    
+    /// Another type of error.
     case other(ErrorType)
     
 }

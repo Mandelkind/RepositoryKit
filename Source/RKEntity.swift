@@ -27,8 +27,10 @@ import CoreData
 /// Identify an entity with an *id* property.
 public protocol Identifiable {
     
+    /// The identifier type.
     associatedtype IdentifierType: CustomStringConvertible
     
+    /// The identifier.
     var id: IdentifierType { get }
     
 }
@@ -36,6 +38,7 @@ public protocol Identifiable {
 /// Represent if an object is up to date or not.
 public protocol Synchronizable {
     
+    /// The property that is the reference if the object is synchronized or not.
     var synchronized: NSNumber? { get }
     
 }
@@ -43,6 +46,7 @@ public protocol Synchronizable {
 /// Initialize an object with a `Dictionary`.
 public protocol DictionaryInitializable {
     
+    /// Initializes and returns a newly allocated object with the specified dictionary.
     init?(dictionary: Dictionary<String, AnyObject>)
     
 }
@@ -50,6 +54,7 @@ public protocol DictionaryInitializable {
 /// Represent an object with a `Dictionary`.
 public protocol DictionaryRepresentable {
     
+    /// The property that represents the object with a `Dictionary`.
     var dictionary: Dictionary<String, AnyObject> { get }
     
 }
@@ -57,6 +62,7 @@ public protocol DictionaryRepresentable {
 /// Update an object with a `Dictionary`.
 public protocol DictionaryUpdateable {
     
+    /// The method that updates the object with a `Dictionary`.
     func update(dictionary: Dictionary<String, AnyObject>)
     
 }
@@ -64,6 +70,7 @@ public protocol DictionaryUpdateable {
 /// Initialize an object with a `Dictionary` and a `ManagedObjectContext`.
 public protocol DictionaryContextInitializable {
     
+    /// Initializes and returns a newly allocated object with the specified model name and managed object context.
     init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext)
     
 }

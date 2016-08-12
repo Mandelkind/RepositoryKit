@@ -46,6 +46,7 @@ public protocol RKNetworking {
 
 extension RKNetworking {
     
+    /// Typealias that represent an `Entity` of the type `Dictionary`.
     public typealias DictionaryEntity = Dictionary<String, AnyObject>
     
     /**

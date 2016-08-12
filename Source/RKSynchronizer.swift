@@ -25,6 +25,7 @@
 import CoreData
 import PromiseKit
 
+/// Enables to synchronize multiple repositories.
 public protocol RKSynchronizer {
     
     /// The property name that will be the reference if a object is up to date or not.

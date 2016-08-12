@@ -26,6 +26,7 @@ import Foundation
 import PromiseKit
 
 // MARK: - Main
+/// A networking session that makes requests to a server (which url is specified).
 public class NetworkingSession: RKNetworking {
     
     // MARK: - Properties
@@ -39,6 +40,7 @@ public class NetworkingSession: RKNetworking {
     ]
     
     // MARK: - Initialization
+    /// Initializes and returns a newly allocated object with the specified url.
     public init(url: String) {
         self.url = url
     }

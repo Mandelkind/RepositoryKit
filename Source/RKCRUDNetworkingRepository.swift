@@ -24,6 +24,7 @@
 
 import PromiseKit
 
+/// It is needed by a `Repository` to manage a `Networking`.
 public protocol RKCRUDNetworkingRepository: RKNetworkingRepository, RKCRUDRepository { }
 
 // MARK: - Entity is not a dictionary
@@ -238,6 +239,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
 // MARK: - Utils
 extension RKCRUDNetworkingRepository {
     
+    /// Typealias that represent an `Entity` of the type `Dictionary`.
     public typealias DictionaryEntity = Dictionary<String, AnyObject>
     
     private func merge(old: DictionaryEntity, new: DictionaryEntity) -> Promise<DictionaryEntity> {

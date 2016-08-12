@@ -26,6 +26,7 @@ import CoreData
 import PromiseKit
 
 // MARK: - Main
+/// It is needed by a `Repository` to manage a `StorageRepository` and a `NetworkingRepository`.
 public protocol RKCRUDNetworkingStorageRepository: RKCRUDRepository {
     
     associatedtype NetworkingRepository: RKCRUDNetworkingRepository
