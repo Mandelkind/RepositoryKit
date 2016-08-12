@@ -24,11 +24,6 @@ class UserTableViewController: CoreDataTableViewController {
         Repositories.user.synchronize()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     // MARK: - Table view delegate implementation
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let user = fetchedResultsController!.objectAtIndexPath(indexPath) as! User
