@@ -9,4 +9,4 @@
 import RepositoryKit
 
 var coreDataStack = CoreDataStack(modelName: "Model")!
-var networkingSession = NetworkingSession()
+var networkingSession = NetworkingSession(url: "http://localhost:3000")

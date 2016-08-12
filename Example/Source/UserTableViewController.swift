@@ -12,21 +12,21 @@ import PromiseKit
 
 class UserTableViewController: CoreDataTableViewController {
     
-    // MARK: - Properties
-    var userRepository: UserRepository!
-    
     // MARK: - Life cycle
     override func viewDidLoad() {
-        userRepository = UserRepository(coreDataStack: coreDataStack, networkingSession: networkingSession)
+        super.viewDidLoad()
         
-        let fetchRequest = NSFetchRequest(entityName: userRepository.storage.name)
+        let fetchRequest = NSFetchRequest(entityName: Repositories.user.storage.name)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                               managedObjectContext: coreDataStack.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        Repositories.user.synchronize()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-        userRepository.networking.search()
-            .then(userRepository.synchronize)
     }
     
     // MARK: - Table view delegate implementation
@@ -42,14 +42,14 @@ class UserTableViewController: CoreDataTableViewController {
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if let user = fetchedResultsController?.objectAtIndexPath(indexPath) as? User where editingStyle == .Delete {
-            userRepository.delete(user)
+            Repositories.user.delete(user)
         }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let user = fetchedResultsController?.objectAtIndexPath(indexPath) as? User {
             user.lastName = "\(user.lastName!) - Edited"
-            userRepository.update(user)
+            Repositories.user.update(user)
         }
     }
     
@@ -60,7 +60,7 @@ class UserTableViewController: CoreDataTableViewController {
     
     @IBAction func unwindToUserList(sender: UIStoryboardSegue) {
         if let controller = sender.sourceViewController as? NewUserViewController {
-            userRepository.create(["firstName": controller.firstName, "lastName": controller.lastName])
+            Repositories.user.create(["firstName": controller.firstName, "lastName": controller.lastName])
         }
     }
     

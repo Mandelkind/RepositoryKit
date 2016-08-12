@@ -21,6 +21,7 @@
 		F1B9F45A1D3950070049F179 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1B9F4581D3950070049F179 /* Main.storyboard */; };
 		F1B9F45C1D3950070049F179 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1B9F45B1D3950070049F179 /* Assets.xcassets */; };
 		F1B9F45F1D3950070049F179 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1B9F45D1D3950070049F179 /* LaunchScreen.storyboard */; };
+		F1DF84521D5B916F00636033 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DF84511D5B916F00636033 /* Repositories.swift */; };
 		F1FEE3131D3EB68C00102117 /* NewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FEE3121D3EB68C00102117 /* NewUserViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		F1B9F45B1D3950070049F179 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1B9F45E1D3950070049F179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1B9F4601D3950070049F179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1DF84511D5B916F00636033 /* Repositories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
 		F1FEE3121D3EB68C00102117 /* NewUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserViewController.swift; sourceTree = "<group>"; };
 		F50272153F8D6FAD77830AC8 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				F1A4D8931D3D5CAB00E5703A /* SharedInstances.swift */,
+				F1DF84511D5B916F00636033 /* Repositories.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				F10DF1891D3D246800C655A8 /* PromisePrinter.swift in Sources */,
 				F10DF1871D3D244000C655A8 /* UserRepository.swift in Sources */,
 				F1A4D8941D3D5CAB00E5703A /* SharedInstances.swift in Sources */,
+				F1DF84521D5B916F00636033 /* Repositories.swift in Sources */,
 				F165D8D31D39825C00C35FFD /* Model.xcdatamodeld in Sources */,
 				F1FEE3131D3EB68C00102117 /* NewUserViewController.swift in Sources */,
 				F1A4D8961D3D5F0C00E5703A /* CoreDataTableViewController.swift in Sources */,

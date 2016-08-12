@@ -11,7 +11,7 @@ import PromiseKit
 import RepositoryKit
 
 // MARK: - User repository (networking and storage)
-class UserRepository: RKCRUDNetworkingStorageRepository, RKStorageSynchronizer {
+class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizer {
     
     // MARK: - Typealiases
     typealias Entity = User
@@ -22,7 +22,7 @@ class UserRepository: RKCRUDNetworkingStorageRepository, RKStorageSynchronizer {
     var storage: StorageRepository
     var networking: NetworkingRepository
     
-    var updateableAttribute: String {
+    var synchronizableAttribute: String {
         return "synchronized"
     }
     
@@ -43,7 +43,7 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     // MARK: - Properties
     var networking: RKNetworking
     
-    var url: String = "http://localhost:3000/users"
+    var path: String = "users"
     
     var identificationKey: String {
         return "_id"
