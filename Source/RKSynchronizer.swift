@@ -83,12 +83,14 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     public func synchronize(entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
         var dictionary = Dictionary<String, Int>()
+        
         for i in 0 ..< entities.count {
             guard let id = entities[i][networking.identificationKey] as? String else { continue }
             dictionary[id] = i
         }
         
         let ids = Array(dictionary.keys)
+        
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
         let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
@@ -114,7 +116,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
                 object.performSelector(synchronizeSelector, withObject: false)
             }
             success(objects)
-        }.then(storage.update)
+            }.then(storage.update)
         
     }
     
@@ -134,13 +136,13 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     
     private func create(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
-        var other = Array<NetworkingRepository.Entity>()
+        var objects = Array<NetworkingRepository.Entity>()
         for (_,v) in dictionary {
-            other.append(entities[v])
+            objects.append(entities[v])
         }
         
         var promises = Array<Promise<Entity>>()
-        for object in other {
+        for object in objects {
             let promise = storage.create(object)
             promises.append(promise)
         }
@@ -156,18 +158,31 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     
     private func create(objects: [Entity]) -> Promise<Void> {
         
-        var promises = Array<Promise<Void>>()
-        
-        for object in objects {
-            var promise = networking.create(object.dictionary)
-                .then(object.update)
-            promises.append(promise)
-        }
-        
-        return when(promises)
-            .then {
-                self.storage.update(objects)
+        return Promise { success, failure in
+            
+            guard objects.count > 0 else {
+                success()
+                return
             }
+            
+            var array = Array<Dictionary<String, AnyObject>>()
+            
+            for object in objects {
+                array.append(object.dictionary)
+            }
+            
+            networking.networking.request(.POST, path: networking.path, parameters: ["MASSIVE": array])
+                .then { (entities: [NetworkingRepository.Entity]) in
+                    Promise { success, failure in
+                        for index in 0 ..< entities.count {
+                            objects[index].update(entities[index])
+                        }
+                        success()
+                    }
+                }.then(success)
+                .error(failure)
+            
+        }
         
     }
     
