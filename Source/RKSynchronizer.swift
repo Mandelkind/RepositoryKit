@@ -49,32 +49,38 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Synchronize methods
     /**
-     Synchronizes the data of the `Networking` with the data of the `Storage`.
+     Synchronizes the data of the `Storage` with the data of the `Networking`.
      
      1. Create the unsynchronized objects on `Networking` (those that the synchronizable attribute is false).
-     2. Search all the entities of `Networking`.
-     3. Synchronize this entities with the objects on the `Storage`.
+     2. Unsynchronize all the entities.
+     3. Synchronize the ´Networking´ entities with the objects on the `Storage`.
+     4. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
      
      - Returns: A promise of `Void`.
-    */
+     */
     public func synchronize() -> Promise<Void> {
         
         let predicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.search(predicate)
             .then(create)
-            .then(networking.search)
+            .then(storage.search)
+            .then(unsynchronize)
+            .then { _ in
+                self.networking.search()
+            }
             .then(synchronize)
+            .then { _ in
+                self.storage.search(predicate)
+            }.then(storage.delete)
         
     }
     
     /**
      Synchronizes the specified data of the `Networking` with the data of the `Storage`.
      
-     1. Unsynchronize all (set synchronized attribute to false).
-     2. Update repeated objects.
-     3. Create objects for keys not used.
-     4. Batch delete for objects which synchronizable attribute is still in false.
+     1. Update repeated objects.
+     2. Create objects for keys not used.
      
      - Parameter entities: The networking entities fetched before.
      
@@ -83,26 +89,20 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     public func synchronize(entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
         var dictionary = Dictionary<String, Int>()
-        
         for i in 0 ..< entities.count {
             guard let id = entities[i][networking.identificationKey] as? String else { continue }
             dictionary[id] = i
         }
         
         let ids = Array(dictionary.keys)
-        
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
-        let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.search(searchPredicate)
-            .then(unsynchronize)
             .then { objects in
                 self.update(&dictionary, objects: objects, entities: entities)
             }.then { _ in
                 self.create(dictionary, entities: entities)
-            }.then { _ in
-                self.storage.search(deletePredicate)
-            }.then(storage.delete)
+            }
         
     }
     
