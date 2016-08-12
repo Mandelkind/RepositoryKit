@@ -29,6 +29,9 @@ import PromiseKit
 public class NetworkingSession: RKNetworking {
     
     // MARK: - Properties
+    /// The url of the server.
+    public var url: String
+    
     /// A `Dictionary` with the HTTP request headers.
     public var requestHeaders = [
         "Accept": "application/json",
@@ -36,7 +39,9 @@ public class NetworkingSession: RKNetworking {
     ]
     
     // MARK: - Initialization
-    public init() {}
+    public init(url: String) {
+        self.url = url
+    }
     
 }
 
@@ -47,15 +52,15 @@ extension NetworkingSession {
      Creates a promise with the response of a request for the specified method, url, parameters and headers.
      
      - Parameter method: The HTTP method.
-     - Parameter urlString: The URL string.
+     - Parameter path: The path of the URL.
      - Parameter parameters: The parameters (nil by default).
      - Parameter headers: The HTTP headers (nil by default).
      
      - Returns: A promise of `AnyObject`.
      */
-    public func request(method: RKMethod, _ urlString: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<AnyObject> {
+    public func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<AnyObject> {
         
-        return requestWithData(method, urlString, parameters: parameters, headers: headers)
+        return requestWithData(method, "\(url)/\(path)", parameters: parameters, headers: headers)
             .then { request in
                 Promise { success, failure in
                     NSURLSession.sharedSession().dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in

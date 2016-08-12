@@ -39,7 +39,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
         
-        return networking.request(.POST, "\(url)", parameters: entity)
+        return networking.request(.POST, path: "\(path)", parameters: entity)
             .then { dictionary in
                 self.merge(entity, new: dictionary)
             }
@@ -57,7 +57,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
         
-        return networking.request(.GET, "\(url)/\(identifier)")
+        return networking.request(.GET, path: "\(path)/\(identifier)")
             .then(initialization)
         
     }
@@ -69,7 +69,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func search() -> Promise<[Entity]> {
         
-        return networking.request(.GET, "\(url)")
+        return networking.request(.GET, path: "\(path)")
             .then(initialization)
         
     }
@@ -84,7 +84,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func update(entity: Entity) -> Promise<Entity> {
         
-        return networking.request(.PUT, "\(url)/\(entity.id)", parameters: entity.dictionary)
+        return networking.request(.PUT, path: "\(path)/\(entity.id)", parameters: entity.dictionary)
             .then { entity }
         
     }
@@ -99,7 +99,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
      */
     public func delete(entity: Entity) -> Promise<Void> {
         
-        return networking.request(.DELETE, "\(url)/\(entity.id)")
+        return networking.request(.DELETE, path: "\(path)/\(entity.id)")
         
     }
     
@@ -150,7 +150,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
      */
     public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
         
-        return networking.request(.POST, "\(url)", parameters: entity)
+        return networking.request(.POST, path: "\(path)", parameters: entity)
             .then { dictionary in
                 self.merge(entity, new: dictionary)
             }
@@ -167,7 +167,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
      */
     public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
         
-        return networking.request(.GET, "\(url)/\(identifier)")
+        return networking.request(.GET, path: "\(path)/\(identifier)")
         
     }
     
@@ -178,7 +178,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
      */
     public func search() -> Promise<[Entity]> {
         
-        return networking.request(.GET, "\(url)")
+        return networking.request(.GET, path: "\(path)")
         
     }
     
@@ -194,7 +194,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
         
         return entityIdentifiable(entity)
             .then { identifier in
-                self.networking.request(.PUT, "\(self.url)/\(identifier)", parameters: entity)
+                self.networking.request(.PUT, path: "\(self.path)/\(identifier)", parameters: entity)
             }
             .then { entity }
         
@@ -212,7 +212,7 @@ extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity 
         
         return entityIdentifiable(entity)
             .then { identifier in
-                self.networking.request(.DELETE, "\(self.url)/\(identifier)")
+                self.networking.request(.DELETE, path: "\(self.path)/\(identifier)")
             }
         
     }

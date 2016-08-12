@@ -39,7 +39,7 @@ public protocol RKNetworkingRepository: RKRepository {
     var networking: RKNetworking { get }
     
     /// The url of the server.
-    var url: String { get }
+    var path: String { get }
     
 }
 
