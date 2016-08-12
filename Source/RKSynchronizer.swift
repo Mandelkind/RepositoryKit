@@ -94,7 +94,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         let searchPredicate = NSPredicate(format: "id IN %@", ids)
         let deletePredicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
-        return storage.search()
+        return storage.search(searchPredicate)
             .then(unsynchronize)
             .then { objects in
                 self.update(&dictionary, objects: objects, entities: entities)
