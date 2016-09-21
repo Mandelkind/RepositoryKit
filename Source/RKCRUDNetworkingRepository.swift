@@ -24,11 +24,109 @@
 
 import PromiseKit
 
-/// It is needed by a `Repository` to manage a `Networking`.
-public protocol RKCRUDNetworkingRepository: RKNetworkingRepository, RKCRUDRepository { }
+/// Represents a *CRUD Networking Repository*.
+public typealias RKCRUDNetworkingRepository = protocol<RKNetworkingRepository, RKCRUDRepository>
+
+// MARK: - Entity is a dictionary
+extension RKCRUDRepository where Self: RKNetworkingRepository, Self: RKDictionaryIdentifier, Entity == Dictionary<String, AnyObject> {
+    
+    // MARK: - Create
+    /**
+     Makes a request to the `Networking` with the purpouse of create a new `Entity`.
+     
+     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Networking`.
+     
+     - Returns: A promise of `Entity`.
+     */
+    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
+        
+        return networking.request(.POST, path: "\(path)", parameters: entity)
+            .then { dictionary in
+                self.merge(entity, new: dictionary)
+        }
+        
+    }
+    
+    // MARK: - Read
+    /**
+     Makes a request to the `Networking` with the purpouse of find an `Entity` with a specified unique identifier.
+     
+     - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
+     
+     - Returns: A promise of `Entity`.
+     */
+    public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
+        
+        return networking.request(.GET, path: "\(path)/\(identifier)")
+        
+    }
+    
+    /**
+     Makes a request to the `Networking` with the purpouse of find all the entities.
+     
+     - Returns: A promise of an `Array` of `Entity`.
+     */
+    public func search() -> Promise<[Entity]> {
+        
+        return networking.request(.GET, path: "\(path)")
+        
+    }
+    
+    // MARK: - Update
+    /**
+     Makes a request to the `Networking` with the purpouse of update an `Entity` with a specific unique identifier.
+     
+     - Parameter entity: The entity that needs to be updated.
+     
+     - Returns: A promise of `Entity`.
+     */
+    public func update(entity: Entity) -> Promise<Entity> {
+        
+        return entityIdentifiable(entity)
+            .then { identifier in
+                self.networking.request(.PUT, path: "\(self.path)/\(identifier)", parameters: entity)
+            }
+            .then { entity }
+        
+    }
+    
+    // MARK: - Delete
+    /**
+     Makes a request to the `Networking` with the purpouse of delete an `Entity` with a specific unique identifier.
+     
+     - Parameter entity: The entity that needs to be deleted.
+     
+     - Returns: A promise of `Void`.
+     */
+    public func delete(entity: Entity) -> Promise<Void> {
+        
+        return entityIdentifiable(entity)
+            .then { identifier in
+                self.networking.request(.DELETE, path: "\(self.path)/\(identifier)")
+        }
+        
+    }
+    
+    // MARK: - Utils
+    private func entityIdentifiable(entity: Entity) -> Promise<CustomStringConvertible> {
+        
+        return Promise { success, failure in
+            
+            guard let identifier = entity[identificationKey] as? CustomStringConvertible else {
+                failure(RKError.unidentifiable)
+                return
+            }
+            
+            success(identifier)
+            
+        }
+        
+    }
+    
+}
 
 // MARK: - Entity is not a dictionary
-extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: DictionaryRepresentable, Entity: DictionaryInitializable {
+extension RKCRUDRepository where Self: RKNetworkingRepository, Entity: RKNetworkingEntity {
     
     // MARK: - Create
     /**
@@ -106,7 +204,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
     // MARK: - Utils
     /// Initializes an `Entity` with the specific `Dictionary`.
-    public func initialization(dictionary: DictionaryEntity) -> Promise<Entity> {
+    public func initialization(dictionary: Dictionary<String, AnyObject>) -> Promise<Entity> {
         
         return Promise { success, failure in
             guard let entity = Entity(dictionary: dictionary) else {
@@ -120,7 +218,7 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     }
     
     /// Initializes an `Array` of `Entity` with the specific `Array` of `Dictionary`.
-    public func initialization(array: [DictionaryEntity]) -> Promise<[Entity]> {
+    public func initialization(array: [Dictionary<String, AnyObject>]) -> Promise<[Entity]> {
         
         return Promise { success, failure in
             var entities = [Entity]()
@@ -138,109 +236,10 @@ extension RKCRUDNetworkingRepository where Entity: Identifiable, Entity: Diction
     
 }
 
-// MARK: - Entity is a dictionary
-extension RKCRUDNetworkingRepository where Self: RKDictionaryIdentifier, Entity == Dictionary<String, AnyObject> {
-    
-    // MARK: - Create
-    /**
-     Makes a request to the `Networking` with the purpouse of create a new `Entity`.
-     
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Networking`.
-     
-     - Returns: A promise of `Entity`.
-     */
-    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
-        
-        return networking.request(.POST, path: "\(path)", parameters: entity)
-            .then { dictionary in
-                self.merge(entity, new: dictionary)
-            }
-        
-    }
-    
-    // MARK: - Read
-    /**
-     Makes a request to the `Networking` with the purpouse of find an `Entity` with a specified unique identifier.
-     
-     - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
-     
-     - Returns: A promise of `Entity`.
-     */
-    public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
-        
-        return networking.request(.GET, path: "\(path)/\(identifier)")
-        
-    }
-    
-    /**
-     Makes a request to the `Networking` with the purpouse of find all the entities.
-     
-     - Returns: A promise of an `Array` of `Entity`.
-     */
-    public func search() -> Promise<[Entity]> {
-        
-        return networking.request(.GET, path: "\(path)")
-        
-    }
-    
-    // MARK: - Update
-    /**
-     Makes a request to the `Networking` with the purpouse of update an `Entity` with a specific unique identifier.
-     
-     - Parameter entity: The entity that needs to be updated.
-     
-     - Returns: A promise of `Entity`.
-     */
-    public func update(entity: Entity) -> Promise<Entity> {
-        
-        return entityIdentifiable(entity)
-            .then { identifier in
-                self.networking.request(.PUT, path: "\(self.path)/\(identifier)", parameters: entity)
-            }
-            .then { entity }
-        
-    }
-    
-    // MARK: - Delete
-    /**
-     Makes a request to the `Networking` with the purpouse of delete an `Entity` with a specific unique identifier.
-     
-     - Parameter entity: The entity that needs to be deleted.
-     
-     - Returns: A promise of `Void`.
-     */
-    public func delete(entity: Entity) -> Promise<Void> {
-        
-        return entityIdentifiable(entity)
-            .then { identifier in
-                self.networking.request(.DELETE, path: "\(self.path)/\(identifier)")
-            }
-        
-    }
-    
-    // MARK: - Utils
-    private func entityIdentifiable(entity: Entity) -> Promise<CustomStringConvertible> {
-        
-        return Promise { success, failure in
-            
-            guard let identifier = entity[identificationKey] as? CustomStringConvertible else {
-                failure(RKError.unidentifiable)
-                return
-            }
-            
-            success(identifier)
-            
-        }
-        
-    }
-    
-}
-
 // MARK: - Utils
-extension RKCRUDNetworkingRepository {
+extension RKCRUDRepository {
     
-    /// Typealias that represent an `Entity` of the type `Dictionary`.
-    public typealias DictionaryEntity = Dictionary<String, AnyObject>
+    private typealias DictionaryEntity = Dictionary<String, AnyObject>
     
     private func merge(old: DictionaryEntity, new: DictionaryEntity) -> Promise<DictionaryEntity> {
         

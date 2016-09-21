@@ -25,12 +25,11 @@
 import CoreData
 import PromiseKit
 
-// MARK: - Main
-/// It is needed by a `Repository` to manage a `Storage`.
-public protocol RKCRUDStorageRepository: RKStorageRepository, RKCRUDRepository { }
+/// Represents a *CRUD Storage Repository*.
+public typealias RKCRUDStorageRepository = protocol<RKStorageRepository, RKCRUDRepository>
 
 // MARK: - Create
-extension RKCRUDStorageRepository where Entity: DictionaryContextInitializable {
+extension RKCRUDRepository where Self: RKStorageRepository, Entity: RKStorageEntity {
     
     /**
      Creates a managed object on the main context with the specified `Dictionary`.
@@ -49,7 +48,7 @@ extension RKCRUDStorageRepository where Entity: DictionaryContextInitializable {
                 }
                 success(object)
             }
-        }.then(storage.save)
+            }.then(storage.save)
         
     }
     
@@ -78,14 +77,14 @@ extension RKCRUDStorageRepository where Entity: DictionaryContextInitializable {
                 }
                 success()
             }
-        }.then(storage.save)
+            }.then(storage.save)
         
     }
     
 }
 
 // MARK: - Read
-extension RKCRUDStorageRepository where Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
     
     /**
      Searches all managed objects on the main context.
@@ -132,7 +131,7 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
 }
 
 // MARK: - Update
-extension RKCRUDStorageRepository where Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
     
     /**
      Updates all uncommited changes for the specified entity on the main context.
@@ -161,7 +160,7 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
 }
 
 // MARK: - Delete
-extension RKCRUDStorageRepository where Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
     
     /**
      Deletes the specified entity on the main context.
@@ -177,7 +176,7 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
                 context.deleteObject(entity)
                 success()
             }
-        }.then(storage.save)
+            }.then(storage.save)
         
     }
     
@@ -203,8 +202,8 @@ extension RKCRUDStorageRepository where Entity: NSManagedObject {
                 }
                 success()
             }
-        }.then(storage.save)
+            }.then(storage.save)
         
     }
-
+    
 }

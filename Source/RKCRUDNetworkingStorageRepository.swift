@@ -25,28 +25,17 @@
 import CoreData
 import PromiseKit
 
-// MARK: - Main
-/// It is needed by a `Repository` to manage a `StorageRepository` and a `NetworkingRepository`.
-public protocol RKCRUDNetworkingStorageRepository: RKCRUDRepository {
-    
-    associatedtype NetworkingRepository: RKCRUDNetworkingRepository
-    associatedtype StorageRepository: RKCRUDStorageRepository
-    
-    var networking: NetworkingRepository { get }
-    var storage: StorageRepository { get }
-    
-}
+/// Represents a *CRUD Networking Storage Repository*.
+public typealias RKCRUDNetworkingStorageRepository = protocol<RKCRUDRepository, RKNetworkingStorageRepository>
 
-// MARK: - Methods implementation
-extension RKCRUDNetworkingStorageRepository where
-    NetworkingRepository: RKDictionaryIdentifier,
-    NetworkingRepository.Entity == Dictionary<String, AnyObject>,
-    Entity == StorageRepository.Entity,
-    Entity: NSManagedObject,
-    Entity: DictionaryContextInitializable,
-    Entity: DictionaryRepresentable,
-    Entity: DictionaryUpdateable,
-    Entity: Identifiable {
+extension RKCRUDRepository where Self: RKNetworkingStorageRepository,
+    Self.NetworkingRepository: RKCRUDNetworkingRepository,
+    Self.NetworkingRepository: RKDictionaryIdentifier,
+    Self.NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    Self.StorageRepository: RKCRUDStorageRepository,
+    Self.StorageRepository.Entity == Self.Entity,
+    Self.Entity: NSManagedObject,
+    Self.Entity: RKNetworkingStorageEntity {
     
     // MARK: - Create
     /**
@@ -69,7 +58,7 @@ extension RKCRUDNetworkingStorageRepository where
                             object.update(dictionary)
                             success(object)
                         }
-                    }
+                }
             }.then(storage.update)
     }
     
@@ -104,7 +93,7 @@ extension RKCRUDNetworkingStorageRepository where
                             object.update(dictionary)
                             success(object)
                         }
-                    }
+                }
             }.then(storage.update)
     }
     

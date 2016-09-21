@@ -37,15 +37,14 @@ public protocol RKSynchronizer {
 }
 
 extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
-    Self.StorageRepository.Entity == Self.Entity,
-    Self.NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    Self.NetworkingRepository: RKCRUDNetworkingRepository,
     Self.NetworkingRepository: RKDictionaryIdentifier,
+    Self.NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    Self.StorageRepository: RKCRUDStorageRepository,
+    Self.StorageRepository.Entity == Self.Entity,
     Self.Entity: NSManagedObject,
-    Self.Entity: DictionaryRepresentable,
-    Self.Entity: DictionaryContextInitializable,
-    Self.Entity: DictionaryUpdateable,
-    Self.Entity: Identifiable,
-    Self.Entity: Synchronizable {
+    Self.Entity: RKNetworkingStorageEntity,
+    Self.Entity: RKSynchronizable {
     
     // MARK: - Synchronize methods
     /**
@@ -71,8 +70,8 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
             }
             .then(synchronize)
             .then { _ in
-                self.storage.search(predicate)
-            }.then(storage.delete)
+                self.delete(withPredicate: predicate)
+            }
         
     }
     
@@ -166,7 +165,6 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
             }
             
             var array = Array<Dictionary<String, AnyObject>>()
-            
             for object in objects {
                 array.append(object.dictionary)
             }
@@ -186,4 +184,9 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         
     }
     
+    private func delete(withPredicate predicate: NSPredicate) -> Promise<Void> {
+        return self.storage.search(predicate)
+            .then(storage.delete)
+    }
+
 }
