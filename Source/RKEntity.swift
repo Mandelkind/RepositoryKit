@@ -24,8 +24,17 @@
 
 import CoreData
 
+/// It is required to be considered a *Storage Entity*.
+public typealias RKStorageEntity = protocol<RKDictionaryContextInitializable>
+
+/// It is required to be considered a *Networking Entity*.
+public typealias RKNetworkingEntity = protocol<RKIdentifiable, RKDictionaryRepresentable, RKDictionaryInitializable>
+
+/// It is required to be considered a *Networking Storage Entity*.
+public typealias RKNetworkingStorageEntity = protocol<RKDictionaryContextInitializable, RKDictionaryRepresentable, RKDictionaryUpdateable, RKIdentifiable>
+
 /// Identify an entity with an *id* property.
-public protocol Identifiable {
+public protocol RKIdentifiable {
     
     /// The identifier type.
     associatedtype IdentifierType: CustomStringConvertible
@@ -36,7 +45,7 @@ public protocol Identifiable {
 }
 
 /// Represent if an object is up to date or not.
-public protocol Synchronizable {
+public protocol RKSynchronizable {
     
     /// The property that is the reference if the object is synchronized or not.
     var synchronized: NSNumber? { get }
@@ -44,7 +53,7 @@ public protocol Synchronizable {
 }
 
 /// Initialize an object with a `Dictionary`.
-public protocol DictionaryInitializable {
+public protocol RKDictionaryInitializable {
     
     /// Initializes and returns a newly allocated object with the specified dictionary.
     init?(dictionary: Dictionary<String, AnyObject>)
@@ -52,7 +61,7 @@ public protocol DictionaryInitializable {
 }
 
 /// Represent an object with a `Dictionary`.
-public protocol DictionaryRepresentable {
+public protocol RKDictionaryRepresentable {
     
     /// The property that represents the object with a `Dictionary`.
     var dictionary: Dictionary<String, AnyObject> { get }
@@ -60,7 +69,7 @@ public protocol DictionaryRepresentable {
 }
 
 /// Update an object with a `Dictionary`.
-public protocol DictionaryUpdateable {
+public protocol RKDictionaryUpdateable {
     
     /// The method that updates the object with a `Dictionary`.
     func update(dictionary: Dictionary<String, AnyObject>)
@@ -68,7 +77,7 @@ public protocol DictionaryUpdateable {
 }
 
 /// Initialize an object with a `Dictionary` and a `ManagedObjectContext`.
-public protocol DictionaryContextInitializable {
+public protocol RKDictionaryContextInitializable {
     
     /// Initializes and returns a newly allocated object with the specified model name and managed object context.
     init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext)
