@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 
-class User: NSManagedObject, Identifiable, Synchronizable, DictionaryContextInitializable, DictionaryRepresentable, DictionaryUpdateable {
+class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable {
     
     // MARK: - Properties
     override var description: String {
