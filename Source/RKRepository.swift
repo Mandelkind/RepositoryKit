@@ -54,6 +54,17 @@ public protocol RKStorageRepository: RKRepository {
     
 }
 
+/// It is needed to be considered a *Networking Storage Repository*.
+public protocol RKNetworkingStorageRepository: RKRepository {
+    
+    associatedtype NetworkingRepository: RKNetworkingRepository
+    associatedtype StorageRepository: RKStorageRepository
+    
+    var networking: NetworkingRepository { get }
+    var storage: StorageRepository { get }
+    
+}
+
 /// Enables the repository to know how to identify a `Dictionary`.
 public protocol RKDictionaryIdentifier {
     
