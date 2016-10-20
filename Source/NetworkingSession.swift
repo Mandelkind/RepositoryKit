@@ -78,7 +78,6 @@ extension NetworkingSession {
                         
                         switch response.statusCode {
                         case 200...299: break
-                        case 404...410: failure(RKError.notFound)
                         default: failure(RKError.server(statusCode: response.statusCode))
                         }
                         

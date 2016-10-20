@@ -114,7 +114,7 @@ extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObj
                 
                 do {
                     guard let results = try context.executeFetchRequest(request) as? [Entity] else {
-                        failure(RKError.notFound)
+                        failure(RKError.casting)
                         return
                     }
                     success(results)
