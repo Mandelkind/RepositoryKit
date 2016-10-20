@@ -1,5 +1,5 @@
 //
-//  NetworkingSession.swift
+//  RKNetworkingSession.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,7 +27,7 @@ import PromiseKit
 
 // MARK: - Main
 /// A networking session that makes requests to a server (which url is specified).
-public class NetworkingSession: RKNetworking {
+public class RKNetworkingSession: RKNetworking {
     
     // MARK: - Properties
     /// The url of the server.
@@ -48,7 +48,7 @@ public class NetworkingSession: RKNetworking {
 }
 
 // MARK: - Request
-extension NetworkingSession {
+extension RKNetworkingSession {
     
     /**
      Creates a promise with the response of a request for the specified method, url, parameters and headers.
@@ -98,7 +98,7 @@ extension NetworkingSession {
 }
 
 // MARK: - Utils
-extension NetworkingSession {
+extension RKNetworkingSession {
     
     private func requestWithData(method: RKMethod, _ urlString: String, parameters: Dictionary<String, AnyObject>?, headers: Dictionary<String, String>?) -> Promise<NSURLRequest> {
         

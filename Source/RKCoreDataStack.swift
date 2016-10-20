@@ -1,5 +1,5 @@
 //
-//  CoreDataStack.swift
+//  RKCoreDataStack.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -26,7 +26,7 @@ import CoreData
 import PromiseKit
 
 // MARK: - Errors
-private enum CoreDataStackError: String {
+private enum RKCoreDataStackError: String {
     case ModelNotFound = "Unable to find %@ in the %@ bundle"
     case ModelNotCreated = "Unable to create a model from %@"
     case DocumentFolderNotFound = "Unable to find the document folder"
@@ -35,7 +35,7 @@ private enum CoreDataStackError: String {
 
 // MARK: - Main
 /// An object that manages the stack of core data with three contexts (persistence, main and background).
-public class CoreDataStack: RKStorage {
+public class RKCoreDataStack: RKStorage {
     
     // MARK: - Constants
     private let kModelExtension: String = "momd"
@@ -71,13 +71,13 @@ public class CoreDataStack: RKStorage {
         self.modelName = modelName
         
         guard let modelURL = bundle.URLForResource(modelName, withExtension: self.kModelExtension) else {
-            NSLog(CoreDataStackError.ModelNotFound.rawValue, modelName, bundle.infoDictionary!["CFBundleName"] as! String)
+            NSLog(RKCoreDataStackError.ModelNotFound.rawValue, modelName, bundle.infoDictionary!["CFBundleName"] as! String)
             return nil
         }
         self.modelURL = modelURL
         
         guard let model = NSManagedObjectModel(contentsOfURL: self.modelURL) else {
-            NSLog(CoreDataStackError.ModelNotCreated.rawValue, self.modelURL)
+            NSLog(RKCoreDataStackError.ModelNotCreated.rawValue, self.modelURL)
             return nil
         }
         self.model = model
@@ -94,7 +94,7 @@ public class CoreDataStack: RKStorage {
         self.backgroundContext.parentContext = self.mainContext
         
         guard let documentUrl = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first else {
-            NSLog(CoreDataStackError.DocumentFolderNotFound.rawValue)
+            NSLog(RKCoreDataStackError.DocumentFolderNotFound.rawValue)
             return nil
         }
         self.databaseURL = documentUrl.URLByAppendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
@@ -103,7 +103,7 @@ public class CoreDataStack: RKStorage {
             try self.coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: self.databaseURL, options: nil)
         }
         catch {
-            NSLog(CoreDataStackError.StoreNotAdded.rawValue, self.databaseURL)
+            NSLog(RKCoreDataStackError.StoreNotAdded.rawValue, self.databaseURL)
         }
         
     }
@@ -111,7 +111,7 @@ public class CoreDataStack: RKStorage {
 }
 
 // MARK: - Operations
-public extension CoreDataStack {
+public extension RKCoreDataStack {
     
     /**
      Synchronously performs a given block on the main context.
@@ -147,7 +147,7 @@ public extension CoreDataStack {
 }
 
 // MARK: - Reset
-public extension CoreDataStack  {
+public extension RKCoreDataStack  {
     
     /// Empty the database.
     public func reset() throws {
@@ -160,7 +160,7 @@ public extension CoreDataStack  {
 }
 
 // MARK: - Save
-public extension CoreDataStack {
+public extension RKCoreDataStack {
     
     /// Save the main context and persist the data.
     public func save<T>(t: T) -> Promise<T> {
