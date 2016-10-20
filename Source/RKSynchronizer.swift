@@ -50,7 +50,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     /**
      Synchronizes the data of the `Storage` with the data of the `Networking`.
      
-     1. Create the unsynchronized objects on `Networking` (those that the synchronizable attribute is false).
+     1. Massive create/update of the unsynchronized objects on `Networking` (those that the synchronizable attribute is false).
      2. Unsynchronize all the entities.
      3. Synchronize the ´Networking´ entities with the objects on the `Storage`.
      4. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
@@ -62,7 +62,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
         let predicate = NSPredicate(format: "\(synchronizableAttribute) == 'false'")
         
         return storage.search(predicate)
-            .then(create)
+            .then(massiveOperation)
             .then(storage.search)
             .then(unsynchronize)
             .then { _ in
@@ -106,6 +106,35 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
     }
     
     // MARK: - Utils
+    private func massiveOperation(objects: [Entity]) -> Promise<Void> {
+        
+        return Promise { success, failure in
+            
+            guard objects.count > 0 else {
+                success()
+                return
+            }
+            
+            var array = Array<Dictionary<String, AnyObject>>()
+            for object in objects {
+                array.append(object.dictionary)
+            }
+            
+            networking.networking.request(.POST, path: networking.path, parameters: ["MASSIVE": array])
+                .then { (entities: [NetworkingRepository.Entity]) in
+                    Promise { success, failure in
+                        for index in 0 ..< entities.count {
+                            objects[index].update(entities[index])
+                        }
+                        success()
+                    }
+                }.then(success)
+                .error(failure)
+            
+        }
+        
+    }
+    
     private func unsynchronize(objects: [StorageRepository.Entity]) -> Promise<[StorageRepository.Entity]> {
         
         let synchronizeSelector = Selector(attribute: synchronizableAttribute)
@@ -152,35 +181,6 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
                     success()
                 }
             }
-        
-    }
-    
-    private func create(objects: [Entity]) -> Promise<Void> {
-        
-        return Promise { success, failure in
-            
-            guard objects.count > 0 else {
-                success()
-                return
-            }
-            
-            var array = Array<Dictionary<String, AnyObject>>()
-            for object in objects {
-                array.append(object.dictionary)
-            }
-            
-            networking.networking.request(.POST, path: networking.path, parameters: ["MASSIVE": array])
-                .then { (entities: [NetworkingRepository.Entity]) in
-                    Promise { success, failure in
-                        for index in 0 ..< entities.count {
-                            objects[index].update(entities[index])
-                        }
-                        success()
-                    }
-                }.then(success)
-                .error(failure)
-            
-        }
         
     }
     
