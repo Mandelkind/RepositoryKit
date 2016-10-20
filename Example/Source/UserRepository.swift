@@ -27,7 +27,7 @@ class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizer {
     }
     
     // MARK: - Initialization
-    init(coreDataStack: CoreDataStack, networkingSession: NetworkingSession) {
+    init(coreDataStack: RKCoreDataStack, networkingSession: RKNetworkingSession) {
         storage = StorageRepository(coreDataStack: coreDataStack)
         networking = UserNetworkingRepository(networkingSession: networkingSession)
     }
@@ -50,7 +50,7 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     }
     
     // MARK: - Initialization
-    init(networkingSession: NetworkingSession) {
+    init(networkingSession: RKNetworkingSession) {
         self.networking = networkingSession
     }
     
@@ -68,7 +68,7 @@ class UserStorageRepository: RKCRUDStorageRepository {
     var name: String = "User"
     
     // MARK: - Initialization
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: RKCoreDataStack) {
         self.storage = coreDataStack
     }
     

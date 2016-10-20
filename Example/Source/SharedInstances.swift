@@ -8,5 +8,5 @@
 
 import RepositoryKit
 
-var coreDataStack = CoreDataStack(modelName: "Model")!
-var networkingSession = NetworkingSession(url: "http://localhost:3000")
+var coreDataStack = RKCoreDataStack(modelName: "Model")!
+var networkingSession = RKNetworkingSession(url: "http://localhost:3000")
