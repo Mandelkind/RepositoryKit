@@ -1,5 +1,5 @@
 //
-//  RKPatcherRepository.swift
+//  RKPatchableRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,7 +27,7 @@ import PromiseKit
 /// It is needed to be considered a *PatcherRepository* and includes the patch method.
 public protocol RKPatchableRepository: RKRepository {
     
-    // MARK: - Update
+    // MARK: - Patch
     /**
      Updates an entity in the repository without sending unnecessary data, just the modified fields.
      
