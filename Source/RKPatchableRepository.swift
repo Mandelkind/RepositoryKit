@@ -24,17 +24,17 @@
 
 import PromiseKit
 
-/// It is needed to be considered a *PatcherRepository* and includes the patch method.
+/// It is needed to be considered a *PatchableRepository* and includes the patch method.
 public protocol RKPatchableRepository: RKRepository {
     
     // MARK: - Patch
     /**
-     Updates an entity in the repository without sending unnecessary data, just the modified fields.
+     Updates an entity in the repository without sending unnecessary data, just the modified fields. It is a partial update.
      
      - Parameter entity: A reference of the entity to be updated.
      
      - Returns: A promise of the `Entity` updated.
      */
-    func patch(entity: Dictionary<String, AnyObject>) -> Promise<Entity>
+    func patch(entity: Entity) -> Promise<Entity>
     
 }
