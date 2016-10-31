@@ -28,6 +28,6 @@ import Foundation
 public enum RKMethod: String {
     
     /// HTTP method type.
-    case GET, POST, PUT, DELETE
+    case GET, POST, PUT, PATCH, DELETE
     
 }
