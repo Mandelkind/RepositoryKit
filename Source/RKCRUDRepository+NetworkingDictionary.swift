@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+import PromiseKit
 
 // MARK: - Entity is a dictionary
 extension RKCRUDRepository where Self: RKNetworkingRepository, Self: RKDictionaryIdentifier, Entity == Dictionary<String, AnyObject> {
