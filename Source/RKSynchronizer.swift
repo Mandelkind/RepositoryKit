@@ -120,7 +120,7 @@ extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
                 array.append(object.dictionary)
             }
             
-            networking.networking.request(.POST, path: networking.path, parameters: ["MASSIVE": array])
+            networking.networking.request(.POST, path: "\(networking.path)/collection", parameters: ["data": array])
                 .then { (entities: [NetworkingRepository.Entity]) in
                     Promise { success, failure in
                         for index in 0 ..< entities.count {
