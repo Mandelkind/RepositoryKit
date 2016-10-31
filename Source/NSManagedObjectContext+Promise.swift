@@ -1,5 +1,5 @@
 //
-//  NSManagedObjectContextExtension.swift
+//  NSManagedObjectContext+Promise.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //

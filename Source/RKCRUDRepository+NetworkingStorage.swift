@@ -1,5 +1,5 @@
 //
-//  RKCRCUDNetworkingStorageRepository.swift
+//  RKCRCUDRepository+NetworkingStorage.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //

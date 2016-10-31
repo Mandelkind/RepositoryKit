@@ -1,5 +1,5 @@
 //
-//  RKCRUDStorageRepository.swift
+//  RKCRUDRepository+Storage.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
