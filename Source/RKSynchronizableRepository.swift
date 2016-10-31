@@ -1,5 +1,5 @@
 //
-//  RKSynchronizer.swift
+//  RKSynchronizableRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -26,7 +26,7 @@ import CoreData
 import PromiseKit
 
 /// Enables to synchronize multiple repositories.
-public protocol RKSynchronizer {
+public protocol RKSynchronizableRepository {
     
     /// The property name that will be the reference if a object is up to date or not.
     var synchronizableAttribute: String { get }
@@ -36,7 +36,7 @@ public protocol RKSynchronizer {
     
 }
 
-extension RKSynchronizer where Self: RKCRUDNetworkingStorageRepository,
+extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
     Self.NetworkingRepository: RKCRUDNetworkingRepository,
     Self.NetworkingRepository: RKDictionaryIdentifier,
     Self.NetworkingRepository.Entity == Dictionary<String, AnyObject>,
