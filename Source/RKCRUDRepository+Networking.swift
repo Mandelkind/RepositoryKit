@@ -39,7 +39,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
         
         return networking.request(.POST, path: "\(path)", parameters: entity)
             .then { dictionary in
-                self.merge(entity, new: dictionary)
+                RKDictionaryTransformer.merge(entity, new: dictionary)
             }
             .then(initialization)
         

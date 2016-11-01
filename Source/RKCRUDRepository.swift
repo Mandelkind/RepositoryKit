@@ -66,26 +66,3 @@ public protocol RKCRUDRepository: RKRepository {
     func delete(entity: Entity) -> Promise<Void>
     
 }
-
-// MARK: - Utils
-extension RKCRUDRepository {
-    
-    internal typealias DictionaryEntity = Dictionary<String, AnyObject>
-    
-    internal func merge(old: DictionaryEntity, new: DictionaryEntity) -> Promise<DictionaryEntity> {
-        
-        return Promise { success, failure in
-            
-            var dictionary = old
-            
-            for (key, value) in new {
-                dictionary[key] = value
-            }
-            
-            success(dictionary)
-            
-        }
-        
-    }
-    
-}
