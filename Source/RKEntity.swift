@@ -36,7 +36,7 @@ public typealias RKNetworkingStorageEntity = protocol<RKDictionaryContextInitial
 /// It is required to be considered a *Storage Entity*.
 public typealias RKStorageEntity = protocol<RKDictionaryContextInitializable>
 
-/// Identify an entity with an *id* property.
+/// Identifies an entity with an *id* property.
 public protocol RKIdentifiable {
     
     /// The identifier type.
@@ -47,7 +47,7 @@ public protocol RKIdentifiable {
     
 }
 
-/// Represent if an object is up to date or not.
+/// Represents if an object is up to date or not.
 public protocol RKSynchronizable {
     
     /// The property that is the reference if the object is synchronized or not.
@@ -55,7 +55,15 @@ public protocol RKSynchronizable {
     
 }
 
-/// Initialize an object with a `Dictionary`.
+/// Keeps a dictionary memory.
+public protocol RKPatchable {
+    
+    /// Represents a memory of the last updated entity.
+    var dictionaryMemory: Dictionary<String, AnyObject> { get set }
+    
+}
+
+/// Initializes an object with a `Dictionary`.
 public protocol RKDictionaryInitializable {
     
     /// Initializes and returns a newly allocated object with the specified dictionary.
@@ -63,7 +71,7 @@ public protocol RKDictionaryInitializable {
     
 }
 
-/// Represent an object with a `Dictionary`.
+/// Represents an object with a `Dictionary`.
 public protocol RKDictionaryRepresentable {
     
     /// The property that represents the object with a `Dictionary`.
@@ -71,7 +79,7 @@ public protocol RKDictionaryRepresentable {
     
 }
 
-/// Update an object with a `Dictionary`.
+/// Updates an object with a `Dictionary`.
 public protocol RKDictionaryUpdateable {
     
     /// The method that updates the object with a `Dictionary`.
@@ -79,7 +87,7 @@ public protocol RKDictionaryUpdateable {
     
 }
 
-/// Initialize an object with a `Dictionary` and a `ManagedObjectContext`.
+/// Initializes an object with a `Dictionary` and a `ManagedObjectContext`.
 public protocol RKDictionaryContextInitializable {
     
     /// Initializes and returns a newly allocated object with the specified model name and managed object context.
