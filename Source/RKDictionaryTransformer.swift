@@ -88,7 +88,7 @@ public class RKDictionaryTransformer {
             // Check if it exists in the old one.
             if let oldValue = old[key] {
                 // If it exists, compare them.
-                if oldValue !== value {
+                if !oldValue.isEqual(value) {
                     // If they are different, add it.
                     dictionary[key] = value
                 }
