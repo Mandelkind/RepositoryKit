@@ -38,7 +38,7 @@ public protocol RKSynchronizableRepository {
 
 // The repository is a *CRUD Networking Storage Repository* and the entity is a *Storage Entity*.
 extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
-    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity,
+    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity, Self.Entity: RKSynchronizable,
     Self.NetworkingRepository: RKCRUDNetworkingDictionaryRepository,
     Self.NetworkingRepository.Entity == RKDictionaryEntity,
     Self.StorageRepository: RKCRUDStorageRepository,
