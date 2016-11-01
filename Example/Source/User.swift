@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 
-class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable {
+class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatchable {
     
     // MARK: - Properties
     override var description: String {
@@ -34,7 +34,16 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable {
         ]
     }
     
+    var dictionaryMemory: Dictionary<String, AnyObject> = [:]
+    
     // MARK: - Initialization
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        if let _ = id, let _ = firstName, let _ = lastName {
+            self.dictionaryMemory = self.dictionary
+        }
+    }
+    
     required convenience init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: context),
             let firstName = dictionary["firstName"] as? String,
@@ -50,6 +59,7 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable {
             self.id = "-1"
             self.synchronized = false
         }
+        self.dictionaryMemory = self.dictionary
     }
     
     // MARK: - Methods

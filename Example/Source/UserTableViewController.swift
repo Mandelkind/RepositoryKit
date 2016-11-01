@@ -44,7 +44,8 @@ class UserTableViewController: CoreDataTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let user = fetchedResultsController?.objectAtIndexPath(indexPath) as? User {
             user.lastName = "\(user.lastName!) - Edited"
-            Repositories.user.update(user)
+            user.synchronized = false
+            Repositories.user.patch(user)
         }
     }
     

@@ -11,7 +11,7 @@ import PromiseKit
 import RepositoryKit
 
 // MARK: - User repository (networking and storage)
-class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizer {
+class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizableRepository, RKPatchableRepository {
     
     // MARK: - Typealiases
     typealias Entity = User
