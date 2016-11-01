@@ -24,14 +24,17 @@
 
 import CoreData
 
-/// It is required to be considered a *Storage Entity*.
-public typealias RKStorageEntity = protocol<RKDictionaryContextInitializable>
+/// It is required to be considered a *Dictionary Entity*.
+public typealias RKDictionaryEntity = Dictionary<String, AnyObject>
 
 /// It is required to be considered a *Networking Entity*.
 public typealias RKNetworkingEntity = protocol<RKIdentifiable, RKDictionaryRepresentable, RKDictionaryInitializable>
 
 /// It is required to be considered a *Networking Storage Entity*.
 public typealias RKNetworkingStorageEntity = protocol<RKDictionaryContextInitializable, RKDictionaryRepresentable, RKDictionaryUpdateable, RKIdentifiable>
+
+/// It is required to be considered a *Storage Entity*.
+public typealias RKStorageEntity = protocol<RKDictionaryContextInitializable>
 
 /// Identify an entity with an *id* property.
 public protocol RKIdentifiable {

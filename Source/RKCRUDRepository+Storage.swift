@@ -25,11 +25,10 @@
 import CoreData
 import PromiseKit
 
-/// Represents a *CRUD Storage Repository*.
-public typealias RKCRUDStorageRepository = protocol<RKStorageRepository, RKCRUDRepository>
+// The repository is a *CRUD Storage Repository* and the entity is a *Storage Entity*.
 
 // MARK: - Create
-extension RKCRUDRepository where Self: RKStorageRepository, Entity: RKStorageEntity {
+extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorageEntity {
     
     /**
      Creates a managed object on the main context with the specified `Dictionary`.
@@ -84,7 +83,7 @@ extension RKCRUDRepository where Self: RKStorageRepository, Entity: RKStorageEnt
 }
 
 // MARK: - Read
-extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
     
     /**
      Searches all managed objects on the main context.
@@ -131,7 +130,7 @@ extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObj
 }
 
 // MARK: - Update
-extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
     
     /**
      Updates all uncommited changes for the specified entity on the main context.
@@ -160,7 +159,7 @@ extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObj
 }
 
 // MARK: - Delete
-extension RKCRUDRepository where Self: RKStorageRepository, Entity: NSManagedObject {
+extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
     
     /**
      Deletes the specified entity on the main context.

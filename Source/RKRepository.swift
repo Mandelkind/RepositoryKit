@@ -24,6 +24,18 @@
 
 import Foundation
 
+/// Represents a *CRUD Networking Repository*.
+public typealias RKCRUDNetworkingRepository = protocol<RKCRUDRepository, RKNetworkingRepository>
+
+/// Represents a *CRUD Networking Dictionary Repository*.
+public typealias RKCRUDNetworkingDictionaryRepository = protocol<RKCRUDRepository, RKNetworkingRepository, RKDictionaryIdentifier>
+
+/// Represents a *CRUD Networking Storage Repository*.
+public typealias RKCRUDNetworkingStorageRepository = protocol<RKCRUDRepository, RKNetworkingStorageRepository>
+
+/// Represents a *CRUD Storage Repository*.
+public typealias RKCRUDStorageRepository = protocol<RKCRUDRepository, RKStorageRepository>
+
 /// It is needed to be considered a *Repository*.
 public protocol RKRepository {
     

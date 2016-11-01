@@ -24,8 +24,8 @@
 
 import PromiseKit
 
-// MARK: - Entity is a dictionary
-extension RKCRUDRepository where Self: RKNetworkingRepository, Self: RKDictionaryIdentifier, Entity == Dictionary<String, AnyObject> {
+// The repository is a *CRUD Networking Dictionary Repository* and the entity is a *Dictionary Entity*.
+extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
     
     // MARK: - Create
     /**

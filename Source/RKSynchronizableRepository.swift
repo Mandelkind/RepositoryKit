@@ -36,15 +36,13 @@ public protocol RKSynchronizableRepository {
     
 }
 
+// The repository is a *CRUD Networking Storage Repository* and the entity is a *Storage Entity*.
 extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
-    Self.NetworkingRepository: RKCRUDNetworkingRepository,
-    Self.NetworkingRepository: RKDictionaryIdentifier,
-    Self.NetworkingRepository.Entity == Dictionary<String, AnyObject>,
+    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity,
+    Self.NetworkingRepository: RKCRUDNetworkingDictionaryRepository,
+    Self.NetworkingRepository.Entity == RKDictionaryEntity,
     Self.StorageRepository: RKCRUDStorageRepository,
-    Self.StorageRepository.Entity == Self.Entity,
-    Self.Entity: NSManagedObject,
-    Self.Entity: RKNetworkingStorageEntity,
-    Self.Entity: RKSynchronizable {
+    Self.StorageRepository.Entity == Self.Entity {
     
     // MARK: - Synchronize methods
     /**

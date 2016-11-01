@@ -24,11 +24,8 @@
 
 import PromiseKit
 
-/// Represents a *CRUD Networking Repository*.
-public typealias RKCRUDNetworkingRepository = protocol<RKNetworkingRepository, RKCRUDRepository>
-
-// MARK: - Entity is a *Networking Entity*
-extension RKCRUDRepository where Self: RKNetworkingRepository, Entity: RKNetworkingEntity {
+// The repository is a *CRUD Networking Repository* and the entity is a *Networking Entity*.
+extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity {
     
     // MARK: - Create
     /**
