@@ -83,7 +83,9 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
             .then { identifier in
                 self.networking.request(.PUT, path: "\(self.path)/\(identifier)", parameters: entity)
             }
-            .then { entity }
+            .then { dictionary in
+                RKDictionaryTransformer.merge(entity, new: dictionary)
+            }
         
     }
     
@@ -100,7 +102,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
         return entityIdentifiable(entity)
             .then { identifier in
                 self.networking.request(.DELETE, path: "\(self.path)/\(identifier)")
-        }
+            }
         
     }
     

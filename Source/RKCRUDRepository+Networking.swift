@@ -83,7 +83,10 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     public func update(entity: Entity) -> Promise<Entity> {
         
         return networking.request(.PUT, path: "\(path)/\(entity.id)", parameters: entity.dictionary)
-            .then { entity }
+            .then { dictionary in
+                RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
+            }
+            .then(initialization)
         
     }
     
