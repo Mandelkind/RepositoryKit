@@ -28,7 +28,8 @@ import PromiseKit
 public class RKDictionaryTransformer {
     
     /**
-     Merges two `RKDictionaryEntity` and the result of the merging. It copies everything of the new dictionary to the old one.
+     Given two `RKDictionaryEntity`, it merges them and returns the result of the merging.
+     It copies everything of the new dictionary into the old one.
      
      - Parameter old: The old `Dictionary` that is used to make the merge.
      - Parameter new: The new `Dictionary` that is used to make the merge.
@@ -48,20 +49,71 @@ public class RKDictionaryTransformer {
     }
     
     /**
-     Merges two `RKDictionaryEntity` and returns a promise of the result of the merging. It copies everything of the new dictionary to the old one.
+     Given two `RKDictionaryEntity`, it compares everything and returns the result difference between them.
+     If something exists in the old one and not in the new one, add null to the field.
+     If something exists in the new one and not in the old one, add the value to the field.
+     If something exists in both, compare them, and if they are different, add the new one to the field.
      
      - Parameter old: The old `Dictionary` that is used to make the merge.
      - Parameter new: The new `Dictionary` that is used to make the merge.
      
      - Returns: A promise of the result of the merging.
      */
-    public class func merge(old: RKDictionaryEntity, new: RKDictionaryEntity) -> Promise<RKDictionaryEntity> {
+    public class func difference(old: RKDictionaryEntity, new: RKDictionaryEntity) -> RKDictionaryEntity {
         
-        return Promise { success, failure in
+        var dictionary = RKDictionaryEntity()
+        
+        // Iterate over the new dictionary to find the new differences.
+        for (key, value) in new {
             
-            success(merge(old, new: new))
+            // No compare arrays.
+            if value is Array<AnyObject> { continue }
+            
+            // Check if it is a dictionary.
+            if let newDictionary = value as? RKDictionaryEntity {
+                // Check if it exists in the old one and it is a dictionary.
+                if let oldDictionary = old[key] as? RKDictionaryEntity {
+                    // If it exists, get the difference
+                    let diff: RKDictionaryEntity = difference(oldDictionary, new: newDictionary)
+                    // add the field with the new difference.
+                    dictionary[key] = diff
+                } else {
+                    // If it does not exist, add the field with the new dictionary.
+                    dictionary[key] = newDictionary
+                }
+                // Do not continue
+                continue
+            }
+            
+            // Check if it exists in the old one.
+            if let oldValue = old[key] {
+                // If it exists, compare them.
+                if oldValue !== value {
+                    // If they are different, add it.
+                    dictionary[key] = value
+                }
+            } else {
+                // If not exists, add it.
+                dictionary[key] = value
+            }
             
         }
+        
+        // Iterate over the old dictionary to find if something has been deleted.
+        for (key, value) in old {
+            
+            // No compare arrays.
+            if value is Array<AnyObject> { continue }
+            
+            // Check if if exists in the new one.
+            if new[key] == nil {
+                // If not exists, add null.
+                dictionary[key] = NSNull()
+            }
+            
+        }
+        
+        return dictionary
         
     }
     
