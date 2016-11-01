@@ -24,8 +24,17 @@
 
 import PromiseKit
 
+// The repository is a *CRUD Networking Repository & Patchable Repository* and the entity is a *Networking Entity & Patchable*.
 extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity, Entity: RKPatchable {
     
+    // MARK: - Patch
+    /**
+     Updates an entity in the repository without sending unnecessary data, just the modified fields. It is a partial update.
+     
+     - Parameter entity: A reference of the entity to be updated.
+     
+     - Returns: A promise of the `Entity` updated.
+     */
     public func patch(entity: Entity) -> Promise<Entity> {
         
         let difference = RKDictionaryTransformer.difference(entity.dictionaryMemory, new: entity.dictionary)
