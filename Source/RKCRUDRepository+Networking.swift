@@ -86,7 +86,9 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
             .then { dictionary in
                 RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
             }
-            .then(initialization)
+            .then { dictionary in
+                self.update(entity, withDictionary: dictionary)
+            }
         
     }
     
@@ -132,6 +134,22 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
             }
             
             success(entities)
+        }
+        
+    }
+    
+    /// Updates an `Entity` with the specific `Dictionary`.
+    /// If it is dictionary updateable, call update method (it should be a class).
+    /// If it is not a dictionary, initialize a new one (it should be a struct).
+    internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, AnyObject>) -> Promise<Entity> {
+        
+        if let updateableEntity = entity as? RKDictionaryUpdateable {
+            return Promise { success, failure in
+                updateableEntity.update(dictionary)
+                success(entity)
+            }
+        } else {
+            return initialization(dictionary)
         }
         
     }

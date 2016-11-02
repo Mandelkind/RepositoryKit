@@ -60,6 +60,12 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
         
         let difference = RKDictionaryTransformer.difference(entity.dictionaryMemory, new: entity.dictionary)
         
+        if difference.isEmpty {
+            return Promise { success, failure in
+                success(difference)
+            }
+        }
+        
         return networking.networking.request(.PATCH, path: "\(networking.path)/\(entity.id)", parameters: difference)
             .then { dictionary in
                 RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)

@@ -68,6 +68,7 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
         id ~> dictionary["_id"]
         firstName ~> dictionary["firstName"]
         lastName ~> dictionary["lastName"]
+        dictionaryMemory = self.dictionary
     }
     
 }
