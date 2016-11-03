@@ -41,7 +41,7 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     typealias Entity = Dictionary<String, AnyObject>
     
     // MARK: - Properties
-    var networking: RKNetworking
+    var store: RKNetworking
     
     var path: String = "users"
     
@@ -51,7 +51,7 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     
     // MARK: - Initialization
     init(networkingSession: RKNetworkingSession) {
-        self.networking = networkingSession
+        self.store = networkingSession
     }
     
 }
@@ -63,13 +63,13 @@ class UserStorageRepository: RKCRUDStorageRepository {
     typealias Entity = User
     
     // MARK: - Properties
-    var storage: RKStorage
+    var store: RKStorage
     
     var name: String = "User"
     
     // MARK: - Initialization
     init(coreDataStack: RKCoreDataStack) {
-        self.storage = coreDataStack
+        self.store = coreDataStack
     }
     
 }
