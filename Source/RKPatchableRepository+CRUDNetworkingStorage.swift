@@ -55,7 +55,7 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
     }
     
     // MARK: - Utils
-    /// Given the entity, it get the difference and updates the `Networking store` by a `PATCH` request.
+    /// Given the entity, it get the difference and updates the `Networking repository store` by a `PATCH` request.
     private func networkingPatch(entity: Entity) -> Promise<NetworkingRepository.Entity> {
         
         let difference = RKDictionaryTransformer.difference(entity.dictionaryMemory, new: entity.dictionary)

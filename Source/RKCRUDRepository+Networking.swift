@@ -29,9 +29,9 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     
     // MARK: - Create
     /**
-     Makes a request to the `Networking store` with the purpouse of create a new `Entity`.
+     Makes a request to the `store` with the purpouse of create a new `Entity`.
      
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Networking store`.
+     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `store`.
      
      - Returns: A promise of `Entity`.
      */
@@ -47,7 +47,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     
     // MARK: - Read
     /**
-     Makes a request to the `Networking store` with the purpouse of find an `Entity` with a specified unique identifier.
+     Makes a request to the `store` with the purpouse of find an `Entity` with a specified unique identifier.
      
      - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
      
@@ -61,7 +61,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     }
     
     /**
-     Makes a request to the `Networking store` with the purpouse of find all the entities.
+     Makes a request to the `store` with the purpouse of find all the entities.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -74,7 +74,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     
     // MARK: - Update
     /**
-     Makes a request to the `Networking store` with the purpouse of update an `Entity` with a specific unique identifier.
+     Makes a request to the `store` with the purpouse of update an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -94,7 +94,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     
     // MARK: - Delete
     /**
-     Makes a request to the `Networking store` with the purpouse of delete an `Entity` with a specific unique identifier.
+     Makes a request to the `store` with the purpouse of delete an `Entity` with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be deleted.
      
