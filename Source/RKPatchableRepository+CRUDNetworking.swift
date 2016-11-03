@@ -45,7 +45,7 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: 
             }
         }
         
-        return networking.request(.PATCH, path: "\(path)/\(entity.id)", parameters: difference)
+        return store.request(.PATCH, path: "\(path)/\(entity.id)", parameters: difference)
             .then { dictionary in
                 RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
             }

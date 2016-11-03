@@ -47,8 +47,8 @@ public protocol RKRepository {
 /// It is needed to be considered a *Networking Repository*.
 public protocol RKNetworkingRepository: RKRepository {
     
-    /// The object that will make the HTTP requests.
-    var networking: RKNetworking { get }
+    /// The store that will be able to make the HTTP requests.
+    var store: RKNetworking { get }
     
     /// The url of the server.
     var path: String { get }

@@ -46,12 +46,12 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     
     // MARK: - Synchronize methods
     /**
-     Synchronizes the data of the `Storage` with the data of the `Networking`.
+     Synchronizes the data of the `Storage` with the data of the `Networking store`.
      
-     1. Massive create/update of the unsynchronized objects on `Networking` (those that the synchronizable attribute is false).
+     1. Massive create/update of the unsynchronized objects on `Networking store` (those that the synchronizable attribute is false).
      2. Unsynchronize all the entities.
-     3. Search all the `Networking` entities (if it fails, set all the entities as synchronized).
-     4. Synchronize the `Networking` entities with the objects on the `Storage`.
+     3. Search all the `Networking store` entities (if it fails, set all the entities as synchronized).
+     4. Synchronize the `Networking store` entities with the objects on the `Storage`.
      5. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
      
      - Returns: A promise of `Void`.
@@ -75,7 +75,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /**
-     Synchronizes the specified data of the `Networking` with the data of the `Storage`.
+     Synchronizes the specified data of the `Networking store` with the data of the `Storage`.
      
      1. Update repeated objects.
      2. Create objects for keys not used.
@@ -107,7 +107,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     // MARK: - Utils
     /**
      Makes a POST to 'path'/collection with an array of the entities that needed to be updated
-     or created on the server (all encapsulated as 'data' key).
+     or created on the `Networking store` (all encapsulated as 'data' key).
      In case of success, it will patch the entities if it is needed.
      In case of error, return it.
      */
@@ -125,7 +125,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
                 array.append(object.dictionary)
             }
             
-            networking.networking.request(.POST, path: "\(networking.path)/collection", parameters: ["data": array])
+            networking.store.request(.POST, path: "\(networking.path)/collection", parameters: ["data": array])
                 .then { (entities: [NetworkingRepository.Entity]) in
                     Promise { success, failure in
                         for index in 0 ..< entities.count {
@@ -169,7 +169,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         
     }
     
-    /// Creates storage entities with the ones that are on the server and not in the storage.
+    /// Creates storage entities with the ones that are on the `Networking store` and not in the storage.
     private func create(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
         var objects = Array<NetworkingRepository.Entity>()
