@@ -59,7 +59,7 @@ public protocol RKNetworkingRepository: RKRepository {
 public protocol RKStorageRepository: RKRepository {
     
     /// The object that will manage the local storage.
-    var storage: RKStorage { get }
+    var store: RKStorage { get }
     
     /// The name of the entity of the model.
     var name: String { get }

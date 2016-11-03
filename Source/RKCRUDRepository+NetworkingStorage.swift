@@ -35,9 +35,9 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Create
     /**
-     Creates an object on the `Storage` and the `Networking store`.
+     Creates an object on the `Storage store` and the `Networking store`.
      
-     1. Create the managed object on the `Storage`.
+     1. Create the managed object on the `Storage store`.
      2. Make the request to the `Networking store` to create it too.
      3. Update the managed object with the networking response.
      
@@ -60,10 +60,10 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Read
     /**
-     Searches all objects created on the `Networking store` and creates it on the `Storage`.
+     Searches all objects created on the `Networking store` and creates it on the `Storage store`.
      
      1. Make the request to find all the entities.
-     2. Synchronize the data of the `Networking store` with the data of the `Storage`.
+     2. Synchronize the data of the `Networking store` with the data of the `Storage store`.
      3. Make a storage search with all the managed objects updated.
      
      - Returns: A promise of an `Array` of `Entity`.
@@ -74,7 +74,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Update
     /**
-     Updates an object on the `Networking store` and the `Storage`.
+     Updates an object on the `Networking store` and the `Storage store`.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -95,7 +95,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
     
     // MARK: - Delete
     /**
-     Deletes an object on the `Networking store` and the `Storage`.
+     Deletes an object on the `Networking store` and the `Storage store`.
      
      - Parameter entity: The entity that needs to be deleted.
      

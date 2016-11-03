@@ -39,7 +39,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
      */
     public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
         
-        return storage.performOperation { context in
+        return store.performOperation { context in
             Promise { success, failure in
                 guard let object = Entity(dictionary: entity, context: context) else {
                     failure(RKError.initialization)
@@ -47,7 +47,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
                 }
                 success(object)
             }
-            }.then(storage.save)
+            }.then(store.save)
         
     }
     
@@ -60,7 +60,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
      */
     public func create(entities: Array<Dictionary<String, AnyObject>>) -> Promise<Void> {
         
-        return storage.performBackgroundOperation { context in
+        return store.performBackgroundOperation { context in
             Promise { success, failure in
                 var objects = [Entity]()
                 var i = 0
@@ -76,7 +76,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
                 }
                 success()
             }
-            }.then(storage.save)
+            }.then(store.save)
         
     }
     
@@ -105,7 +105,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      */
     public func search(predicate: NSPredicate?) -> Promise<[Entity]> {
         
-        return storage.performOperation { context in
+        return store.performOperation { context in
             Promise { success, failure in
                 
                 let request = NSFetchRequest(entityName: self.name)
@@ -140,7 +140,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      - Returns: A promise of the `Entity` updated.
      */
     public func update(entity: Entity) -> Promise<Entity> {
-        return storage.save()
+        return store.save()
             .then{entity}
     }
     
@@ -152,7 +152,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      - Returns: A promise of the `Array` of `Entity` updated.
      */
     public func update(entities: [Entity]) -> Promise<[Entity]> {
-        return storage.save()
+        return store.save()
             .then{entities}
     }
     
@@ -170,12 +170,12 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      */
     public func delete(entity: Entity) -> Promise<Void> {
         
-        return storage.performOperation { context in
+        return store.performOperation { context in
             Promise { success, failure in
                 context.deleteObject(entity)
                 success()
             }
-            }.then(storage.save)
+            }.then(store.save)
         
     }
     
@@ -188,7 +188,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      */
     public func delete(entities: [Entity]) -> Promise<Void> {
         
-        return storage.performOperation { context in
+        return store.performOperation { context in
             Promise { success, failure in
                 var i = 0
                 for entity in entities {
@@ -201,7 +201,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
                 }
                 success()
             }
-            }.then(storage.save)
+            }.then(store.save)
         
     }
     

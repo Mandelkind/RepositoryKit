@@ -46,12 +46,12 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     
     // MARK: - Synchronize methods
     /**
-     Synchronizes the data of the `Storage` with the data of the `Networking store`.
+     Synchronizes the data of the `Storage store` with the data of the `Networking store`.
      
      1. Massive create/update of the unsynchronized objects on `Networking store` (those that the synchronizable attribute is false).
      2. Unsynchronize all the entities.
      3. Search all the `Networking store` entities (if it fails, set all the entities as synchronized).
-     4. Synchronize the `Networking store` entities with the objects on the `Storage`.
+     4. Synchronize the `Networking store` entities with the objects on the `Storage store`.
      5. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
      
      - Returns: A promise of `Void`.
@@ -75,7 +75,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /**
-     Synchronizes the specified data of the `Networking store` with the data of the `Storage`.
+     Synchronizes the specified data of the `Networking store` with the data of the `Storage store`.
      
      1. Update repeated objects.
      2. Create objects for keys not used.
@@ -169,7 +169,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         
     }
     
-    /// Creates storage entities with the ones that are on the `Networking store` and not in the storage.
+    /// Creates storage entities with the ones that are on the `Networking store` and not in the `Storage store`.
     private func create(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
         var objects = Array<NetworkingRepository.Entity>()
