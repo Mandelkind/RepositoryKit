@@ -8,9 +8,9 @@
 
 import Foundation
 
-infix operator ~> { }
+infix operator <~ { }
 
-public func ~> <T, O>(inout lhs: T, rhs: O?) {
+public func <~ <T, O>(inout lhs: T, rhs: O?) {
     if let new = rhs as? T {
         lhs = new
     }

@@ -65,9 +65,9 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
     // MARK: - Methods
     func update(dictionary: Dictionary<String, AnyObject>) {
         synchronized = true
-        id ~> dictionary["_id"]
-        firstName ~> dictionary["firstName"]
-        lastName ~> dictionary["lastName"]
+        id <~ dictionary["_id"]
+        firstName <~ dictionary["firstName"]
+        lastName <~ dictionary["lastName"]
         dictionaryMemory = self.dictionary
     }
     
