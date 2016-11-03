@@ -13,6 +13,8 @@
 		F10DF1831D3D218D00C655A8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1821D3D218D00C655A8 /* Operators.swift */; };
 		F10DF1871D3D244000C655A8 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1861D3D244000C655A8 /* UserRepository.swift */; };
 		F10DF1891D3D246800C655A8 /* PromisePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1881D3D246800C655A8 /* PromisePrinter.swift */; };
+		F11432021DCB7CEE004159C8 /* UserNetworkingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11432011DCB7CEE004159C8 /* UserNetworkingRepository.swift */; };
+		F11432041DCB7CF7004159C8 /* UserStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11432031DCB7CF7004159C8 /* UserStorageRepository.swift */; };
 		F165D8D31D39825C00C35FFD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F165D8D11D39825C00C35FFD /* Model.xcdatamodeld */; };
 		F1A4D88E1D3D57F100E5703A /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A4D88D1D3D57F100E5703A /* UserTableViewController.swift */; };
 		F1A4D8941D3D5CAB00E5703A /* SharedInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A4D8931D3D5CAB00E5703A /* SharedInstances.swift */; };
@@ -33,6 +35,8 @@
 		F10DF1821D3D218D00C655A8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		F10DF1861D3D244000C655A8 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		F10DF1881D3D246800C655A8 /* PromisePrinter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromisePrinter.swift; sourceTree = "<group>"; };
+		F11432011DCB7CEE004159C8 /* UserNetworkingRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNetworkingRepository.swift; sourceTree = "<group>"; };
+		F11432031DCB7CF7004159C8 /* UserStorageRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStorageRepository.swift; sourceTree = "<group>"; };
 		F165D8D21D39825C00C35FFD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		F1A4D88D1D3D57F100E5703A /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
 		F1A4D8931D3D5CAB00E5703A /* SharedInstances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedInstances.swift; sourceTree = "<group>"; };
@@ -125,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				F10DF1861D3D244000C655A8 /* UserRepository.swift */,
+				F11432011DCB7CEE004159C8 /* UserNetworkingRepository.swift */,
+				F11432031DCB7CF7004159C8 /* UserStorageRepository.swift */,
 			);
 			name = Repositories;
 			sourceTree = "<group>";
@@ -306,8 +312,10 @@
 				F1FEE3131D3EB68C00102117 /* NewUserViewController.swift in Sources */,
 				F1A4D8961D3D5F0C00E5703A /* CoreDataTableViewController.swift in Sources */,
 				F10084CA1D3FB4FD0058FFC0 /* User+CoreDataProperties.swift in Sources */,
+				F11432041DCB7CF7004159C8 /* UserStorageRepository.swift in Sources */,
 				F10DF1831D3D218D00C655A8 /* Operators.swift in Sources */,
 				F10084CB1D3FB4FD0058FFC0 /* User.swift in Sources */,
+				F11432021DCB7CEE004159C8 /* UserNetworkingRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

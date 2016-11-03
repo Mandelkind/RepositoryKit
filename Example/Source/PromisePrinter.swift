@@ -8,6 +8,8 @@
 
 import PromiseKit
 
+/// Given a generic type, it will print it, and return a promise with it.
+/// It is useful to print something between promises.
 func printer<T>(t: T) -> Promise<T> {
     
     return Promise { success, failure in

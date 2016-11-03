@@ -8,8 +8,10 @@
 
 import Foundation
 
+/// It stores all the repositories.
 struct Repositories {
     
+    /// User repository.
     static let user = UserRepository(coreDataStack: coreDataStack, networkingSession: networkingSession)
     
 }
