@@ -43,6 +43,12 @@ public class RKNetworkingSession: RKNetworking {
     /// Initializes and returns a newly allocated object with the specified url.
     public init(url: String) {
         self.url = url
+        self.initConfiguration()
+    }
+    
+    // MARK: - Private methods
+    private func initConfiguration() {
+        NSURLSession.sharedSession().configuration.URLCache = NSURLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
     }
     
 }
