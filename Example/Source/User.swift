@@ -76,6 +76,8 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
         }
         // If it is initialized from a `Networking entity`, it is synchronized.
         self.synchronized = self.id != "-1"
+        // Update user dictionary
+        self.dictionaryMemory = self.dictionary
     }
     
     // MARK: - Methods
