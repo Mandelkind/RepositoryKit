@@ -26,6 +26,8 @@ import Foundation
 
 extension Selector {
     
+    /// Initializes a new instance of a `Selector` with the specified attribute and prefix.
+    /// It can be used to perform a setter selector with the name of the attribute.
     init(attribute str: String, prefix: String = "set") {
         let first = String(str.characters.prefix(1)).capitalizedString
         let other = String(str.characters.dropFirst())
