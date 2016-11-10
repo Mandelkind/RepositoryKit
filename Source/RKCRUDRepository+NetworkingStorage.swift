@@ -45,7 +45,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
      
      - Returns: A promise of `Entity`.
      */
-    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    public func create(_ entity: Dictionary<String, Any>) -> Promise<Entity> {
         return storage.create(entity)
             .then { object in
                 self.networking.create(object.dictionary)
@@ -55,7 +55,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
                             success(object)
                         }
                 }
-            }.then(storage.update)
+            }
+            .then(execute: storage.update)
     }
     
     // MARK: - Read
@@ -80,7 +81,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
      
      - Returns: A promise of the `Entity` updated.
      */
-    public func update(entity: Entity) -> Promise<Entity> {
+    public func update(_ entity: Entity) -> Promise<Entity> {
         return storage.update(entity)
             .then { object in
                 self.networking.update(object.dictionary)
@@ -90,7 +91,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
                             success(object)
                         }
                 }
-            }.then(storage.update)
+            }
+            .then(execute: storage.update)
     }
     
     // MARK: - Delete
@@ -101,7 +103,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
      
      - Returns: A promise of the `Entity` deleted.
      */
-    public func delete(entity: Entity) -> Promise<Void> {
+    public func delete(_ entity: Entity) -> Promise<Void> {
         return networking.delete(entity.dictionary)
             .then { self.storage.delete(entity) }
     }

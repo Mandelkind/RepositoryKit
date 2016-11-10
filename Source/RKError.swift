@@ -25,7 +25,7 @@
 import Foundation
 
 /// Represents the possible errors that can be produced by the repositories methods.
-public enum RKError: ErrorType {
+public enum RKError: Error {
     
     /// Occurs when a initialization failed.
     case initialization
@@ -49,6 +49,6 @@ public enum RKError: ErrorType {
     case server(statusCode: Int)
     
     /// Another type of error.
-    case other(ErrorType)
+    case other(Error)
     
 }

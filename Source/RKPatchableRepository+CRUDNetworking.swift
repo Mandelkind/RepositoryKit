@@ -35,9 +35,9 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: 
      
      - Returns: A promise of the `Entity` updated.
      */
-    public func patch(entity: Entity) -> Promise<Entity> {
+    public func patch(_ entity: Entity) -> Promise<Entity> {
         
-        let difference = RKDictionaryTransformer.difference(entity.dictionaryMemory, new: entity.dictionary)
+        let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
         
         if difference.isEmpty {
             return Promise { success, failure in
@@ -45,12 +45,12 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: 
             }
         }
         
-        return store.request(.PATCH, path: "\(path)/\(entity.id)", parameters: difference)
+        return store.request(method: .PATCH, path: "\(path)/\(entity.id)", parameters: difference)
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
             }
             .then { dictionary in
-                self.update(entity, withDictionary: dictionary)
+                self.update(entity: entity, withDictionary: dictionary)
             }
         
     }

@@ -41,24 +41,25 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
      
      - Returns: A promise of the `Entity` updated.
      */
-    public func patch(entity: Entity) -> Promise<Entity> {
+    public func patch(_ entity: Entity) -> Promise<Entity> {
         
         return storage.update(entity)
-            .then(networkingPatch)
+            .then(execute: networkingPatch)
             .then { dictionary in
                 Promise { success, failure in
                     entity.update(dictionary)
                     success(entity)
                 }
-            }.then(storage.update)
+            }
+            .then(execute: storage.update)
         
     }
     
     // MARK: - Utils
     /// Given the entity, it get the difference and updates the `Networking Repository Store` by a `PATCH` request.
-    private func networkingPatch(entity: Entity) -> Promise<NetworkingRepository.Entity> {
+    private func networkingPatch(_ entity: Entity) -> Promise<Self.NetworkingRepository.Entity> {
         
-        let difference = RKDictionaryTransformer.difference(entity.dictionaryMemory, new: entity.dictionary)
+        let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
         
         if difference.isEmpty {
             return Promise { success, failure in
@@ -66,9 +67,9 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
             }
         }
         
-        return networking.store.request(.PATCH, path: "\(networking.path)/\(entity.id)", parameters: difference)
+        return networking.store.request(method: .PATCH, path: "\(networking.path)/\(entity.id)", parameters: difference)
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
             }
         
     }

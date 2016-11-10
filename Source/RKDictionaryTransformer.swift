@@ -67,14 +67,14 @@ public class RKDictionaryTransformer {
         for (key, value) in new {
             
             // No compare arrays.
-            if value is Array<AnyObject> { continue }
+            if value is Array<Any> { continue }
             
             // Check if it is a dictionary.
             if let newDictionary = value as? RKDictionaryEntity {
                 // Check if it exists in the old one and it is a dictionary.
                 if let oldDictionary = old[key] as? RKDictionaryEntity {
                     // If it exists, get the difference
-                    let diff: RKDictionaryEntity = difference(oldDictionary, new: newDictionary)
+                    let diff: RKDictionaryEntity = difference(old: oldDictionary, new: newDictionary)
                     // add the field with the new difference.
                     dictionary[key] = diff
                 } else {
@@ -86,7 +86,7 @@ public class RKDictionaryTransformer {
             }
             
             // Check if it exists in the old one.
-            if let oldValue = old[key] {
+            if let oldValue = old[key] as AnyObject? {
                 // If it exists, compare them.
                 if !oldValue.isEqual(value) {
                     // If they are different, add it.
@@ -103,7 +103,7 @@ public class RKDictionaryTransformer {
         for (key, value) in old {
             
             // No compare arrays.
-            if value is Array<AnyObject> { continue }
+            if value is Array<Any> { continue }
             
             // Check if if exists in the new one.
             if new[key] == nil {

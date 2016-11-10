@@ -35,6 +35,6 @@ public protocol RKPatchableRepository: RKRepository {
      
      - Returns: A promise of the `Entity` updated.
      */
-    func patch(entity: Entity) -> Promise<Entity>
+    func patch(_ entity: Entity) -> Promise<Entity>
     
 }

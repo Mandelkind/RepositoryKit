@@ -25,16 +25,16 @@
 import CoreData
 
 /// It is required to be considered a *Dictionary Entity*.
-public typealias RKDictionaryEntity = Dictionary<String, AnyObject>
+public typealias RKDictionaryEntity = Dictionary<String, Any>
 
 /// It is required to be considered a *Networking Entity*.
-public typealias RKNetworkingEntity = protocol<RKIdentifiable, RKDictionaryRepresentable, RKDictionaryInitializable>
+public typealias RKNetworkingEntity = RKIdentifiable & RKDictionaryRepresentable & RKDictionaryInitializable
 
 /// It is required to be considered a *Networking Storage Entity*.
-public typealias RKNetworkingStorageEntity = protocol<RKDictionaryContextInitializable, RKDictionaryRepresentable, RKDictionaryUpdateable, RKIdentifiable>
+public typealias RKNetworkingStorageEntity = RKDictionaryContextInitializable & RKDictionaryRepresentable & RKDictionaryUpdateable & RKIdentifiable
 
 /// It is required to be considered a *Storage Entity*.
-public typealias RKStorageEntity = protocol<RKDictionaryContextInitializable>
+public typealias RKStorageEntity = RKDictionaryContextInitializable
 
 /// Identifies an entity with an *id* property.
 public protocol RKIdentifiable {
@@ -59,7 +59,7 @@ public protocol RKSynchronizable {
 public protocol RKPatchable {
     
     /// Represents a memory of the last updated entity.
-    var dictionaryMemory: Dictionary<String, AnyObject> { get set }
+    var dictionaryMemory: Dictionary<String, Any> { get set }
     
 }
 
@@ -67,7 +67,7 @@ public protocol RKPatchable {
 public protocol RKDictionaryInitializable {
     
     /// Initializes and returns a newly allocated object with the specified dictionary.
-    init?(dictionary: Dictionary<String, AnyObject>)
+    init?(dictionary: Dictionary<String, Any>)
     
 }
 
@@ -75,7 +75,7 @@ public protocol RKDictionaryInitializable {
 public protocol RKDictionaryRepresentable {
     
     /// The property that represents the object with a `Dictionary`.
-    var dictionary: Dictionary<String, AnyObject> { get }
+    var dictionary: Dictionary<String, Any> { get }
     
 }
 
@@ -83,7 +83,7 @@ public protocol RKDictionaryRepresentable {
 public protocol RKDictionaryUpdateable {
     
     /// The method that updates the object with a `Dictionary`.
-    func update(dictionary: Dictionary<String, AnyObject>)
+    func update(_ dictionary: Dictionary<String, Any>)
     
 }
 
@@ -91,6 +91,6 @@ public protocol RKDictionaryUpdateable {
 public protocol RKDictionaryContextInitializable {
     
     /// Initializes and returns a newly allocated object with the specified model name and managed object context.
-    init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext)
+    init?(dictionary: Dictionary<String, Any>, context: NSManagedObjectContext)
     
 }

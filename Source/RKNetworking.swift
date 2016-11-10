@@ -38,16 +38,16 @@ public protocol RKNetworking {
      - Parameter parameters: The parameters.
      - Parameter headers: The HTTP headers.
      
-     - Returns: A promise of `AnyObject`.
+     - Returns: A promise of `Any`.
      */
-    func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>?, headers: Dictionary<String, String>?) -> Promise<AnyObject>
+    func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<Any>
     
 }
 
 extension RKNetworking {
     
     /// Typealias that represent an `Entity` of the type `Dictionary`.
-    public typealias DictionaryEntity = Dictionary<String, AnyObject>
+    public typealias DictionaryEntity = Dictionary<String, Any>
     
     /**
      Creates a promise with the response of a request for the specified method, url, parameters and headers.
@@ -59,10 +59,10 @@ extension RKNetworking {
      
      - Returns: A promise of `DictionaryEntity`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<DictionaryEntity> {
+    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<DictionaryEntity> {
         
-        return request(method, path: path, parameters: parameters, headers: headers)
-            .then { result in
+        return request(method: method, path: path, parameters: parameters, headers: headers)
+            .then { (result: Any) in
                 Promise { success, failure in
                     guard let value = result as? DictionaryEntity else {
                         failure(RKError.casting)
@@ -85,10 +85,10 @@ extension RKNetworking {
      
      - Returns: A promise of an `Array` of `DictionaryEntity`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<[DictionaryEntity]> {
+    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<[DictionaryEntity]> {
         
-        return request(method, path: path, parameters: parameters, headers: headers)
-            .then { result in
+        return request(method: method, path: path, parameters: parameters, headers: headers)
+            .then { (result: Any) in
                 Promise { success, failure in
                     guard let value = result as? [DictionaryEntity] else {
                         failure(RKError.casting)
@@ -110,10 +110,10 @@ extension RKNetworking {
      
      - Returns: A promise of `Void`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Void> {
+    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Void> {
         
-        return request(method, path: path, parameters: parameters, headers: headers)
-            .then { _ in
+        return request(method: method, path: path, parameters: parameters, headers: headers)
+            .then { (result: Any) in
                 Promise { success, failure in
                     success()
                 }

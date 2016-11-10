@@ -27,14 +27,14 @@ import PromiseKit
 
 // MARK: - Main
 /// A networking session that makes requests to a server (which url is specified).
-public class RKNetworkingSession: RKNetworking {
+open class RKNetworkingSession: RKNetworking {
     
     // MARK: - Properties
     /// The url of the server.
-    public var url: String
+    open var url: String
     
     /// A `Dictionary` with the HTTP request headers.
-    public var requestHeaders = [
+    open var requestHeaders = [
         "Accept": "application/json",
         "Content-Type": "application/json"
     ]
@@ -48,7 +48,7 @@ public class RKNetworkingSession: RKNetworking {
     
     // MARK: - Private methods
     private func initConfiguration() {
-        NSURLSession.sharedSession().configuration.URLCache = NSURLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
+        URLSession.shared.configuration.urlCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
     }
     
 }
@@ -64,20 +64,20 @@ extension RKNetworkingSession {
      - Parameter parameters: The parameters (nil by default).
      - Parameter headers: The HTTP headers (nil by default).
      
-     - Returns: A promise of `AnyObject`.
+     - Returns: A promise of `Any`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, AnyObject>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<AnyObject> {
+    open func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Any> {
         
         return requestWithData(method, "\(url)/\(path)", parameters: parameters, headers: headers)
             .then { request in
                 Promise { success, failure in
-                    NSURLSession.sharedSession().dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
+                    URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
                         guard error == nil else {
                             failure(RKError.other(error!))
                             return
                         }
                         
-                        guard let data = data, let response = response as? NSHTTPURLResponse else {
+                        guard let data = data, let response = response as? HTTPURLResponse else {
                             failure(RKError.badResponse)
                             return
                         }
@@ -88,7 +88,7 @@ extension RKNetworkingSession {
                         }
                         
                         do {
-                            let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+                            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
                             success(json)
                         }
                         catch {
@@ -106,17 +106,17 @@ extension RKNetworkingSession {
 // MARK: - Utils
 extension RKNetworkingSession {
     
-    private func requestWithData(method: RKMethod, _ urlString: String, parameters: Dictionary<String, AnyObject>?, headers: Dictionary<String, String>?) -> Promise<NSURLRequest> {
+    fileprivate func requestWithData(_ method: RKMethod, _ urlString: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<URLRequest> {
         
         return Promise { success, failure in
             
-            guard let url = NSURL(string: urlString) else {
+            guard let url = URL(string: urlString) else {
                 failure(RKError.badRequest)
                 return
             }
             
-            let request = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = method.rawValue
+            var request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
             
             if headers != nil {
                 for (key, value) in headers! {
@@ -134,14 +134,14 @@ extension RKNetworkingSession {
             }
             
             do {
-                let body = try NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions())
-                request.HTTPBody = body
+                let body = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions())
+                request.httpBody = body
             }
             catch {
                 failure(RKError.parsing)
             }
             
-            success(request)
+            success(request as URLRequest)
             
         }
         

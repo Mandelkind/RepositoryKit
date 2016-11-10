@@ -35,7 +35,7 @@ public protocol RKStorage {
      
      - Returns: A promise of the generic type.
      */
-    func save<T>(t: T) -> Promise<T>
+    func save<T>(_ t: T) -> Promise<T>
     
     /**
      Performs a operation in the main queue.
@@ -44,7 +44,7 @@ public protocol RKStorage {
      
      - Returns: A promise of a generic type.
      */
-    func performOperation<T>(block: NSManagedObjectContext -> Promise<T>) -> Promise<T>
+    func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
     
     /**
      Performs a operation in a background queue.
@@ -53,6 +53,6 @@ public protocol RKStorage {
      
      - Returns: A promise of a generic type.
      */
-    func performBackgroundOperation<T>(block: NSManagedObjectContext -> Promise<T>) -> Promise<T>
+    func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
     
 }

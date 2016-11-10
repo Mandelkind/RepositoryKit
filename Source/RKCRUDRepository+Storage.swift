@@ -37,7 +37,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
      
      - Returns: A promise of `Entity`.
      */
-    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    public func create(_ entity: Dictionary<String, Any>) -> Promise<Entity> {
         
         return store.performOperation { context in
             Promise { success, failure in
@@ -47,7 +47,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
                 }
                 success(object)
             }
-            }.then(store.save)
+            }.then(execute: store.save)
         
     }
     
@@ -58,7 +58,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
      
      - Returns: A promise of `Void`.
      */
-    public func create(entities: Array<Dictionary<String, AnyObject>>) -> Promise<Void> {
+    public func create(_ entities: [Dictionary<String, Any>]) -> Promise<Void> {
         
         return store.performBackgroundOperation { context in
             Promise { success, failure in
@@ -71,12 +71,12 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
                     
                     i += 1
                     if i % 100 == 0 {
-                        context.save(Void)
+                        try? context.save()
                     }
                 }
                 success()
             }
-            }.then(store.save)
+            }.then(execute: store.save)
         
     }
     
@@ -103,16 +103,16 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Returns: A promise of an `Array` of `Entity`.
      */
-    public func search(predicate: NSPredicate?) -> Promise<[Entity]> {
+    public func search(_ predicate: NSPredicate?) -> Promise<[Entity]> {
         
         return store.performOperation { context in
             Promise { success, failure in
                 
-                let request = NSFetchRequest(entityName: self.name)
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.name)
                 request.predicate = predicate
                 
                 do {
-                    guard let results = try context.executeFetchRequest(request) as? [Entity] else {
+                    guard let results = try context.fetch(request) as? [Entity] else {
                         failure(RKError.casting)
                         return
                     }
@@ -139,9 +139,9 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Returns: A promise of the `Entity` updated.
      */
-    public func update(entity: Entity) -> Promise<Entity> {
+    public func update(_ entity: Entity) -> Promise<Entity> {
         return store.save()
-            .then{entity}
+            .then { entity }
     }
     
     /**
@@ -151,9 +151,9 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Returns: A promise of the `Array` of `Entity` updated.
      */
-    public func update(entities: [Entity]) -> Promise<[Entity]> {
+    public func update(_ entities: [Entity]) -> Promise<[Entity]> {
         return store.save()
-            .then{entities}
+            .then { entities }
     }
     
 }
@@ -168,14 +168,14 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Returns: A promise of `Void`.
      */
-    public func delete(entity: Entity) -> Promise<Void> {
+    public func delete(_ entity: Entity) -> Promise<Void> {
         
         return store.performOperation { context in
             Promise { success, failure in
-                context.deleteObject(entity)
+                context.delete(entity)
                 success()
             }
-            }.then(store.save)
+            }.then(execute: store.save)
         
     }
     
@@ -186,22 +186,22 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Returns: A promise of `Void`.
      */
-    public func delete(entities: [Entity]) -> Promise<Void> {
+    public func delete(_ entities: [Entity]) -> Promise<Void> {
         
         return store.performOperation { context in
             Promise { success, failure in
                 var i = 0
                 for entity in entities {
-                    context.deleteObject(entity)
+                    context.delete(entity)
                     
                     i += 1
                     if i % 100 == 0 {
-                        context.save(Void)
+                        try? context.save()
                     }
                 }
                 success()
             }
-            }.then(store.save)
+            }.then(execute: store.save)
         
     }
     

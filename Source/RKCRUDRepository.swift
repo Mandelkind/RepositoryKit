@@ -35,7 +35,7 @@ public protocol RKCRUDRepository: RKRepository {
      
      - Returns: A promise of the `Entity` created.
      */
-    func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity>
+    func create(_ entity: Dictionary<String, Any>) -> Promise<Entity>
     
     // MARK: - Read
     /**
@@ -53,7 +53,7 @@ public protocol RKCRUDRepository: RKRepository {
      
      - Returns: A promise of the `Entity` updated.
      */
-    func update(entity: Entity) -> Promise<Entity>
+    func update(_ entity: Entity) -> Promise<Entity>
     
     // MARK: - Delete
     /**
@@ -63,6 +63,6 @@ public protocol RKCRUDRepository: RKRepository {
      
      - Returns: A promise of `Void`.
      */
-    func delete(entity: Entity) -> Promise<Void>
+    func delete(_ entity: Entity) -> Promise<Void>
     
 }

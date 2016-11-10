@@ -35,11 +35,11 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      
      - Returns: A promise of `Entity`.
      */
-    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    public func create(_ entity: Dictionary<String, Any>) -> Promise<Entity> {
         
-        return store.request(.POST, path: "\(path)", parameters: entity)
+        return store.request(method: .POST, path: "\(path)", parameters: entity)
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity, new: dictionary)
             }
         
     }
@@ -52,9 +52,9 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      
      - Returns: A promise of `Entity`.
      */
-    public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
+    public func search(_ identifier: CustomStringConvertible) -> Promise<Entity> {
         
-        return store.request(.GET, path: "\(path)/\(identifier)")
+        return store.request(method: .GET, path: "\(path)/\(identifier)")
         
     }
     
@@ -65,7 +65,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      */
     public func search() -> Promise<[Entity]> {
         
-        return store.request(.GET, path: "\(path)")
+        return store.request(method: .GET, path: "\(path)")
         
     }
     
@@ -77,14 +77,14 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      
      - Returns: A promise of `Entity`.
      */
-    public func update(entity: Entity) -> Promise<Entity> {
+    public func update(_ entity: Entity) -> Promise<Entity> {
         
         return entityIdentifiable(entity)
             .then { identifier in
-                self.store.request(.PUT, path: "\(self.path)/\(identifier)", parameters: entity)
+                self.store.request(method: .PUT, path: "\(self.path)/\(identifier)", parameters: entity)
             }
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity, new: dictionary)
             }
         
     }
@@ -97,17 +97,17 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      
      - Returns: A promise of `Void`.
      */
-    public func delete(entity: Entity) -> Promise<Void> {
+    public func delete(_ entity: Entity) -> Promise<Void> {
         
         return entityIdentifiable(entity)
             .then { identifier in
-                self.store.request(.DELETE, path: "\(self.path)/\(identifier)")
+                self.store.request(method: .DELETE, path: "\(self.path)/\(identifier)")
             }
         
     }
     
     // MARK: - Utils
-    private func entityIdentifiable(entity: Entity) -> Promise<CustomStringConvertible> {
+    private func entityIdentifiable(_ entity: Entity) -> Promise<CustomStringConvertible> {
         
         return Promise { success, failure in
             

@@ -34,15 +34,15 @@ extension NSManagedObjectContext {
      
      - Returns: A promise of a generic type.
      */
-    public func performBlockAndWait<T>(block: Void -> Promise<T>) -> Promise<T> {
+    public func performAndWait<T>(_ block: @escaping (Void) -> Promise<T>) -> Promise<T> {
         
         return Promise { success, failure in
             
-            self.performBlockAndWait {
+            self.performAndWait {
                 
                 block()
-                    .then(success)
-                    .error(failure)
+                    .then(execute: success)
+                    .catch(execute: failure)
                 
             }
             
@@ -57,15 +57,15 @@ extension NSManagedObjectContext {
      
      - Returns: A promise of a generic type.
      */
-    public func performBlock<T>(block: Void -> Promise<T>) -> Promise<T> {
+    public func perform<T>(_ block: @escaping (Void) -> Promise<T>) -> Promise<T> {
         
         return Promise { success, failure in
             
-            self.performBlock {
+            self.perform {
                 
                 block()
-                    .then(success)
-                    .error(failure)
+                    .then(execute: success)
+                    .catch(execute: failure)
                 
             }
             
@@ -80,7 +80,7 @@ extension NSManagedObjectContext {
      
      - Returns: A promise of the generic type.
      */
-    public func save<T>(t: T) -> Promise<T> {
+    public func save<T>(_ t: T) -> Promise<T> {
         
         return Promise { success, failure in
             

@@ -35,13 +35,13 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
      
      - Returns: A promise of `Entity`.
      */
-    public func create(entity: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    public func create(_ entity: Dictionary<String, Any>) -> Promise<Entity> {
         
-        return store.request(.POST, path: "\(path)", parameters: entity)
+        return store.request(method: .POST, path: "\(path)", parameters: entity)
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity, new: dictionary)
             }
-            .then(initialization)
+            .then(execute: initialization)
         
     }
     
@@ -53,10 +53,10 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
      
      - Returns: A promise of `Entity`.
      */
-    public func search(identifier: CustomStringConvertible) -> Promise<Entity> {
+    public func search(_ identifier: CustomStringConvertible) -> Promise<Entity> {
         
-        return store.request(.GET, path: "\(path)/\(identifier)")
-            .then(initialization)
+        return store.request(method: .GET, path: "\(path)/\(identifier)")
+            .then(execute: initialization)
         
     }
     
@@ -67,8 +67,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
      */
     public func search() -> Promise<[Entity]> {
         
-        return store.request(.GET, path: "\(path)")
-            .then(initialization)
+        return store.request(method: .GET, path: "\(path)")
+            .then(execute: initialization)
         
     }
     
@@ -80,14 +80,14 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
      
      - Returns: A promise of `Entity`.
      */
-    public func update(entity: Entity) -> Promise<Entity> {
+    public func update(_ entity: Entity) -> Promise<Entity> {
         
-        return store.request(.PUT, path: "\(path)/\(entity.id)", parameters: entity.dictionary)
+        return store.request(method: .PUT, path: "\(path)/\(entity.id)", parameters: entity.dictionary)
             .then { dictionary in
-                RKDictionaryTransformer.merge(entity.dictionary, new: dictionary)
+                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
             }
             .then { dictionary in
-                self.update(entity, withDictionary: dictionary)
+                self.update(entity: entity, withDictionary: dictionary)
             }
         
     }
@@ -100,15 +100,15 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
      
      - Returns: A promise of `Void`.
      */
-    public func delete(entity: Entity) -> Promise<Void> {
+    public func delete(_ entity: Entity) -> Promise<Void> {
         
-        return store.request(.DELETE, path: "\(path)/\(entity.id)")
+        return store.request(method: .DELETE, path: "\(path)/\(entity.id)")
         
     }
     
     // MARK: - Utils
     /// Initializes an `Entity` with the specific `Dictionary`.
-    public func initialization(dictionary: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    public func initialization(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
         return Promise { success, failure in
             guard let entity = Entity(dictionary: dictionary) else {
@@ -122,7 +122,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     }
     
     /// Initializes an `Array` of `Entity` with the specific `Array` of `Dictionary`.
-    public func initialization(array: [Dictionary<String, AnyObject>]) -> Promise<[Entity]> {
+    public func initialization(_ array: [Dictionary<String, Any>]) -> Promise<[Entity]> {
         
         return Promise { success, failure in
             var entities = [Entity]()
@@ -141,7 +141,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     /// Updates an `Entity` with the specific `Dictionary`.
     /// If it is dictionary updateable, call update method (it should be a class).
     /// If it is not a dictionary, initialize a new one (it should be a struct).
-    internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, AnyObject>) -> Promise<Entity> {
+    internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
         if let updateableEntity = entity as? RKDictionaryUpdateable {
             return Promise { success, failure in

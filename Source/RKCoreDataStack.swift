@@ -35,7 +35,7 @@ private enum RKCoreDataStackError: String {
 
 // MARK: - Main
 /// An object that manages the stack of core data with three contexts (persistence, main and background).
-public class RKCoreDataStack: RKStorage {
+open class RKCoreDataStack: RKStorage {
     
     // MARK: - Constants
     private let kModelExtension: String = "momd"
@@ -43,67 +43,67 @@ public class RKCoreDataStack: RKStorage {
     
     // MARK: - Properties
     /// The url that contains the database.
-    public let databaseURL: NSURL
+    open let databaseURL: URL
     /// The url that contains the model.
-    public let modelURL: NSURL
+    open let modelURL: URL
     /// The name of the model.
-    public let modelName: String
+    open let modelName: String
     /// The object of the model.
-    public let model: NSManagedObjectModel
+    open let model: NSManagedObjectModel
     /// The persistent coordinator of the model.
-    public let coordinator: NSPersistentStoreCoordinator
+    open let coordinator: NSPersistentStoreCoordinator
     /// The context (in a private queue) that manages the persistence of the model.
-    public let persistenceContext: NSManagedObjectContext
+    open let persistenceContext: NSManagedObjectContext
     /// The context (in a private queue) which purpose is to perform batches without blocking the application.
-    public let backgroundContext: NSManagedObjectContext
+    open let backgroundContext: NSManagedObjectContext
     /// The context that manages all the information in the main queue.
-    public let mainContext: NSManagedObjectContext
+    open let mainContext: NSManagedObjectContext
     
     // MARK: - Initialization
     /// Initializes and returns a newly allocated object with the specified model name.
     public convenience init?(modelName: String) {
-        self.init(modelName: modelName, bundle: NSBundle.mainBundle())
+        self.init(modelName: modelName, bundle: Bundle.main)
     }
     
     /// Initializes and returns a newly allocated object with the specified model name and bundle.
-    public init?(modelName: String, bundle: NSBundle) {
+    public init?(modelName: String, bundle: Bundle) {
         
         self.modelName = modelName
         
-        guard let modelURL = bundle.URLForResource(modelName, withExtension: self.kModelExtension) else {
+        guard let modelURL = bundle.url(forResource: modelName, withExtension: self.kModelExtension) else {
             NSLog(RKCoreDataStackError.ModelNotFound.rawValue, modelName, bundle.infoDictionary!["CFBundleName"] as! String)
             return nil
         }
         self.modelURL = modelURL
         
-        guard let model = NSManagedObjectModel(contentsOfURL: self.modelURL) else {
-            NSLog(RKCoreDataStackError.ModelNotCreated.rawValue, self.modelURL)
+        guard let model = NSManagedObjectModel(contentsOf: self.modelURL) else {
+            NSLog(RKCoreDataStackError.ModelNotCreated.rawValue, self.modelURL.absoluteString)
             return nil
         }
         self.model = model
         
         self.coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
         
-        self.persistenceContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        self.persistenceContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         self.persistenceContext.persistentStoreCoordinator = self.coordinator
         
-        self.mainContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        self.mainContext.parentContext = self.persistenceContext
+        self.mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        self.mainContext.parent = self.persistenceContext
         
-        self.backgroundContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        self.backgroundContext.parentContext = self.mainContext
+        self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        self.backgroundContext.parent = self.mainContext
         
-        guard let documentUrl = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first else {
+        guard let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             NSLog(RKCoreDataStackError.DocumentFolderNotFound.rawValue)
             return nil
         }
-        self.databaseURL = documentUrl.URLByAppendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
+        self.databaseURL = documentUrl.appendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
         
         do {
-            try self.coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: self.databaseURL, options: nil)
+            try self.coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
         }
         catch {
-            NSLog(RKCoreDataStackError.StoreNotAdded.rawValue, self.databaseURL)
+            NSLog(RKCoreDataStackError.StoreNotAdded.rawValue, self.databaseURL.absoluteString)
         }
         
     }
@@ -111,7 +111,7 @@ public class RKCoreDataStack: RKStorage {
 }
 
 // MARK: - Operations
-public extension RKCoreDataStack {
+extension RKCoreDataStack {
     
     /**
      Synchronously performs a given block on the main context.
@@ -120,9 +120,9 @@ public extension RKCoreDataStack {
      
      - Returns: A promise with a generic type.
     */
-    public func performOperation<T>(block: NSManagedObjectContext -> Promise<T>) -> Promise<T> {
+    open func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
-        return self.mainContext.performBlockAndWait {
+        return self.mainContext.performAndWait {
             block(self.mainContext)
         }
         
@@ -135,11 +135,11 @@ public extension RKCoreDataStack {
      
      - Returns: A promise with a generic type.
     */
-    public func performBackgroundOperation<T>(block: NSManagedObjectContext -> Promise<T>) -> Promise<T> {
+    open func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
-        return self.backgroundContext.performBlock {
+        return self.backgroundContext.perform {
             block(self.backgroundContext)
-            .then(self.backgroundContext.save)
+            .then(execute: self.backgroundContext.save)
         }
         
     }
@@ -147,27 +147,27 @@ public extension RKCoreDataStack {
 }
 
 // MARK: - Reset
-public extension RKCoreDataStack  {
+extension RKCoreDataStack  {
     
     /// Empty the database.
-    public func reset() throws {
+    open func reset() throws {
         
-        try coordinator.destroyPersistentStoreAtURL(self.databaseURL, withType:NSSQLiteStoreType , options: nil)
-        try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: self.databaseURL, options: nil)
+        try coordinator.destroyPersistentStore(at: self.databaseURL, ofType:NSSQLiteStoreType , options: nil)
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
         
     }
     
 }
 
 // MARK: - Save
-public extension RKCoreDataStack {
+extension RKCoreDataStack {
     
     /// Save the main context and persist the data.
-    public func save<T>(t: T) -> Promise<T> {
+    open func save<T>(_ t: T) -> Promise<T> {
         
         return saveMainContext()
-            .then(savePersistentContext)
-            .then{t}
+            .then(execute: savePersistentContext)
+            .then {t}
         
     }
     
@@ -175,7 +175,7 @@ public extension RKCoreDataStack {
         
         return Promise { success, failure in
             
-            self.mainContext.performBlockAndWait() {
+            self.mainContext.performAndWait {
                 
                 if self.mainContext.hasChanges {
                     
@@ -203,7 +203,7 @@ public extension RKCoreDataStack {
         
         return Promise { success, failure in
             
-            self.persistenceContext.performBlock() {
+            self.persistenceContext.perform {
                 
                 do {
                     try self.persistenceContext.save()
