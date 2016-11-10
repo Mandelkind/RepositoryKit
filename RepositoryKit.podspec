@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
     s.source           = { :git => 'https://github.com/lucianopolit/RepositoryKit.git', :tag => s.version.to_s }
     s.source_files     = 'Source/**/*.swift'
     s.platform         = :ios, "9.0"
-    s.dependency 'PromiseKit', '~> 3.2.0'
+    s.dependency 'PromiseKit', '~> 4.0.0'
 end
