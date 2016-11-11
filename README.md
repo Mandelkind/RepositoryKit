@@ -78,7 +78,7 @@ Then, just because the repository needs to communicate to our API data store in 
 extension Message: RKDictionaryInitializable {
     
     // Initialize with a dictionary.
-    init?(dictionary: Dictionary<String, AnyObject>) {
+    init?(dictionary: Dictionary<String, Any>) {
         
         // Here we will have the dictionary that can initialize the entity.
         // We need to take care that every information that we need, is inside the dictionary.
@@ -96,7 +96,7 @@ extension Message: RKDictionaryInitializable {
 extension Message: RKDictionaryRepresentable {
     
     // Dictionary representation.
-    var dictionary: Dictionary<String, AnyObject> {
+    var dictionary: Dictionary<String, Any> {
         return [
             "_id": id,
             "text": text
@@ -198,7 +198,7 @@ messageRepository.create(["text": "Here goes a message!!!"])
         // Observe that you should have at least the 'text' and 'id' properties initialized.
         // In my case, it printed 'Message(id: "581a8e2da80614c82661b98d", text: "Here goes a message!!!")'.
         // Here you can update the UI for example.
-    }.error { error in
+    }.catch { error in
         // In case that an error occurs, do whatever you have to do here.
         errorHandler(error)
     }
@@ -208,13 +208,16 @@ Let me show you one more case. Then try whatever you want!
 
 ```swift
 messageRepository.search("581a8e2da80614c82661b98d")
-    .then(messageRepository.delete)
+    .then(execute: messageRepository.delete)
     .then {
         print("The message was deleted")
+    }.catch { error in
+        // In case that an error occurs, do whatever you have to do here.
+        errorHandler(error)
     }
 ```
 
-In this case, it will try to search the entity on the API with the specified id. Then, in case of success, it will try to delete it, and, if everything is OK, it will print that the entity was deleted. Just remember to not forget to handle if an error occurs. 
+In this case, it will try to search the entity on the API with the specified id. Then, in case of success, it will try to delete it, and, if everything is OK, it will print that the entity was deleted. Just remember to not forget to handle if an error occurs.
 
 Is it easy? And cleaner? That's cool! And now, its your turn to try it!
 
