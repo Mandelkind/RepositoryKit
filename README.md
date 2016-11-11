@@ -44,8 +44,13 @@ iOS 9.0+
 
 RepositoryKit is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
+- For Swift 3:
 ```ruby
-pod "RepositoryKit"
+pod "RepositoryKit", "~> 3.0"
+```
+- For Swift 2:
+```ruby
+pod "RepositoryKit", "~> 2.3"
 ```
 
 ## Usage
