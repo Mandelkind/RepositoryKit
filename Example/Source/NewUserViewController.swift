@@ -8,7 +8,8 @@
 
 import UIKit
 
-class NewUserViewController: UIViewController, UITextFieldDelegate {
+// MARK: - Main
+class NewUserViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -33,7 +34,7 @@ class NewUserViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        saveButton.enabled = false
+        saveButton.isEnabled = false
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
     }
@@ -42,14 +43,18 @@ class NewUserViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    // MARK: - Action
-    @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    // MARK: - Actions
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - Text field delegate implementation
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = NSString(string: textField.text!).stringByReplacingCharactersInRange(range, withString: string)
+}
+
+// MARK: - Text field delegate implementation
+extension NewUserViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
         if text.characters.count != 0 {
             var tf: UITextField
             if textField == firstNameTextField {
@@ -58,16 +63,16 @@ class NewUserViewController: UIViewController, UITextFieldDelegate {
                 tf = firstNameTextField
             }
             if tf.text?.characters.count != 0 {
-                saveButton.enabled = true
+                saveButton.isEnabled = true
             }
         } else {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
         }
         return true
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        saveButton.enabled = false
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        saveButton.isEnabled = false
         return true
     }
     

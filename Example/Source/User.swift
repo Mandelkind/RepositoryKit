@@ -27,14 +27,14 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
     // Avoid showing the entire id.
     var shortID: String {
         if id.characters.count > 2 {
-            return id.substringWithRange(id.endIndex.advancedBy(-3) ..< id.endIndex)
+            return id.substring(from:id.index(id.endIndex, offsetBy: -3))
         } else {
             return id
         }
     }
     
     // It represents the entity with a dictionary.
-    var dictionary: Dictionary<String, AnyObject> {
+    var dictionary: Dictionary<String, Any> {
         return [
             "_id": id,
             "firstName": firstName!,
@@ -42,12 +42,12 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
         ]
     }
     
-    // It save a copy of the last representation on the `Networking repository store`.
-    var dictionaryMemory: Dictionary<String, AnyObject> = [:]
+    // It save a copy of the last representation on the `Networking Repository Store`.
+    var dictionaryMemory: Dictionary<String, Any> = [:]
     
     // MARK: - Initialization
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
         // When an MO is inserted by a FRC, it is initialized by this way.
         // So we need to save a dictionary representation.
         // It will allow us to make patch requests from the beginning.
@@ -57,32 +57,32 @@ class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatc
     }
     
     // Initializes an object with a dictionary.
-    required convenience init?(dictionary: Dictionary<String, AnyObject>, context: NSManagedObjectContext) {
+    required convenience init?(dictionary: Dictionary<String, Any>, context: NSManagedObjectContext) {
         // Check for our requirements.
-        guard let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: context),
+        guard let entity = NSEntityDescription.entity(forEntityName: "User", in: context),
             let firstName = dictionary["firstName"] as? String,
             let lastName = dictionary["lastName"] as? String
             else { return nil }
         // Call the initializer.
-        self.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.init(entity: entity, insertInto: context)
         // Update the properties.
         self.firstName = firstName
         self.lastName = lastName
-        // If it is initialized with an 'id', use it,
+        // If it is initialized with an 'id', use it.
         if let id = dictionary["_id"] as? String {
             self.id = id
         } else {
             self.id = "-1"
         }
         // If it is initialized from a `Networking entity`, it is synchronized.
-        self.synchronized = self.id != "-1"
+        self.synchronized = self.id != "-1" ? 1 : 0
         // Update user dictionary
         self.dictionaryMemory = self.dictionary
     }
     
     // MARK: - Methods
     // Updates self with a dictionary.
-    func update(dictionary: Dictionary<String, AnyObject>) {
+    func update(_ dictionary: Dictionary<String, Any>) {
         synchronized = true
         id <~ dictionary["_id"]
         firstName <~ dictionary["firstName"]

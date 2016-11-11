@@ -17,7 +17,7 @@ import RepositoryKit
 class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifier {
     
     // MARK: - Typealiases
-    typealias Entity = Dictionary<String, AnyObject>
+    typealias Entity = Dictionary<String, Any>
     
     // MARK: - Properties
     // The data store.
