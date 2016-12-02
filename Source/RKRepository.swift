@@ -69,10 +69,14 @@ public protocol RKStorageRepository: RKRepository {
 /// It is needed to be considered a *Networking Storage Repository*.
 public protocol RKNetworkingStorageRepository: RKRepository {
     
+    /// The associated networking repository.
     associatedtype NetworkingRepository: RKNetworkingRepository
+    /// The associated storage repository.
     associatedtype StorageRepository: RKStorageRepository
     
+    /// The networking repository.
     var networking: NetworkingRepository { get }
+    /// The storage repository.
     var storage: StorageRepository { get }
     
 }

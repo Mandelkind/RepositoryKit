@@ -47,10 +47,10 @@ public protocol RKIdentifiable {
     
 }
 
-/// Represents if an object is up to date or not.
+/// Represents if an object is synchronized or not.
 public protocol RKSynchronizable {
     
-    /// The property that is the reference if the object is synchronized or not.
+    /// The property that represents if the object is synchronized or not.
     var synchronized: NSNumber? { get }
     
 }
