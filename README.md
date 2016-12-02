@@ -23,12 +23,12 @@
 
 Repository Kit is a framework that eases the way of organizing your code.
 
-It is based on The Repository Pattern, that means that it is to separate the data store modules from your code (such as networking and storage). It is usually located in the controller, forcing it to do more thing than what it is suposed to (and making it bigger). However, now, they have the right and cleaner place to be.
+It is based on The Repository Pattern, that means that it is to separate the data store modules from your code (such as networking and local storage). It is usually located in the controller, forcing it to do more thing than what it is suposed to (and making it bigger). However, now, they have the right and cleaner place to be.
 
 It consists on three components:
 - Entity: the thing that we need to represent, usually known as an object.
 - Repository: the one that knows how to operate between the entity and a data store.
-- Data store: some place where the data is stored, and brings a way to communicate with it, like a Networking Session or a Core Data Stack.
+- Data store: some place where the data is stored and brings a way to communicate with it, like a Networking Session or a Core Data Stack.
 
 Moreover, it uses Promises, which is a good way to manage asynchronous code.
 
@@ -55,7 +55,7 @@ pod "RepositoryKit", "~> 2.3"
 
 ## Usage
 
-The case: it is needed to interact with a REST API to manage a conversation, just the simple case, 'Message' as the unique entity. With that messages, we will can make four different operations, and the Repository will be the responsable of executing them. The operations are: Create, Read, Update, Delete, which are known as CRUD.
+The case: it is needed to interact with a REST API to manage a conversation, just the simple case, 'Message' as the unique entity. With that messages, we need to make four different operations and the Repository will be the responsable of executing them. The operations are: Create, Read, Update, Delete, which are known as CRUD.
 
 ### Creating an Entity
 
@@ -223,7 +223,7 @@ Is it easy? And cleaner? That's cool! And now, its your turn to try it!
 
 ### More Repositories
 
-The usage case was only the beginning and the simplest one. There are more repositories types, therefore, the entities might have more requirements. To show a more complex case, download the example, and see how I work with multiple repositories  (local storage and networking together, for a list of users in this case).
+The usage case was only the beginning and the simplest one. There are more repositories types, therefore, the entities might have more requirements. To show a more complex case, download the example, and see how It works with multiple repositories  (local storage and networking together, for a list of users in this case).
 
 Here goes a list of the current repositories available (for every single repository, check what protocols are needed to implement in both, the entity and the repository):
 
@@ -238,7 +238,7 @@ Here goes a list of the current repositories available (for every single reposit
         - Parameters: An array of objects with all the entities that are not synchronized.
         - Returns: An ordered array of objects with the extra attributes, if it is needed.
     - Usage: just implementing it is enough to call the synchronize method. 
-- Patchable repository (just for networking): 
+- Patchable repository (only for networking): 
     - Purpose: avoid sending unnecessary data when modifying resources.
     - API requirements: 
         - Request: 'url/path/:id'.
