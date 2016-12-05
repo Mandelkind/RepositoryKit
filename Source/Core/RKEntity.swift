@@ -47,22 +47,6 @@ public protocol RKIdentifiable {
     
 }
 
-/// Represents if an object is synchronized or not.
-public protocol RKSynchronizable {
-    
-    /// The property that represents if the object is synchronized or not.
-    var synchronized: NSNumber? { get }
-    
-}
-
-/// Keeps a dictionary memory.
-public protocol RKPatchable {
-    
-    /// Represents a memory of the last updated entity.
-    var dictionaryMemory: Dictionary<String, Any> { get set }
-    
-}
-
 /// Initializes an object with a `Dictionary`.
 public protocol RKDictionaryInitializable {
     
@@ -92,5 +76,21 @@ public protocol RKDictionaryContextInitializable {
     
     /// Initializes and returns a newly allocated object with the specified model name and managed object context.
     init?(dictionary: Dictionary<String, Any>, context: NSManagedObjectContext)
+    
+}
+
+/// Represents if an object is synchronized or not.
+public protocol RKSynchronizable {
+    
+    /// The property that represents if the object is synchronized or not.
+    var synchronized: NSNumber? { get }
+    
+}
+
+/// Keeps a dictionary memory.
+public protocol RKPatchable {
+    
+    /// Represents a memory of the last updated entity.
+    var dictionaryMemory: Dictionary<String, Any> { get set }
     
 }

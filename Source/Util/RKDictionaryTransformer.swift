@@ -73,7 +73,7 @@ public class RKDictionaryTransformer {
             if let newDictionary = value as? RKDictionaryEntity {
                 // Check if it exists in the old one and it is a dictionary.
                 if let oldDictionary = old[key] as? RKDictionaryEntity {
-                    // If it exists, get the difference
+                    // If it exists, get the difference.
                     let diff: RKDictionaryEntity = difference(old: oldDictionary, new: newDictionary)
                     // add the field with the new difference.
                     dictionary[key] = diff
@@ -81,7 +81,8 @@ public class RKDictionaryTransformer {
                     // If it does not exist, add the field with the new dictionary.
                     dictionary[key] = newDictionary
                 }
-                // Do not continue
+                
+                // Do not continue iterating.
                 continue
             }
             

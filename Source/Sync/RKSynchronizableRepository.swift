@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository.swift
+//  RKSynchronizableRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,45 +24,13 @@
 
 import PromiseKit
 
-/// It is needed to be considered a *CRUDRepository* and includes **C**reate, **R**ead, **U**pdate and **D**elete methods.
-public protocol RKCRUDRepository: RKRepository {
+/// Enables to synchronize multiple repositories.
+public protocol RKSynchronizableRepository {
     
-    // MARK: - Create
-    /**
-     Creates an entity in the repository.
-     
-     - Parameter entity: A `Dictionary` that will initialize the `Entity` object.
-     
-     - Returns: A promise of the `Entity` created.
-     */
-    func create(_ entity: Dictionary<String, Any>) -> Promise<Entity>
+    /// The property name that will be the reference if a object is up to date or not.
+    var synchronizableAttribute: String { get }
     
-    // MARK: - Read
-    /**
-     Searches all entities in the repository.
-     
-     - Returns: A promise of an `Array` of `Entity`.
-     */
-    func search() -> Promise<[Entity]>
-    
-    // MARK: - Update
-    /**
-     Updates an entity in the repository.
-     
-     - Parameter entity: A reference of the entity to be updated.
-     
-     - Returns: A promise of the `Entity` updated.
-     */
-    func update(_ entity: Entity) -> Promise<Entity>
-    
-    // MARK: - Delete
-    /**
-     Deletes an entity in the repository.
-     
-     - Parameter entity: A reference of the entity to be deleted.
-     
-     - Returns: A promise of `Void`.
-     */
-    func delete(_ entity: Entity) -> Promise<Void>
+    /// Synchronizes the data of the different repositories.
+    func synchronize() -> Promise<Void>
     
 }

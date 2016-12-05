@@ -1,5 +1,5 @@
 //
-//  RKSynchronizableRepository.swift
+//  RKSynchronizableRepository+CRUDNetworkingStorage.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,17 +24,6 @@
 
 import CoreData
 import PromiseKit
-
-/// Enables to synchronize multiple repositories.
-public protocol RKSynchronizableRepository {
-    
-    /// The property name that will be the reference if a object is up to date or not.
-    var synchronizableAttribute: String { get }
-    
-    /// Synchronizes the data of the different repositories.
-    func synchronize() -> Promise<Void>
-    
-}
 
 // The repository is a *CRUD Networking Storage Repository* and the entity is a *Storage Entity*.
 extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
