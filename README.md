@@ -1,8 +1,8 @@
 # RepositoryKit
 
 [![Version](https://img.shields.io/cocoapods/v/RepositoryKit.svg?style=flat)](http://cocoapods.org/pods/RepositoryKit)
-[![License](https://img.shields.io/cocoapods/l/RepositoryKit.svg?style=flat)](http://cocoapods.org/pods/RepositoryKit)
-[![Platform](https://img.shields.io/cocoapods/p/RepositoryKit.svg?style=flat)](http://cocoapods.org/pods/RepositoryKit)
+[![License](https://img.shields.io/cocoapods/l/RepositoryKit.svg?style=flat)](https://github.com/LucianoPolit/RepositoryKit/blob/master/LICENSE)
+[![Platform](https://img.shields.io/cocoapods/metrics/doc-percent/RepositoryKit.svg?style=flat)](http://cocoadocs.org/docsets/RepositoryKit)
 
 ## Index
 
@@ -59,7 +59,7 @@ The case: it is needed to interact with a REST API to manage a conversation, jus
 
 ### Creating an Entity
 
-First of all, to interact with our API, our repository needs to be able to identify the entity because it needs to execute the different operations over the same entity. So, we have to conform 'RKIdentifiable', just adding an 'id' property.
+First of all, to interact with our API, our repository needs to be able to identify the entity because it needs to execute the different operations over the same entity. So, we have to conform 'RKIdentifiable', simply by adding an 'id' property.
 
 ```swift
 struct Message: RKIdentifiable {
@@ -80,9 +80,9 @@ extension Message: RKDictionaryInitializable {
     // Initialize with a dictionary.
     init?(dictionary: Dictionary<String, Any>) {
         
-        // Here we will have the dictionary that can initialize the entity.
-        // We need to take care that every information that we need, is inside the dictionary.
-        // If not, return nil, and we will have an error on the repository operation promise.
+        // Here we will have the dictionary that should initialize the entity.
+        // We have to be careful that every information we need is inside the dictionary.
+        // If not, return nil, and we will have an error in the promise of the repository operation.
         guard let id = dictionary["_id"] as? String, let text = dictionary["text"] as? String else { return nil }
         
         // In case that we have the data needed, set it.
