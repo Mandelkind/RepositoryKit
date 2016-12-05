@@ -1,6 +1,15 @@
 platform :ios, '9.0'
 
+def myPods
+    use_frameworks!
+    pod 'RepositoryKit'
+end
+
+
 target 'Example' do
-  use_frameworks!
-  pod 'RepositoryKit'
+  myPods
+end
+
+target 'Tests' do
+  myPods
 end
