@@ -93,17 +93,18 @@ open class RKCoreDataStack: RKStorage {
         self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         self.backgroundContext.parent = self.mainContext
         
-        guard let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             NSLog(RKCoreDataStackError.DocumentFolderNotFound.rawValue)
             return nil
         }
-        self.databaseURL = documentUrl.appendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
+        self.databaseURL = documentURL.appendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
         
         do {
             try self.coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
         }
         catch {
             NSLog(RKCoreDataStackError.StoreNotAdded.rawValue, self.databaseURL.absoluteString)
+            return nil
         }
         
     }

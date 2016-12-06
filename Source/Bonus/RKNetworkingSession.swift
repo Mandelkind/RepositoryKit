@@ -32,7 +32,6 @@ open class RKNetworkingSession: RKNetworking {
     // MARK: - Properties
     /// The url of the server.
     open var url: String
-    
     /// A `Dictionary` with the HTTP request headers.
     open var requestHeaders = [
         "Accept": "application/json",
