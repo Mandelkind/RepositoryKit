@@ -138,14 +138,14 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		F10DF18D1D3D440200C655A8 /* Helper */ = {
+		F10DF18D1D3D440200C655A8 /* Util */ = {
 			isa = PBXGroup;
 			children = (
 				F10DF1881D3D246800C655A8 /* PromisePrinter.swift */,
 				F10DF1821D3D218D00C655A8 /* Operators.swift */,
 				F1AD78B31DD50E44006D6BD4 /* ErrorParser.swift */,
 			);
-			name = Helper;
+			name = Util;
 			sourceTree = "<group>";
 		};
 		F10DF18E1D3D440D00C655A8 /* Entities */ = {
@@ -200,7 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				F1A4D8921D3D5CA100E5703A /* Shared */,
-				F10DF18D1D3D440200C655A8 /* Helper */,
+				F10DF18D1D3D440200C655A8 /* Util */,
 				F10DF18C1D3D43F200C655A8 /* View */,
 				F10DF18B1D3D43E700C655A8 /* Controller */,
 				F10DF18A1D3D43E300C655A8 /* Model */,
@@ -576,7 +576,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44F694487764AF835EFC1BB9 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Source/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -591,7 +590,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8A9C019D799CCEBFC99AB4D9 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Source/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
