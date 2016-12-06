@@ -26,11 +26,21 @@ import CoreData
 import PromiseKit
 
 // MARK: - Errors
-private enum RKCoreDataStackError: String {
-    case ModelNotFound = "Unable to find %@ in the %@ bundle"
-    case ModelNotCreated = "Unable to create a model from %@"
-    case DocumentFolderNotFound = "Unable to find the document folder"
-    case StoreNotAdded = "Unable to add store at %@"
+/// Represents the possible errors that can be produced by the core data stack.
+public enum RKCoreDataStackError: Error {
+    
+    /// Occurs when the model with the specified model name can not be found.
+    case modelNotFound
+    
+    /// Occurs when the model can not be created.
+    case modelNotCreated
+    
+    /// Occurs when the document folder can not be found.
+    case documentFolderNotFound
+    
+    /// Occurs when the store can not be added.
+    case storeNotAdded
+    
 }
 
 // MARK: - Main
@@ -61,24 +71,22 @@ open class RKCoreDataStack: RKStorage {
     
     // MARK: - Initialization
     /// Initializes and returns a newly allocated object with the specified model name.
-    public convenience init?(modelName: String) {
-        self.init(modelName: modelName, bundle: Bundle.main)
+    public convenience init?(modelName: String) throws {
+        try self.init(modelName: modelName, bundle: Bundle.main)
     }
     
     /// Initializes and returns a newly allocated object with the specified model name and bundle.
-    public init?(modelName: String, bundle: Bundle) {
+    public init(modelName: String, bundle: Bundle) throws {
         
         self.modelName = modelName
         
         guard let modelURL = bundle.url(forResource: modelName, withExtension: self.kModelExtension) else {
-            NSLog(RKCoreDataStackError.ModelNotFound.rawValue, modelName, bundle.infoDictionary!["CFBundleName"] as! String)
-            return nil
+            throw RKCoreDataStackError.modelNotFound
         }
         self.modelURL = modelURL
         
         guard let model = NSManagedObjectModel(contentsOf: self.modelURL) else {
-            NSLog(RKCoreDataStackError.ModelNotCreated.rawValue, self.modelURL.absoluteString)
-            return nil
+            throw RKCoreDataStackError.modelNotCreated
         }
         self.model = model
         
@@ -94,8 +102,7 @@ open class RKCoreDataStack: RKStorage {
         self.backgroundContext.parent = self.mainContext
         
         guard let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            NSLog(RKCoreDataStackError.DocumentFolderNotFound.rawValue)
-            return nil
+            throw RKCoreDataStackError.documentFolderNotFound
         }
         self.databaseURL = documentURL.appendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
         
@@ -103,8 +110,7 @@ open class RKCoreDataStack: RKStorage {
             try self.coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
         }
         catch {
-            NSLog(RKCoreDataStackError.StoreNotAdded.rawValue, self.databaseURL.absoluteString)
-            return nil
+            throw RKCoreDataStackError.storeNotAdded
         }
         
     }
@@ -152,10 +158,8 @@ extension RKCoreDataStack  {
     
     /// Empty the database.
     open func reset() throws {
-        
-        try coordinator.destroyPersistentStore(at: self.databaseURL, ofType:NSSQLiteStoreType , options: nil)
-        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
-        
+        try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
     }
     
 }
@@ -179,7 +183,6 @@ extension RKCoreDataStack {
             self.mainContext.performAndWait {
                 
                 if self.mainContext.hasChanges {
-                    
                     do {
                         try self.mainContext.save()
                         success()
@@ -187,11 +190,8 @@ extension RKCoreDataStack {
                     catch {
                         failure(RKError.other(error))
                     }
-                    
                 } else {
-                    
                     success()
-                    
                 }
                 
             }
