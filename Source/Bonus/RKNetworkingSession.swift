@@ -45,16 +45,7 @@ open class RKNetworkingSession: RKNetworking {
         self.initConfiguration()
     }
     
-    // MARK: - Private methods
-    private func initConfiguration() {
-        URLSession.shared.configuration.urlCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
-    }
-    
-}
-
-// MARK: - Request
-extension RKNetworkingSession {
-    
+    // MARK: - Request
     /**
      Creates a promise with the response of a request for the specified method, url, parameters and headers.
      
@@ -102,8 +93,12 @@ extension RKNetworkingSession {
     
 }
 
-// MARK: - Utils
+// MARK: - Util
 extension RKNetworkingSession {
+    
+    fileprivate func initConfiguration() {
+        URLSession.shared.configuration.urlCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
+    }
     
     fileprivate func requestWithData(_ method: RKMethod, _ urlString: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<URLRequest> {
         

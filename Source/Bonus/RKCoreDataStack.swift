@@ -117,6 +117,17 @@ open class RKCoreDataStack: RKStorage {
     
 }
 
+// MARK: - Reset
+extension RKCoreDataStack  {
+    
+    /// Empty the database.
+    open func reset(type: String = NSSQLiteStoreType) throws {
+        try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
+    }
+    
+}
+
 // MARK: - Operations
 extension RKCoreDataStack {
     
@@ -149,17 +160,6 @@ extension RKCoreDataStack {
             .then(execute: self.backgroundContext.save)
         }
         
-    }
-    
-}
-
-// MARK: - Reset
-extension RKCoreDataStack  {
-    
-    /// Empty the database.
-    open func reset() throws {
-        try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
-        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
     }
     
 }
