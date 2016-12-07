@@ -113,11 +113,7 @@ extension RKNetworking {
     public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Void> {
         
         return request(method: method, path: path, parameters: parameters, headers: headers)
-            .then { (result: Any) in
-                Promise { success, failure in
-                    success()
-                }
-            }
+            .then { (result: Any) -> Void in }
         
     }
     

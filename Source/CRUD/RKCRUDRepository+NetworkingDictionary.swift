@@ -25,6 +25,8 @@
 import PromiseKit
 
 // The repository is a *CRUD Networking Dictionary Repository* and the entity is a *Dictionary Entity*.
+
+// MARK: - Main
 extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
     
     // MARK: - Create
@@ -106,8 +108,12 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
         
     }
     
-    // MARK: - Utils
-    private func entityIdentifiable(_ entity: Entity) -> Promise<CustomStringConvertible> {
+}
+
+// MARK: - Util
+extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+
+    fileprivate func entityIdentifiable(_ entity: Entity) -> Promise<CustomStringConvertible> {
         
         return Promise { success, failure in
             
@@ -121,5 +127,5 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
         }
         
     }
-    
+
 }

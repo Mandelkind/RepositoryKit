@@ -94,7 +94,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         
     }
     
-    // MARK: - Utils
+    // MARK: - Util
     /**
      Makes a POST to 'path'/collection with an array of the entities that needed to be updated
      or created on the `Networking Repository Store` (all encapsulated as 'data' key).
@@ -116,12 +116,9 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
             }
             
             networking.store.request(method: .POST, path: "\(networking.path)/collection", parameters: ["data": array])
-                .then { (entities: [Self.NetworkingRepository.Entity]) in
-                    Promise { success, failure in
-                        for index in 0 ..< entities.count {
-                            objects[index].update(entities[index])
-                        }
-                        success()
+                .then { (entities: [Self.NetworkingRepository.Entity]) -> Void in
+                    for index in 0 ..< entities.count {
+                        objects[index].update(entities[index])
                     }
                 }
                 .then(execute: success)
@@ -136,13 +133,11 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         
         let synchronizeSelector = Selector(attribute: synchronizableAttribute)
         
-        return Promise { success, failure in
-            for object in objects {
-                object.performSelector(onMainThread: synchronizeSelector, with: state, waitUntilDone: true)
-            }
-            success(objects)
-            }
-            .then(execute: storage.update)
+        for object in objects {
+            object.performSelector(onMainThread: synchronizeSelector, with: state, waitUntilDone: true)
+        }
+        
+        return storage.update(objects)
         
     }
     
@@ -178,11 +173,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         }
         
         return when(resolved: promises)
-            .then { _ in
-                Promise { success, failure in
-                    success()
-                }
-            }
+            .then { _ -> Void in }
         
     }
     

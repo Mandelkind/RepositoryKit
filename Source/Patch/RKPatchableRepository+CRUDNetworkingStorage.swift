@@ -45,17 +45,13 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
         
         return storage.update(entity)
             .then(execute: networkingPatch)
-            .then { dictionary in
-                Promise { success, failure in
-                    entity.update(dictionary)
-                    success(entity)
-                }
-            }
+            .then(execute: entity.update)
+            .then { entity }
             .then(execute: storage.update)
         
     }
     
-    // MARK: - Utils
+    // MARK: - Util
     /// Given the entity, it get the difference and updates the `Networking Repository Store` by a `PATCH` request.
     private func networkingPatch(_ entity: Entity) -> Promise<Self.NetworkingRepository.Entity> {
         

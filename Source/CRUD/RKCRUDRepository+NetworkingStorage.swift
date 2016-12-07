@@ -49,12 +49,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
         return storage.create(entity)
             .then { object in
                 self.networking.create(object.dictionary)
-                    .then { dictionary in
-                        Promise { success, failure in
-                            object.update(dictionary)
-                            success(object)
-                        }
-                }
+                    .then(execute: object.update)
+                    .then { object }
             }
             .then(execute: storage.update)
     }
@@ -85,12 +81,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
         return storage.update(entity)
             .then { object in
                 self.networking.update(object.dictionary)
-                    .then { dictionary in
-                        Promise { success, failure in
-                            object.update(dictionary)
-                            success(object)
-                        }
-                }
+                    .then(execute: object.update)
+                    .then { object }
             }
             .then(execute: storage.update)
     }

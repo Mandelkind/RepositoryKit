@@ -25,6 +25,8 @@
 import PromiseKit
 
 // The repository is a *CRUD Networking Repository* and the entity is a *Networking Entity*.
+
+// MARK: - Main
 extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity {
     
     // MARK: - Create
@@ -106,7 +108,11 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
         
     }
     
-    // MARK: - Utils
+}
+
+// MARK: - Util
+extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity {
+    
     /// Initializes an `Entity` with the specific `Dictionary`.
     public func initialization(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
@@ -126,13 +132,11 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
         
         return Promise { success, failure in
             var entities = [Entity]()
-            
             for dictionary in array {
                 if let entity = Entity(dictionary: dictionary) {
                     entities.append(entity)
                 }
             }
-            
             success(entities)
         }
         
