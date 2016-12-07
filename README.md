@@ -139,9 +139,9 @@ class MessageRepository: RKNetworkingRepository {
     // The path that represents the repository.
     var path: String = "messages"
     
-    // Initialize it with a networking session.
-    init(networkingSession: RKNetworking) {
-        self.store = networkingSession
+    // Initialize it with a networking store.
+    init(store: RKNetworking) {
+        self.store = store
     }
     
 }
@@ -185,7 +185,7 @@ Before starting to make the CRUD operations, we need to initialize the networkin
 
 ```swift
 let networkingSession = RKNetworkingSession(url: "http://localhost:3000")
-let messageRepository = MessageRepository(networkingSession: networkingSession)
+let messageRepository = MessageRepository(store: networkingSession)
 ```
 
 Now we are ready! Lets create a message.
