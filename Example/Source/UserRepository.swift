@@ -33,8 +33,8 @@ class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizableReposit
     
     // MARK: - Initialization
     init(coreDataStack: RKCoreDataStack, networkingSession: RKNetworkingSession) {
-        storage = StorageRepository(coreDataStack: coreDataStack)
-        networking = UserNetworkingRepository(networkingSession: networkingSession)
+        storage = StorageRepository(store: coreDataStack)
+        networking = UserNetworkingRepository(store: networkingSession)
     }
     
 }

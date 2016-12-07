@@ -25,8 +25,8 @@ class UserStorageRepository: RKCRUDStorageRepository {
     var name: String = "User"
     
     // MARK: - Initialization
-    init(coreDataStack: RKCoreDataStack) {
-        self.store = coreDataStack
+    init(store: RKStorage) {
+        self.store = store
     }
     
 }

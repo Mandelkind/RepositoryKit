@@ -30,8 +30,8 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     }
     
     // MARK: - Initialization
-    init(networkingSession: RKNetworkingSession) {
-        self.store = networkingSession
+    init(store: RKNetworking) {
+        self.store = store
     }
     
 }
