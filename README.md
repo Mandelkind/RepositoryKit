@@ -65,9 +65,9 @@ First of all, to interact with our API, our repository needs to be able to ident
 struct Message: RKIdentifiable {
     
     // Entity identification
-    var id: String!
+    var id: String
     // Properties
-    var text: String!
+    var text: String
     
 }
 ```
