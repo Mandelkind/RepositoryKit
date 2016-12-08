@@ -38,9 +38,6 @@ public enum RKCoreDataStackError: Error {
     /// Occurs when the document folder can not be found.
     case documentFolderNotFound
     
-    /// Occurs when the store can not be added.
-    case storeNotAdded
-    
 }
 
 // MARK: - Main
@@ -69,14 +66,8 @@ open class RKCoreDataStack: RKStorage {
     /// The context that manages all the information in the main queue.
     open let mainContext: NSManagedObjectContext
     
-    // MARK: - Initialization
-    /// Initializes and returns a newly allocated object with the specified model name.
-    public convenience init?(modelName: String) throws {
-        try self.init(modelName: modelName, bundle: Bundle.main)
-    }
-    
     /// Initializes and returns a newly allocated object with the specified model name and bundle.
-    public init(modelName: String, bundle: Bundle) throws {
+    public init(modelName: String, bundle: Bundle = Bundle.main, addStore: Bool = true) throws {
         
         self.modelName = modelName
         
@@ -106,12 +97,9 @@ open class RKCoreDataStack: RKStorage {
         }
         self.databaseURL = documentURL.appendingPathComponent("\(modelName).\(self.kDatabaseExtension)")
         
-        do {
-            try self.coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
-        }
-        catch {
-            throw RKCoreDataStackError.storeNotAdded
-        }
+        guard addStore else { return }
+        
+        try self.coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.databaseURL, options: nil)
         
     }
     
@@ -121,9 +109,11 @@ open class RKCoreDataStack: RKStorage {
 extension RKCoreDataStack  {
     
     /// Empty the database.
-    open func reset(type: String = NSSQLiteStoreType) throws {
+    open func reset() throws {
+        
         try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
         try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
+        
     }
     
 }
