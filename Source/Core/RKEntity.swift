@@ -64,7 +64,7 @@ public protocol RKDictionaryRepresentable {
 }
 
 /// Updates an object with a `Dictionary`.
-public protocol RKDictionaryUpdateable {
+public protocol RKDictionaryUpdateable: class {
     
     /// The method that updates the object with a `Dictionary`.
     func update(_ dictionary: Dictionary<String, Any>)
@@ -72,7 +72,7 @@ public protocol RKDictionaryUpdateable {
 }
 
 /// Initializes an object with a `Dictionary` and a `ManagedObjectContext`.
-public protocol RKDictionaryContextInitializable {
+public protocol RKDictionaryContextInitializable: class {
     
     /// Initializes and returns a newly allocated object with the specified model name and managed object context.
     init?(dictionary: Dictionary<String, Any>, context: NSManagedObjectContext)
