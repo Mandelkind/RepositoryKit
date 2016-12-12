@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 `RepositoryKit` adheres to [Semantic Versioning](http://semver.org/).
 
 #### 3.x Releases
-- `3.1.x` Releases - [3.1.0](#310)
+- `3.1.x` Releases - [3.1.0](#310) | [3.1.1](#311)
 - `3.0.x` Releases - [3.0.0](#300)
 
 #### 2.x Releases
@@ -14,6 +14,11 @@ All notable changes to this project will be documented in this file.
 - `1.0.x` Releases - [1.0.0](#100)
 
 ---
+
+## [3.1.1](https://github.com/LucianoPolit/RepositoryKit/releases/tag/3.1.1)
+Released on 2016-12-12.
+
+- Addition of 'RK' prefix to a public property (NetworkingSearch).
 
 ## [3.1.0](https://github.com/LucianoPolit/RepositoryKit/releases/tag/3.1.0)
 Released on 2016-12-12.
