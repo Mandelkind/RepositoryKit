@@ -130,7 +130,7 @@ extension RKCoreDataStack {
     */
     open func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
-        return self.mainContext.performAndWait {
+        return mainContext.performAndWait {
             block(self.mainContext)
         }
         
@@ -145,9 +145,9 @@ extension RKCoreDataStack {
     */
     open func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
-        return self.backgroundContext.perform {
+        return backgroundContext.perform {
             block(self.backgroundContext)
-            .then(execute: self.backgroundContext.save)
+                .then(execute: self.backgroundContext.save)
         }
         
     }
@@ -162,7 +162,7 @@ extension RKCoreDataStack {
         
         return saveMainContext()
             .then(execute: savePersistentContext)
-            .then {t}
+            .then { t }
         
     }
     
