@@ -25,9 +25,9 @@
 import PromiseKit
 
 /// Enables to synchronize multiple repositories.
-public protocol RKSynchronizableRepository {
+public protocol RKSynchronizableRepository: RKRepository {
     
-    /// The property name that will be the reference if a object is up to date or not.
+    /// The property name that will be the reference if an object is up to date or not.
     var synchronizableAttribute: String { get }
     
     /// Synchronizes the data of the different repositories.
