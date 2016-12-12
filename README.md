@@ -64,9 +64,9 @@ First of all, to interact with our API, our repository needs to be able to ident
 ```swift
 struct Message: RKIdentifiable {
     
-    // Entity identification
+    // Entity identification.
     var id: String
-    // Properties
+    // Properties.
     var text: String
     
 }
@@ -198,7 +198,8 @@ messageRepository.create(["text": "Here goes a message!!!"])
         // Observe that you should have at least the 'text' and 'id' properties initialized.
         // In my case, it printed 'Message(id: "581a8e2da80614c82661b98d", text: "Here goes a message!!!")'.
         // Here you can update the UI for example.
-    }.catch { error in
+    }
+    .catch { error in
         // In case that an error occurs, do whatever you have to do here.
         errorHandler(error)
     }
@@ -210,8 +211,9 @@ Let me show you one more case. Then try whatever you want!
 messageRepository.search("581a8e2da80614c82661b98d")
     .then(execute: messageRepository.delete)
     .then {
-        print("The message was deleted")
-    }.catch { error in
+        print("The message has been deleted")
+    }
+    .catch { error in
         // In case that an error occurs, do whatever you have to do here.
         errorHandler(error)
     }
