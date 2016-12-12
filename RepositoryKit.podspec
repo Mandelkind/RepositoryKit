@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'RepositoryKit'
-    s.version          = '3.0.1'
+    s.version          = '3.1.0'
     s.summary          = 'The Repository Pattern for Networking and Local Storage'
     s.description      = <<-DESC
                             The Repository Pattern in Swift. Where is the place to put your local storage and networking code? Based on promises.
