@@ -34,7 +34,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     Self.StorageRepository.Entity == Self.Entity {
     
     /// Networking search closure.
-    public typealias NetworkingSearch = ((Void) -> Promise<[Self.NetworkingRepository.Entity]>)
+    public typealias RKNetworkingSearch = ((Void) -> Promise<[Self.NetworkingRepository.Entity]>)
     
     // MARK: - Synchronize methods
     /**
@@ -67,7 +67,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
      
      - Returns: A promise of `Void`.
      */
-    public func synchronize(search: @escaping NetworkingSearch) -> Promise<Void> {
+    public func synchronize(search: @escaping RKNetworkingSearch) -> Promise<Void> {
         
         let predicate = NSPredicate(format: "\(synchronizableAttribute) == 0")
         
@@ -149,7 +149,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /// Searches all the entities on the `Networking Repository Store`. In case of failure, it will set all the entities synchronized again.
-    private func networkingSearch(_ search: NetworkingSearch, objects: [Self.StorageRepository.Entity]) -> Promise<[Self.NetworkingRepository.Entity]> {
+    private func networkingSearch(_ search: RKNetworkingSearch, objects: [Self.StorageRepository.Entity]) -> Promise<[Self.NetworkingRepository.Entity]> {
         
         return Promise { success, failure in
             
