@@ -5,11 +5,10 @@ def myPods
     pod 'RepositoryKit'
 end
 
-
 target 'Example' do
-  myPods
+    myPods
 end
 
 target 'Tests' do
-  myPods
+    myPods
 end
