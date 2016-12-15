@@ -35,7 +35,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     
     // MARK: - Synchronize methods
     /**
-     Syncrhonizes both stores.
+     Synchronizes both stores.
      
      1. Synchronize from the `Storage Repository Store` to the `Networking Repository Store`.
      2. Unsynchronize all the entities.
@@ -52,7 +52,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /**
-     Syncrhonizes both stores.
+     Synchronizes both stores.
      
      1. Synchronize from the `Storage Repository Store` to the `Networking Repository Store`.
      2. Unsynchronize all the entities.
