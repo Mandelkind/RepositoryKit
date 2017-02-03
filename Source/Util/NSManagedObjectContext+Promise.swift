@@ -76,23 +76,30 @@ extension NSManagedObjectContext {
     /**
      Attempts to commit unsaved changes to registered objects to the receiver's parent store.
      
-     - Parameter t: A generic type that will be returned with a promise.
+     - Parameter t: A generic type that will be returned after success.
      
-     - Returns: A promise of the generic type.
+     - Returns: The specified generic type.
      */
-    public func save<T>(_ t: T) -> Promise<T> {
+    public func save<T>(_ t: T) throws -> T {
         
-        return Promise { success, failure in
-            
-            do {
-                try save()
-                success(t)
-            }
-            catch {
-                failure(error)
-            }
-            
+        try save()
+        
+        return t
+        
+    }
+    
+    /**
+     Attempts to delete a `ManagedObject` from its persistent store.
+     
+     - Parameter object: A `ManagedObject`.
+     */
+    internal func delete(_ object: Any) throws {
+        
+        guard let managedObject = object as? NSManagedObject else {
+            throw RKError.badEntity
         }
+        
+        delete(managedObject)
         
     }
     
