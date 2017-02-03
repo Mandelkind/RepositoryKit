@@ -68,7 +68,7 @@ extension RKCRUDStorageRepositoryTests {
                 exp.fulfill()
             }
             .catch { error in
-                XCTAssertEqual(error.localizedDescription, RKError.initialization.localizedDescription)
+                XCTAssertEqual(error.localizedDescription, RKError.parsing.localizedDescription)
             }
         
         waitForExpectations(timeout: 1, handler: nil)
