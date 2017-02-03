@@ -24,7 +24,7 @@
 
 import PromiseKit
 
-// The repository is a *CRUD Networking Repository & Patchable Repository* and the entity is a *Networking Entity & Patchable*.
+// The repository is a *CRUD Networking Patchable Repository* and the entity is a *Networking Patchable Entity*.
 extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity, Entity: RKPatchable {
     
     // MARK: - Patch
@@ -40,9 +40,7 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: 
         let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
         
         if difference.isEmpty {
-            return Promise { success, failure in
-                success(entity)
-            }
+            return Promise(value: entity)
         }
         
         return store.request(method: .PATCH, path: "\(path)/\(entity.id)", parameters: difference)
@@ -51,7 +49,7 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: 
             }
             .then { dictionary in
                 self.update(entity: entity, withDictionary: dictionary)
-            }
+        }
         
     }
     

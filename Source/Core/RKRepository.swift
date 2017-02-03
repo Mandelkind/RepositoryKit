@@ -57,9 +57,9 @@ public protocol RKStorageRepository: RKRepository {
 /// It is needed to be considered a *Networking Storage Repository*.
 public protocol RKNetworkingStorageRepository: RKRepository {
     
-    /// The associated networking repository.
+    /// The associated networking repository type.
     associatedtype NetworkingRepository: RKNetworkingRepository
-    /// The associated storage repository.
+    /// The associated storage repository type.
     associatedtype StorageRepository: RKStorageRepository
     
     /// The networking repository.

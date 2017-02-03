@@ -28,8 +28,8 @@ import PromiseKit
 public class RKDictionaryTransformer {
     
     /**
-     Given two `RKDictionaryEntity`, it merges them and returns the result of the merging.
-     It copies everything of the new dictionary into the old one.
+     Given two `DictionaryEntity`, it merges them and returns the result of the merging.
+     It copies everything of the new dictionary into a copy of the old one.
      
      - Parameter old: The old `Dictionary` that is used to make the merge.
      - Parameter new: The new `Dictionary` that is used to make the merge.
@@ -49,15 +49,15 @@ public class RKDictionaryTransformer {
     }
     
     /**
-     Given two `RKDictionaryEntity`, it compares everything and returns the result difference between them.
+     Given two `DictionaryEntity`, it compares everything and returns the result difference between them.
      If something exists in the old one and not in the new one, add null to the field.
      If something exists in the new one and not in the old one, add the value to the field.
      If something exists in both, compare them, and if they are different, add the new one to the field.
      
-     - Parameter old: The old `Dictionary` that is used to make the merge.
-     - Parameter new: The new `Dictionary` that is used to make the merge.
+     - Parameter old: The old `Dictionary` that is used to compare.
+     - Parameter new: The new `Dictionary` that is used to compare.
      
-     - Returns: A promise of the result of the merging.
+     - Returns: The result of the difference.
      */
     public class func difference(old: RKDictionaryEntity, new: RKDictionaryEntity) -> RKDictionaryEntity {
         

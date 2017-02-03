@@ -25,7 +25,7 @@
 import CoreData
 import PromiseKit
 
-/// It is needed to be considered a *Storage recipe* by a *Repository*.
+/// It is needed to be considered a *Storage Recipe* by a *Repository*.
 public protocol RKStorage {
     
     /**
@@ -38,7 +38,7 @@ public protocol RKStorage {
     func save<T>(_ t: T) -> Promise<T>
     
     /**
-     Performs a operation in the main queue.
+     Performs an operation in the main queue.
      
      - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
      
@@ -47,7 +47,7 @@ public protocol RKStorage {
     func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
     
     /**
-     Performs a operation in a background queue.
+     Performs an operation in a background queue.
      
      - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
      

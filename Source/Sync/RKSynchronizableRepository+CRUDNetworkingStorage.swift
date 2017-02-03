@@ -25,22 +25,17 @@
 import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Networking Storage Repository* and the entity is a *Storage Entity*.
-extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
-    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity, Self.Entity: RKSynchronizable,
-    Self.NetworkingRepository: RKCRUDNetworkingDictionaryRepository,
-    Self.NetworkingRepository.Entity == RKDictionaryEntity,
-    Self.StorageRepository: RKCRUDStorageRepository,
-    Self.StorageRepository.Entity == Self.Entity {
+// MARK: - Main
+extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKSynchronizable,
+Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
     
-    // MARK: - Synchronize methods
     /**
      Synchronizes both stores.
      
-     1. Synchronize from the `Storage Repository Store` to the `Networking Repository Store`.
+     1. Synchronize from the *Storage Repository Store* to the *Networking Repository Store*.
      2. Unsynchronize all the entities.
-     3. Execute a search to the `Networking Repository Store`.
-     4. Synchronize from the previous search to the `Storage Repository Store`.
+     3. Execute a search to the *Networking Repository Store*.
+     4. Synchronize from the previous search to the *Storage Repository Store*.
      5. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
      
      - Returns: A promise of `Void`.
@@ -54,17 +49,17 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     /**
      Synchronizes both stores.
      
-     1. Synchronize from the `Storage Repository Store` to the `Networking Repository Store`.
+     1. Synchronize from the *Storage Repository Store* to the *Networking Repository Store*.
      2. Unsynchronize all the entities.
      3. Execute the networking search.
-     4. Synchronize from the previous search to the `Storage Repository Store`.
+     4. Synchronize from the previous search to the *Storage Repository Store*.
      5. Delete all the entities that are still unsynchronized (those that the synchronizable attribute is false).
      
      - Parameter search: A closure that returns a promise of the networking entities that needs to be synchronized.
      
      - Returns: A promise of `Void`.
      */
-    public func synchronize(search: @escaping (Void) -> Promise<[Self.NetworkingRepository.Entity]>) -> Promise<Void> {
+    public func synchronize(search: @escaping (Void) -> Promise<[NetworkingRepository.Entity]>) -> Promise<Void> {
         
         let predicate = NSPredicate(format: "\(synchronizableAttribute) == 0")
         
@@ -79,15 +74,15 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
             .then(execute: synchronizeNetworkingToStorage)
             .then { _ in
                 self.delete(withPredicate: predicate)
-            }
+        }
         
     }
     
     /**
-     Synchronizes the data of the `Storage Repository Store` with the data of the `Networking Repository Store`.
+     Synchronizes the data of the *Storage Repository Store* with the data of the *Networking Repository Store*.
      
      1. Search unsynchronized objects (those that the synchronizable attribute is false).
-     2. Massive create/update on `Networking Repository Store`.
+     2. Massive create/update on *Networking Repository Store*.
      
      - Returns: A promise of `Void`.
      */
@@ -101,7 +96,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /**
-     Synchronizes the specified data of the `Networking Repository Store` with the data of the `Storage Repository Store`.
+     Synchronizes the specified data of the *Networking Repository Store* with the data of the *Storage Repository Store*.
      
      1. Update repeated objects.
      2. Create objects for keys not used.
@@ -110,7 +105,7 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
      
      - Returns: A promise of `Void`.
      */
-    public func synchronizeNetworkingToStorage(entities: [Self.NetworkingRepository.Entity]) -> Promise<Void> {
+    public func synchronizeNetworkingToStorage(entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
         var dictionary = Dictionary<String, Int>()
         for i in 0 ..< entities.count {
@@ -127,26 +122,35 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
             }
             .then { newDictionary in
                 self.create(dictionary: newDictionary, entities: entities)
-            }
+        }
         
     }
     
-    // MARK: - Util
+}
+
+// MARK: - Util
+extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKSynchronizable,
+Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
+    
     /// Sets the synchronizable attribute to the state specified by performing a selector.
-    private func setSynchronize(objects: [Self.StorageRepository.Entity], state: Bool) -> Promise<[Self.StorageRepository.Entity]> {
+    fileprivate func setSynchronize(objects: [StorageRepository.Entity], state: Bool) -> Promise<[StorageRepository.Entity]> {
+        
+        guard StorageRepository.Entity.self is NSObject else {
+            return Promise(error: RKError.badEntity)
+        }
         
         let synchronizeSelector = Selector(attribute: synchronizableAttribute)
         
         for object in objects {
-            object.performSelector(onMainThread: synchronizeSelector, with: state, waitUntilDone: true)
+            (object as? NSObject)?.performSelector(onMainThread: synchronizeSelector, with: state, waitUntilDone: true)
         }
         
         return storage.update(objects)
         
     }
     
-    /// Searches all the entities on the `Networking Repository Store`. In case of failure, it will set all the entities synchronized again.
-    private func networkingSearch(_ search: (Void) -> Promise<[Self.NetworkingRepository.Entity]>, objects: [Self.StorageRepository.Entity]) -> Promise<[Self.NetworkingRepository.Entity]> {
+    /// Searches all the entities on the *Networking Repository Store*. In case of failure, it will set all the entities synchronized again.
+    fileprivate func networkingSearch(_ search: (Void) -> Promise<[NetworkingRepository.Entity]>, objects: [StorageRepository.Entity]) -> Promise<[NetworkingRepository.Entity]> {
         
         return Promise { success, failure in
             
@@ -158,42 +162,35 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
                             failure(error)
                         }
                         .catch(execute: failure)
-                }
+            }
             
         }
         
     }
     
     /// Makes a POST to 'path'/collection with an array of the entities that needs to be updated/created (all encapsulated as 'data').
-    private func massiveOperation(_ objects: [Self.Entity]) -> Promise<Void> {
+    fileprivate func massiveOperation(_ objects: [Entity]) -> Promise<Void> {
         
-        return Promise { success, failure in
-            
-            guard objects.count > 0 else {
-                success()
-                return
-            }
-            
-            var array = Array<Self.NetworkingRepository.Entity>()
-            for object in objects {
-                array.append(object.dictionary)
-            }
-            
-            networking.store.request(method: .POST, path: "\(networking.path)/collection", parameters: ["data": array])
-                .then { (entities: [Self.NetworkingRepository.Entity]) -> Void in
-                    for index in 0 ..< entities.count {
-                        objects[index].update(entities[index])
-                    }
+        guard objects.count > 0 else {
+            return Promise(value: ())
+        }
+        
+        var array = Array<NetworkingRepository.Entity>()
+        for object in objects {
+            array.append(object.dictionary)
+        }
+        
+        return networking.store.request(method: .POST, path: "\(networking.path)/collection", parameters: ["data": array])
+            .then { (entities: [NetworkingRepository.Entity]) -> Void in
+                for index in 0 ..< entities.count {
+                    objects[index].update(entities[index])
                 }
-                .then(execute: success)
-                .catch(execute: failure)
-            
         }
         
     }
     
     /// Updates the storage entities with the networking ones.
-    private func update(dictionary: Dictionary<String, Int>, objects: [Self.StorageRepository.Entity], entities: [Self.NetworkingRepository.Entity]) -> Promise<Dictionary<String, Int>> {
+    fileprivate func update(dictionary: Dictionary<String, Int>, objects: [StorageRepository.Entity], entities: [NetworkingRepository.Entity]) -> Promise<Dictionary<String, Int>> {
         
         var dictionary = dictionary
         
@@ -209,15 +206,15 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
         
     }
     
-    /// Creates storage entities with the ones that are on the `Networking Repository Store` and not in the `Storage Repository Store`.
-    private func create(dictionary: Dictionary<String, Int>, entities: [Self.NetworkingRepository.Entity]) -> Promise<Void> {
+    /// Creates storage entities with the ones that are on the *Networking Repository Store* and not in the *Storage Repository Store*.
+    fileprivate func create(dictionary: Dictionary<String, Int>, entities: [NetworkingRepository.Entity]) -> Promise<Void> {
         
-        var objects = Array<Self.NetworkingRepository.Entity>()
+        var objects = Array<NetworkingRepository.Entity>()
         for (_,v) in dictionary {
             objects.append(entities[v])
         }
         
-        var promises = Array<Promise<Self.Entity>>()
+        var promises = Array<Promise<Entity>>()
         for object in objects {
             let promise = storage.create(object)
             promises.append(promise)
@@ -229,11 +226,11 @@ extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageReposito
     }
     
     /// Deletes with predicate.
-    private func delete(withPredicate predicate: NSPredicate) -> Promise<Void> {
+    fileprivate func delete(withPredicate predicate: NSPredicate) -> Promise<Void> {
         
         return storage.search(predicate)
             .then(execute: storage.delete)
-    
+        
     }
-
+    
 }

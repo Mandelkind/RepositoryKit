@@ -24,7 +24,7 @@
 
 import PromiseKit
 
-/// It is needed to be considered a *PatchableRepository* and includes the patch method.
+/// It is needed to be considered a *Patchable Repository* and includes the patch method.
 public protocol RKPatchableRepository: RKRepository {
     
     // MARK: - Patch
@@ -33,7 +33,7 @@ public protocol RKPatchableRepository: RKRepository {
      
      - Parameter entity: A reference of the entity to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
     func patch(_ entity: Entity) -> Promise<Entity>
     

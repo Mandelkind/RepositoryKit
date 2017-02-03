@@ -66,6 +66,7 @@ open class RKCoreDataStack: RKStorage {
     /// The context that manages all the information in the main queue.
     open let mainContext: NSManagedObjectContext
     
+    // MARK: - Initialization
     /// Initializes and returns a newly allocated object with the specified model name and bundle.
     public init(modelName: String, bundle: Bundle = Bundle.main, addStore: Bool = true) throws {
         
@@ -105,19 +106,6 @@ open class RKCoreDataStack: RKStorage {
     
 }
 
-// MARK: - Reset
-extension RKCoreDataStack  {
-    
-    /// Empty the database.
-    open func reset() throws {
-        
-        try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
-        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
-        
-    }
-    
-}
-
 // MARK: - Operations
 extension RKCoreDataStack {
     
@@ -127,7 +115,7 @@ extension RKCoreDataStack {
      - Parameter block: The block that needs to be performed.
      
      - Returns: A promise with a generic type.
-    */
+     */
     open func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
         return mainContext.performAndWait {
@@ -142,7 +130,7 @@ extension RKCoreDataStack {
      - Parameter block: The block that needs to be performed.
      
      - Returns: A promise with a generic type.
-    */
+     */
     open func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T> {
         
         return backgroundContext.perform {
@@ -157,7 +145,7 @@ extension RKCoreDataStack {
 // MARK: - Save
 extension RKCoreDataStack {
     
-    /// Save the main context and persist the data.
+    /// Saves the main context and persists the data.
     open func save<T>(_ t: T) -> Promise<T> {
         
         return saveMainContext()
@@ -207,6 +195,19 @@ extension RKCoreDataStack {
             }
             
         }
+        
+    }
+    
+}
+
+// MARK: - Reset
+extension RKCoreDataStack  {
+    
+    /// Empty the database.
+    open func reset() throws {
+        
+        try coordinator.destroyPersistentStore(at: databaseURL, ofType: NSSQLiteStoreType , options: nil)
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: databaseURL, options: nil)
         
     }
     

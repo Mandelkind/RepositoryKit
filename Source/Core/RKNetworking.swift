@@ -24,7 +24,8 @@
 
 import PromiseKit
 
-/// It is needed to be considered a *Networking recipe* by a *Repository*.
+// MARK: - Main
+/// It is needed to be considered a *Networking Recipe* by a *Repository*.
 public protocol RKNetworking {
     
     /// The url of the server.
@@ -44,6 +45,7 @@ public protocol RKNetworking {
     
 }
 
+// MARK: - Util
 extension RKNetworking {
     
     /// Typealias that represent an `Entity` of the type `Dictionary`.
@@ -70,7 +72,7 @@ extension RKNetworking {
                     }
                     success(value)
                 }
-            }
+        }
         
     }
     
@@ -96,7 +98,7 @@ extension RKNetworking {
                     }
                     success(value)
                 }
-            }
+        }
         
     }
     

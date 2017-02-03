@@ -25,13 +25,9 @@
 import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Networking Storage Repository & Patchable Repository* and the entity is a *Storage Entity*.
-extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
-    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity, Self.Entity: RKPatchable,
-    Self.NetworkingRepository: RKCRUDNetworkingDictionaryRepository,
-    Self.NetworkingRepository.Entity == RKDictionaryEntity,
-    Self.StorageRepository: RKCRUDStorageRepository,
-    Self.StorageRepository.Entity == Self.Entity {
+// The repository is a *CRUD Networking Storage Patchable Repository* and the entity is a *Storage Patchable Entity*.
+extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKPatchable,
+Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
     
     // MARK: - Patch
     /**
@@ -39,7 +35,7 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
      
      - Parameter entity: A reference of the entity to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
     public func patch(_ entity: Entity) -> Promise<Entity> {
         
@@ -52,21 +48,19 @@ extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository,
     }
     
     // MARK: - Util
-    /// Given the entity, it get the difference and updates the `Networking Repository Store` by a `PATCH` request.
-    private func networkingPatch(_ entity: Entity) -> Promise<Self.NetworkingRepository.Entity> {
+    /// Given the entity, it get the difference and updates the *Networking Repository Store* by a *PATCH* request.
+    private func networkingPatch(_ entity: Entity) -> Promise<NetworkingRepository.Entity> {
         
         let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
         
         if difference.isEmpty {
-            return Promise { success, failure in
-                success(difference)
-            }
+            return Promise(value: difference)
         }
         
         return networking.store.request(method: .PATCH, path: "\(networking.path)/\(entity.id)", parameters: difference)
             .then { dictionary in
                 RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
-            }
+        }
         
     }
     
