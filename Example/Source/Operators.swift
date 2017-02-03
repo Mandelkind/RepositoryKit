@@ -10,7 +10,7 @@ import Foundation
 
 infix operator <~
 
-public func <~ <T, O>(lhs: inout T, rhs: O?) {
+func <~ <T, O>(lhs: inout T, rhs: O?) {
     if let new = rhs as? T {
         lhs = new
     }

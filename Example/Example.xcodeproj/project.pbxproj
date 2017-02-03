@@ -13,7 +13,6 @@
 		F10084CB1D3FB4FD0058FFC0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10084C91D3FB4FD0058FFC0 /* User.swift */; };
 		F10DF1831D3D218D00C655A8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1821D3D218D00C655A8 /* Operators.swift */; };
 		F10DF1871D3D244000C655A8 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1861D3D244000C655A8 /* UserRepository.swift */; };
-		F10DF1891D3D246800C655A8 /* PromisePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10DF1881D3D246800C655A8 /* PromisePrinter.swift */; };
 		F11385531DFA0312004BB77C /* RKDictionaryTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11385511DFA02D8004BB77C /* RKDictionaryTransformerTests.swift */; };
 		F11432021DCB7CEE004159C8 /* UserNetworkingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11432011DCB7CEE004159C8 /* UserNetworkingRepository.swift */; };
 		F11432041DCB7CF7004159C8 /* UserStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11432031DCB7CF7004159C8 /* UserStorageRepository.swift */; };
@@ -61,7 +60,6 @@
 		F10084C91D3FB4FD0058FFC0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F10DF1821D3D218D00C655A8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		F10DF1861D3D244000C655A8 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
-		F10DF1881D3D246800C655A8 /* PromisePrinter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromisePrinter.swift; sourceTree = "<group>"; };
 		F11385511DFA02D8004BB77C /* RKDictionaryTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKDictionaryTransformerTests.swift; sourceTree = "<group>"; };
 		F11432011DCB7CEE004159C8 /* UserNetworkingRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNetworkingRepository.swift; sourceTree = "<group>"; };
 		F11432031DCB7CF7004159C8 /* UserStorageRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStorageRepository.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 			children = (
 				F1AD78B31DD50E44006D6BD4 /* ErrorParser.swift */,
 				F10DF1821D3D218D00C655A8 /* Operators.swift */,
-				F10DF1881D3D246800C655A8 /* PromisePrinter.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -461,7 +458,6 @@
 			files = (
 				F1B9F4551D3950070049F179 /* AppDelegate.swift in Sources */,
 				F1A4D88E1D3D57F100E5703A /* UserTableViewController.swift in Sources */,
-				F10DF1891D3D246800C655A8 /* PromisePrinter.swift in Sources */,
 				F10DF1871D3D244000C655A8 /* UserRepository.swift in Sources */,
 				F1A4D8941D3D5CAB00E5703A /* SharedInstances.swift in Sources */,
 				F1DF84521D5B916F00636033 /* Repositories.swift in Sources */,
