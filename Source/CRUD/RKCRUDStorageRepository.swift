@@ -49,7 +49,7 @@ extension RKCRUDStorageRepository {
         return store.performOperation { context in
             Promise { success, failure in
                 guard let object = Entity(dictionary: entity, context: context) else {
-                    failure(RKError.initialization)
+                    failure(RKError.parsing)
                     return
                 }
                 success(object)

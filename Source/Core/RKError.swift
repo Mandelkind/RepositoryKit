@@ -27,16 +27,13 @@ import Foundation
 /// Represents the possible errors that can be produced by the repositories methods.
 public enum RKError: Error {
     
-    /// Occurs when a initialization failed.
-    case initialization
-    
     /// Occurs when a dictionary can not be identified.
     case unidentifiable
     
     /// Occurs when a casting failed.
     case casting
     
-    /// Occurs when a JSON parsing failed.
+    /// Occurs when a parsing failed.
     case parsing
     
     /// Occurs when an entity is bad formed.

@@ -44,7 +44,7 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
             .then { dictionary in
                 RKDictionaryTransformer.merge(old: entity, new: dictionary)
             }
-            .then(execute: initialization)
+            .then(execute: parse)
         
     }
     
@@ -63,7 +63,7 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     public func search(_ identifier: CustomStringConvertible) -> Promise<Entity> {
         
         return store.request(method: .GET, path: "\(path)/\(identifier)")
-            .then(execute: initialization)
+            .then(execute: parse)
         
     }
     
@@ -75,7 +75,7 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     public func search() -> Promise<[Entity]> {
         
         return store.request(method: .GET, path: "\(path)")
-            .then(execute: initialization)
+            .then(execute: parse)
         
     }
     
@@ -126,12 +126,12 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
 // MARK: - Util
 extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     
-    /// Initializes an `Entity` with the specific `Dictionary`.
-    public func initialization(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
+    /// Parses a `Dictionary` into an `Entity`.
+    public func parse(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
         return Promise { success, failure in
             guard let entity = Entity(dictionary: dictionary) else {
-                failure(RKError.initialization)
+                failure(RKError.parsing)
                 return
             }
             
@@ -140,8 +140,8 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
         
     }
     
-    /// Initializes an `Array` of `Entity` with the specific `Array` of `Dictionary`.
-    public func initialization(_ array: [Dictionary<String, Any>]) -> Promise<[Entity]> {
+    /// Parses an `Array` of `Dictionary` into an `Array` of `Entity`.
+    public func parse(_ array: [Dictionary<String, Any>]) -> Promise<[Entity]> {
         
         var entities = Array<Entity>()
         
@@ -164,7 +164,7 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
             updateableEntity.update(dictionary)
             return Promise(value: entity)
         } else {
-            return initialization(dictionary)
+            return parse(dictionary)
         }
         
     }
