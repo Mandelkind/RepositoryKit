@@ -1,5 +1,5 @@
 //
-//  RKCRCUDRepository+NetworkingStorage.swift
+//  RKCRCUDNetworkingStorageRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,20 +25,27 @@
 import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Networking Storage Repository* and the entity is a *Storage Entity*.
-extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
-    Self.Entity: NSManagedObject, Self.Entity: RKNetworkingStorageEntity,
-    Self.NetworkingRepository: RKCRUDNetworkingDictionaryRepository,
-    Self.NetworkingRepository.Entity == RKDictionaryEntity,
-    Self.StorageRepository: RKCRUDStorageRepository,
-    Self.StorageRepository.Entity == Self.Entity {
+// MARK: - Main
+/// Represents a *CRUD Networking Storage Repository* and its entity is a *Networking Storage Entity*.
+public protocol RKCRUDNetworkingStorageRepository: RKCRUDRepository, RKNetworkingStorageRepository {
     
-    // MARK: - Create
+    /// The associated entity type.
+    associatedtype Entity: RKNetworkingStorageEntity
+    /// The associated networking repository type.
+    associatedtype NetworkingRepository: RKCRUDNetworkingDictionaryRepository
+    /// The associated storage repository type.
+    associatedtype StorageRepository: RKCRUDStorageRepository
+    
+}
+
+// MARK: - Create
+extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+    
     /**
-     Creates an object on the `Storage Repository Store` and the `Networking Repository Store`.
+     Creates an object on the *Storage Repository Store* and the *Networking Repository Store*.
      
-     1. Create the managed object on the `Storage Repository Store`.
-     2. Make the request to the `Networking Repository Store` to create it too.
+     1. Create the managed object on the *Storage Repository Store*.
+     2. Make the request to the *Networking Repository Store* to create it too.
      3. Update the managed object with the networking response.
      
      - Parameter entity: A `Dictionary` that is used to create the new `Entity`.
@@ -55,12 +62,16 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
             .then(execute: storage.update)
     }
     
-    // MARK: - Read
+}
+
+// MARK: - Read
+extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+    
     /**
-     Searches all objects created on the `Networking Repository Store` and creates it on the `Storage Repository Store`.
+     Searches all objects created on the *Networking Repository Store* and creates it on the *Storage Repository Store*.
      
      1. Make the request to find all the entities.
-     2. Synchronize the data of the `Networking Repository Store` with the data of the `Storage Repository Store`.
+     2. Synchronize the data of the *Networking Repository Store* with the data of the *Storage Repository Store*.
      3. Make a storage search with all the managed objects updated.
      
      - Returns: A promise of an `Array` of `Entity`.
@@ -69,13 +80,17 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
         return storage.search()
     }
     
-    // MARK: - Update
+}
+
+// MARK: - Update
+extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+    
     /**
-     Updates an object on the `Networking Repository Store` and the `Storage Repository Store`.
+     Updates an object on the *Networking Repository Store* and the *Storage Repository Store*.
      
      - Parameter entity: The entity that needs to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
     public func update(_ entity: Entity) -> Promise<Entity> {
         return storage.update(entity)
@@ -87,13 +102,17 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingStorageRepository,
             .then(execute: storage.update)
     }
     
-    // MARK: - Delete
+}
+
+// MARK: - Delete
+extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+    
     /**
-     Deletes an object on the `Networking Repository Store` and the `Storage Repository Store`.
+     Deletes an object on the *Networking Repository Store* and the *Storage Repository Store*.
      
      - Parameter entity: The entity that needs to be deleted.
      
-     - Returns: A promise of the `Entity` deleted.
+     - Returns: A promise of `Void`.
      */
     public func delete(_ entity: Entity) -> Promise<Void> {
         return networking.delete(entity.dictionary)

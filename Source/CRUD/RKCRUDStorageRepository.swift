@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+Storage.swift
+//  RKCRUDStorageRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,10 +25,17 @@
 import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Storage Repository* and the entity is a *Storage Entity*.
+// MARK: - Main
+/// Represents a *CRUD Storage Repository* and its entity is a *Storage Entity*.
+public protocol RKCRUDStorageRepository: RKCRUDRepository, RKStorageRepository {
+    
+    /// The associated entity type.
+    associatedtype Entity: RKStorageEntity
+    
+}
 
 // MARK: - Create
-extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorageEntity {
+extension RKCRUDStorageRepository {
     
     /**
      Creates a managed object on the main context with the specified `Dictionary`.
@@ -61,21 +68,19 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
     public func create(_ entities: [Dictionary<String, Any>]) -> Promise<Void> {
         
         return store.performBackgroundOperation { context in
-            Promise { success, failure in
-                var objects = [Entity]()
-                var i = 0
-                for entity in entities {
-                    if let ent = Entity(dictionary: entity, context: context) {
-                        objects.append(ent)
-                    }
-                    
-                    i += 1
-                    if i % 100 == 0 {
-                        try? context.save()
-                    }
+            var objects = Array<Entity>()
+            var i = 0
+            for entity in entities {
+                if let ent = Entity(dictionary: entity, context: context) {
+                    objects.append(ent)
                 }
-                success()
+                
+                i += 1
+                if i % 100 == 0 {
+                    try? context.save()
+                }
             }
+            return Promise(value: ())
             }.then(execute: store.save)
         
     }
@@ -83,7 +88,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: RKStorag
 }
 
 // MARK: - Read
-extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
+extension RKCRUDStorageRepository {
     
     /**
      Searches all managed objects on the main context.
@@ -99,7 +104,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
     /**
      Searches with a predicate for managed objects on the main context.
      
-     - Parameter predicate: A `NSPredicate` that is used to make the fetch request.
+     - Parameter predicate: A `Predicate` that is used to make the `FetchRequest`.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -130,14 +135,14 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
 }
 
 // MARK: - Update
-extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
+extension RKCRUDStorageRepository {
     
     /**
      Updates all uncommited changes for the specified entity on the main context.
      
      - Parameter entity: The entity that needs to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
     public func update(_ entity: Entity) -> Promise<Entity> {
         return store.save()
@@ -149,7 +154,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
      
      - Parameter entities: The `Array` of `Entity` that needs to be updated.
      
-     - Returns: A promise of the `Array` of `Entity` updated.
+     - Returns: A promise of an `Array` of `Entity`.
      */
     public func update(_ entities: [Entity]) -> Promise<[Entity]> {
         return store.save()
@@ -159,7 +164,7 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
 }
 
 // MARK: - Delete
-extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManagedObject {
+extension RKCRUDStorageRepository {
     
     /**
      Deletes the specified entity on the main context.
@@ -171,10 +176,8 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
     public func delete(_ entity: Entity) -> Promise<Void> {
         
         return store.performOperation { context in
-            Promise { success, failure in
-                context.delete(entity)
-                success()
-            }
+            Promise(value: entity)
+                .then(execute: context.delete)
             }.then(execute: store.save)
         
     }
@@ -189,18 +192,16 @@ extension RKCRUDRepository where Self: RKCRUDStorageRepository, Entity: NSManage
     public func delete(_ entities: [Entity]) -> Promise<Void> {
         
         return store.performOperation { context in
-            Promise { success, failure in
-                var i = 0
-                for entity in entities {
-                    context.delete(entity)
-                    
-                    i += 1
-                    if i % 100 == 0 {
-                        try? context.save()
-                    }
+            var i = 0
+            for entity in entities {
+                try? context.delete(entity)
+                
+                i += 1
+                if i % 100 == 0 {
+                    try? context.save()
                 }
-                success()
             }
+            return Promise(value: ())
             }.then(execute: store.save)
         
     }

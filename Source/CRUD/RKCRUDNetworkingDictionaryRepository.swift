@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+NetworkingDictionary.swift
+//  RKCRUDNetworkingDictionaryRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,16 +24,17 @@
 
 import PromiseKit
 
-// The repository is a *CRUD Networking Dictionary Repository* and the entity is a *Dictionary Entity*.
-
 // MARK: - Main
-extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+/// Represents a *CRUD Networking Dictionary Repository*.
+public typealias RKCRUDNetworkingDictionaryRepository = RKCRUDNetworkingRepository & RKDictionaryIdentifier
+
+// MARK: - Create
+extension RKCRUDNetworkingRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
     
-    // MARK: - Create
     /**
-     Makes a request to the `Store` with the purpouse of create a new `Entity`.
+     Makes a request to the *Store* with the purpose of creating a new entity.
      
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Store`.
+     - Parameter entity: A `Dictionary` that is used to create the new entity on the *Store*.
      
      - Returns: A promise of `Entity`.
      */
@@ -42,15 +43,19 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
         return store.request(method: .POST, path: "\(path)", parameters: entity)
             .then { dictionary in
                 RKDictionaryTransformer.merge(old: entity, new: dictionary)
-            }
+        }
         
     }
     
-    // MARK: - Read
+}
+
+// MARK: - Read
+extension RKCRUDNetworkingRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of find an `Entity` with a specified unique identifier.
+     Makes a request to the *Store* with the purpose of finding an entity with a specified unique identifier.
      
-     - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
+     - Parameter identifier: A `CustomStringConvertible` that is used to identify the entity.
      
      - Returns: A promise of `Entity`.
      */
@@ -61,7 +66,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
     }
     
     /**
-     Makes a request to the `Store` with the purpouse of find all the entities.
+     Makes a request to the *Store* with the purpose of finding all the entities.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -71,9 +76,13 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
         
     }
     
-    // MARK: - Update
+}
+
+// MARK: - Update
+extension RKCRUDNetworkingRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of update an `Entity` with a specific unique identifier.
+     Makes a request to the *Store* with the purpose of updating an entity with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -81,19 +90,24 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      */
     public func update(_ entity: Entity) -> Promise<Entity> {
         
-        return entityIdentifiable(entity)
+        return Promise(value: entity)
+            .then(execute: entityIdentifiable)
             .then { identifier in
                 self.store.request(method: .PUT, path: "\(self.path)/\(identifier)", parameters: entity)
             }
             .then { dictionary in
                 RKDictionaryTransformer.merge(old: entity, new: dictionary)
-            }
+        }
         
     }
     
-    // MARK: - Delete
+}
+
+// MARK: - Delete
+extension RKCRUDNetworkingRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of delete an `Entity` with a specific unique identifier.
+     Makes a request to the *Store* with the purpose of deleting an entity with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be deleted.
      
@@ -101,31 +115,28 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Ent
      */
     public func delete(_ entity: Entity) -> Promise<Void> {
         
-        return entityIdentifiable(entity)
+        return Promise(value: entity)
+            .then(execute: entityIdentifiable)
             .then { identifier in
                 self.store.request(method: .DELETE, path: "\(self.path)/\(identifier)")
-            }
+        }
         
     }
     
 }
 
 // MARK: - Util
-extension RKCRUDRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
-
-    fileprivate func entityIdentifiable(_ entity: Entity) -> Promise<CustomStringConvertible> {
+extension RKCRUDNetworkingRepository where Self: RKCRUDNetworkingDictionaryRepository, Entity == RKDictionaryEntity {
+    
+    /// Attempts to recognize the entity by the identification key.
+    fileprivate func entityIdentifiable(_ entity: Entity) throws -> CustomStringConvertible {
         
-        return Promise { success, failure in
-            
-            guard let identifier = entity[identificationKey] as? CustomStringConvertible else {
-                failure(RKError.unidentifiable)
-                return
-            }
-            
-            success(identifier)
-            
+        guard let identifier = entity[identificationKey] as? CustomStringConvertible else {
+            throw RKError.unidentifiable
         }
         
+        return identifier
+        
     }
-
+    
 }

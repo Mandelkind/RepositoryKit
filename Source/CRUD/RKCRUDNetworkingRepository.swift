@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+Networking.swift
+//  RKCRUDNetworkingRepository.swift
 //
 //  Copyright (c) 2016 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,16 +24,17 @@
 
 import PromiseKit
 
-// The repository is a *CRUD Networking Repository* and the entity is a *Networking Entity*.
-
 // MARK: - Main
-extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity {
+/// Represents a *CRUD Networking Repository* and its entity is a *Networking Entity*.
+public protocol RKCRUDNetworkingRepository: RKCRUDRepository, RKNetworkingRepository { }
+
+// MARK: - Create
+extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     
-    // MARK: - Create
     /**
-     Makes a request to the `Store` with the purpouse of create a new `Entity`.
+     Makes a request to the *Store* with the purpose of creating a new entity.
      
-     - Parameter entity: A `Dictionary` that is used to create the new `Entity` on the `Store`.
+     - Parameter entity: A `Dictionary` that is used to create the new entity on the *Store*.
      
      - Returns: A promise of `Entity`.
      */
@@ -47,11 +48,15 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
         
     }
     
-    // MARK: - Read
+}
+
+// MARK: - Read
+extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of find an `Entity` with a specified unique identifier.
+     Makes a request to the *Store* with the purpose of finding an entity with a specified unique identifier.
      
-     - Parameter identifier: A `CustomStringConvertible` that is used to identify the `Entity`.
+     - Parameter identifier: A `CustomStringConvertible` that is used to identify the entity.
      
      - Returns: A promise of `Entity`.
      */
@@ -63,7 +68,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     }
     
     /**
-     Makes a request to the `Store` with the purpouse of find all the entities.
+     Makes a request to the *Store* with the purpose of finding all the entities.
      
      - Returns: A promise of an `Array` of `Entity`.
      */
@@ -74,9 +79,13 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
         
     }
     
-    // MARK: - Update
+}
+
+// MARK: - Update
+extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of update an `Entity` with a specific unique identifier.
+     Makes a request to the *Store* with the purpose of updating an entity with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be updated.
      
@@ -90,13 +99,17 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
             }
             .then { dictionary in
                 self.update(entity: entity, withDictionary: dictionary)
-            }
+        }
         
     }
     
-    // MARK: - Delete
+}
+
+// MARK: - Delete
+extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+    
     /**
-     Makes a request to the `Store` with the purpouse of delete an `Entity` with a specific unique identifier.
+     Makes a request to the *Store* with the purpose of deleting an entity with a specific unique identifier.
      
      - Parameter entity: The entity that needs to be deleted.
      
@@ -111,7 +124,7 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
 }
 
 // MARK: - Util
-extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity {
+extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     
     /// Initializes an `Entity` with the specific `Dictionary`.
     public func initialization(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
@@ -130,15 +143,15 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     /// Initializes an `Array` of `Entity` with the specific `Array` of `Dictionary`.
     public func initialization(_ array: [Dictionary<String, Any>]) -> Promise<[Entity]> {
         
-        return Promise { success, failure in
-            var entities = [Entity]()
-            for dictionary in array {
-                if let entity = Entity(dictionary: dictionary) {
-                    entities.append(entity)
-                }
+        var entities = Array<Entity>()
+        
+        for dictionary in array {
+            if let entity = Entity(dictionary: dictionary) {
+                entities.append(entity)
             }
-            success(entities)
         }
+        
+        return Promise(value: entities)
         
     }
     
@@ -148,10 +161,8 @@ extension RKCRUDRepository where Self: RKCRUDNetworkingRepository, Entity: RKNet
     internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
         if let updateableEntity = entity as? RKDictionaryUpdateable {
-            return Promise { success, failure in
-                updateableEntity.update(dictionary)
-                success(entity)
-            }
+            updateableEntity.update(dictionary)
+            return Promise(value: entity)
         } else {
             return initialization(dictionary)
         }

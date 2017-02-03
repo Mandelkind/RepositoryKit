@@ -24,28 +24,16 @@
 
 import PromiseKit
 
-/// Represents a *CRUD Networking Repository*.
-public typealias RKCRUDNetworkingRepository = RKCRUDRepository & RKNetworkingRepository
-
-/// Represents a *CRUD Networking Dictionary Repository*.
-public typealias RKCRUDNetworkingDictionaryRepository = RKCRUDRepository & RKNetworkingRepository & RKDictionaryIdentifier
-
-/// Represents a *CRUD Networking Storage Repository*.
-public typealias RKCRUDNetworkingStorageRepository = RKCRUDRepository & RKNetworkingStorageRepository
-
-/// Represents a *CRUD Storage Repository*.
-public typealias RKCRUDStorageRepository = RKCRUDRepository & RKStorageRepository
-
-/// It is needed to be considered a *CRUDRepository* and includes **C**reate, **R**ead, **U**pdate and **D**elete methods.
+/// It is needed to be considered a *CRUD Repository* and includes **C**reate, **R**ead, **U**pdate and **D**elete methods.
 public protocol RKCRUDRepository: RKRepository {
     
     // MARK: - Create
     /**
      Creates an entity in the repository.
      
-     - Parameter entity: A `Dictionary` that will initialize the `Entity` object.
+     - Parameter entity: A `Dictionary` that will initialize the entity.
      
-     - Returns: A promise of the `Entity` created.
+     - Returns: A promise of `Entity`.
      */
     func create(_ entity: Dictionary<String, Any>) -> Promise<Entity>
     
@@ -63,7 +51,7 @@ public protocol RKCRUDRepository: RKRepository {
      
      - Parameter entity: A reference of the entity to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
     func update(_ entity: Entity) -> Promise<Entity>
     
