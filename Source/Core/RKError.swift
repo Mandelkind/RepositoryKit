@@ -39,6 +39,9 @@ public enum RKError: Error {
     /// Occurs when a JSON parsing failed.
     case parsing
     
+    /// Occurs when an entity is bad formed.
+    case badEntity
+    
     /// Occurs when there is a problem in a HTTP request.
     case badRequest
     
