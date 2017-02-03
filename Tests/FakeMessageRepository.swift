@@ -8,7 +8,7 @@
 
 import RepositoryKit
 
-class MessageRepository: RKNetworkingRepository, RKCRUDRepository, RKPatchableRepository {
+class MessageRepository: RKCRUDNetworkingRepository, RKPatchableRepository {
     
     // It is the entity that the repository operates.
     typealias Entity = Message
