@@ -1,5 +1,5 @@
 //
-//  RKPatchableRepositoryTests+NetworkingStorage.swift
+//  RKPatchableRepositoryTests+CRUDNetworkingStorage.swift
 //  Example
 //
 //  Created by Luciano Polit on 8/12/16.

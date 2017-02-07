@@ -19,9 +19,9 @@
 		F13FA6721DF841D80056EEA1 /* XCTestCase+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13FA6701DF841D20056EEA1 /* XCTestCase+Util.swift */; };
 		F13FA6751DF847F40056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13FA6731DF847E80056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift */; };
 		F165D8D31D39825C00C35FFD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F165D8D11D39825C00C35FFD /* Model.xcdatamodeld */; };
-		F19526111DFA2EAB00E467FB /* RKPatchableRepositoryTests+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+Networking.swift */; };
-		F19526161DFA303F00E467FB /* RKSynchronizableRepository+NetworkingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19526141DFA301000E467FB /* RKSynchronizableRepository+NetworkingStorage.swift */; };
-		F19526171DFA304200E467FB /* RKPatchableRepositoryTests+NetworkingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19526121DFA300200E467FB /* RKPatchableRepositoryTests+NetworkingStorage.swift */; };
+		F19526111DFA2EAB00E467FB /* RKPatchableRepositoryTests+CRUDNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+CRUDNetworking.swift */; };
+		F19526161DFA303F00E467FB /* RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19526141DFA301000E467FB /* RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift */; };
+		F19526171DFA304200E467FB /* RKPatchableRepositoryTests+CRUDNetworkingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19526121DFA300200E467FB /* RKPatchableRepositoryTests+CRUDNetworkingStorage.swift */; };
 		F1A4D88E1D3D57F100E5703A /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A4D88D1D3D57F100E5703A /* UserTableViewController.swift */; };
 		F1A4D8941D3D5CAB00E5703A /* SharedInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A4D8931D3D5CAB00E5703A /* SharedInstances.swift */; };
 		F1A4D8961D3D5F0C00E5703A /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A4D8951D3D5F0C00E5703A /* CoreDataTableViewController.swift */; };
@@ -68,9 +68,9 @@
 		F13FA6701DF841D20056EEA1 /* XCTestCase+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Util.swift"; sourceTree = "<group>"; };
 		F13FA6731DF847E80056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKCRUDRepositoryTests+NetworkingStorage.swift"; sourceTree = "<group>"; };
 		F165D8D21D39825C00C35FFD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKPatchableRepositoryTests+Networking.swift"; sourceTree = "<group>"; };
-		F19526121DFA300200E467FB /* RKPatchableRepositoryTests+NetworkingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKPatchableRepositoryTests+NetworkingStorage.swift"; sourceTree = "<group>"; };
-		F19526141DFA301000E467FB /* RKSynchronizableRepository+NetworkingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKSynchronizableRepository+NetworkingStorage.swift"; sourceTree = "<group>"; };
+		F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+CRUDNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKPatchableRepositoryTests+CRUDNetworking.swift"; sourceTree = "<group>"; };
+		F19526121DFA300200E467FB /* RKPatchableRepositoryTests+CRUDNetworkingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKPatchableRepositoryTests+CRUDNetworkingStorage.swift"; sourceTree = "<group>"; };
+		F19526141DFA301000E467FB /* RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift"; sourceTree = "<group>"; };
 		F1A4D88D1D3D57F100E5703A /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
 		F1A4D8931D3D5CAB00E5703A /* SharedInstances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedInstances.swift; sourceTree = "<group>"; };
 		F1A4D8951D3D5F0C00E5703A /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
@@ -242,12 +242,12 @@
 				F11987D41DF63CEF0097C0D8 /* FakeNetworkingSession.swift */,
 				F11987D61DF63CF80097C0D8 /* FakeCoreDataStack.swift */,
 				F11385511DFA02D8004BB77C /* RKDictionaryTransformerTests.swift */,
-				F13FA6731DF847E80056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift */,
 				F1C280F61DF78B76007FD686 /* RKCRUDRepositoryTests+Networking.swift */,
+				F13FA6731DF847E80056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift */,
 				F1C280F21DF78AFB007FD686 /* RKCRUDRepositoryTests+Storage.swift */,
-				F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+Networking.swift */,
-				F19526121DFA300200E467FB /* RKPatchableRepositoryTests+NetworkingStorage.swift */,
-				F19526141DFA301000E467FB /* RKSynchronizableRepository+NetworkingStorage.swift */,
+				F195260F1DFA2E6C00E467FB /* RKPatchableRepositoryTests+CRUDNetworking.swift */,
+				F19526121DFA300200E467FB /* RKPatchableRepositoryTests+CRUDNetworkingStorage.swift */,
+				F19526141DFA301000E467FB /* RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift */,
 				F13FA6701DF841D20056EEA1 /* XCTestCase+Util.swift */,
 			);
 			name = Tests;
@@ -482,13 +482,13 @@
 				F13FA6721DF841D80056EEA1 /* XCTestCase+Util.swift in Sources */,
 				F1C280E91DF741F5007FD686 /* FakeCoreDataStack.swift in Sources */,
 				F1C280F51DF78B3A007FD686 /* FakeNetworkingSession.swift in Sources */,
-				F19526171DFA304200E467FB /* RKPatchableRepositoryTests+NetworkingStorage.swift in Sources */,
+				F19526171DFA304200E467FB /* RKPatchableRepositoryTests+CRUDNetworkingStorage.swift in Sources */,
 				F1C280F41DF78B20007FD686 /* RKCRUDRepositoryTests+Storage.swift in Sources */,
 				F1C280FE1DF78C73007FD686 /* FakeMessage.swift in Sources */,
 				F1C281011DF78FC3007FD686 /* FakeMessageRepository.swift in Sources */,
-				F19526161DFA303F00E467FB /* RKSynchronizableRepository+NetworkingStorage.swift in Sources */,
+				F19526161DFA303F00E467FB /* RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift in Sources */,
 				F13FA6751DF847F40056EEA1 /* RKCRUDRepositoryTests+NetworkingStorage.swift in Sources */,
-				F19526111DFA2EAB00E467FB /* RKPatchableRepositoryTests+Networking.swift in Sources */,
+				F19526111DFA2EAB00E467FB /* RKPatchableRepositoryTests+CRUDNetworking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

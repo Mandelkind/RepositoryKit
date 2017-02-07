@@ -1,5 +1,5 @@
 //
-//  RKSynchronizableRepository+NetworkingStorage.swift
+//  RKSynchronizableRepositoryTests+CRUDNetworkingStorage.swift
 //  Example
 //
 //  Created by Luciano Polit on 8/12/16.

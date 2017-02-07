@@ -1,5 +1,5 @@
 //
-//  RKPatchableRepositoryTests+Networking.swift
+//  RKPatchableRepositoryTests+CRUDNetworking.swift
 //  Example
 //
 //  Created by Luciano Polit on 8/12/16.

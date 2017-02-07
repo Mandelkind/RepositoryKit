@@ -1,5 +1,5 @@
 //
-//  RKCRUDNetworkingDictionaryRepository.swift
+//  RKCRUDRepository+NetworkingDictionary.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
