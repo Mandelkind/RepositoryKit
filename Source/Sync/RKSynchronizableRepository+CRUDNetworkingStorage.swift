@@ -135,7 +135,7 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
     /// Sets the synchronizable attribute to the state specified by performing a selector.
     fileprivate func setSynchronize(objects: [StorageRepository.Entity], state: Bool) -> Promise<[StorageRepository.Entity]> {
         
-        guard StorageRepository.Entity.self is NSObject else {
+        guard StorageRepository.Entity.self is NSObject.Type else {
             return Promise(error: RKError.badEntity)
         }
         
