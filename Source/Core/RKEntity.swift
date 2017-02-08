@@ -39,11 +39,11 @@ public typealias RKStorageEntity = RKDictionaryContextInitializable
 /// Identifies an entity with an *id* property.
 public protocol RKIdentifiable {
     
-    /// The identifier type.
-    associatedtype IdentifierType: CustomStringConvertible
+    /// The associated identifier type.
+    associatedtype Identifier: CustomStringConvertible
     
     /// The identifier.
-    var id: IdentifierType { get }
+    var id: Identifier { get }
     
 }
 
