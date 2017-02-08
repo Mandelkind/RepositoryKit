@@ -72,7 +72,7 @@ public protocol RKNetworkingStorageRepository: RKRepository {
 /// Enables the repository to know how to identify a `Dictionary`.
 public protocol RKDictionaryIdentifier {
     
-    /// The key that identify the `Dictionary`.
+    /// The key that identifies the `Dictionary`.
     var identificationKey: String { get }
     
 }

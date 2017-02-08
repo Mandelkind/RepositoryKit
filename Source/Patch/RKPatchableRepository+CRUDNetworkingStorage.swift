@@ -25,7 +25,7 @@
 import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Networking Storage Patchable Repository* and the entity is a *Storage Patchable Entity*.
+// The repository is a *CRUD Patchable Networking Storage Repository* and the entity is a *Patchable Storage Entity*.
 extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKPatchable,
 Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
     
@@ -48,7 +48,7 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
     }
     
     // MARK: - Util
-    /// Given the entity, it get the difference and updates the *Networking Repository Store* by a *PATCH* request.
+    /// Given the entity, it gets the difference and updates the *Networking Repository Store* by a *PATCH* request.
     private func networkingPatch(_ entity: Entity) -> Promise<NetworkingRepository.Entity> {
         
         let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)

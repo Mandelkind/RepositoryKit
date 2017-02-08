@@ -24,7 +24,7 @@
 
 import PromiseKit
 
-// The repository is a *CRUD Networking Patchable Repository* and the entity is a *Networking Patchable Entity*.
+// The repository is a *CRUD Patchable Networking Repository* and the entity is a *Patchable Networking Entity*.
 extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity, Entity: RKPatchable {
     
     // MARK: - Patch
