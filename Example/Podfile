@@ -2,7 +2,11 @@ platform :ios, '9.0'
 
 def myPods
     use_frameworks!
-    pod 'RepositoryKit'
+    if ENV['TRAVIS']
+        pod 'RepositoryKit', :git => 'https://github.com/LucianoPolit/RepositoryKit.git', :branch => ENV['TRAVIS_BRANCH']
+    else
+        pod 'RepositoryKit'
+    end
 end
 
 target 'Example' do
