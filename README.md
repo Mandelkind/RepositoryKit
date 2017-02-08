@@ -1,8 +1,10 @@
 # RepositoryKit
 
-[![Version](https://img.shields.io/cocoapods/v/RepositoryKit.svg?style=flat)](http://cocoapods.org/pods/RepositoryKit)
-[![License](https://img.shields.io/cocoapods/l/RepositoryKit.svg?style=flat)](https://github.com/LucianoPolit/RepositoryKit/blob/master/LICENSE)
-[![Platform](https://img.shields.io/cocoapods/metrics/doc-percent/RepositoryKit.svg?style=flat)](http://cocoadocs.org/docsets/RepositoryKit)
+[![Build](https://img.shields.io/travis/LucianoPolit/RepositoryKit.svg)](https://travis-ci.org/LucianoPolit/RepositoryKit)
+[![Coverage](https://img.shields.io/codecov/c/github/LucianoPolit/RepositoryKit.svg)](https://codecov.io/gh/LucianoPolit/RepositoryKit)
+[![Documentation](https://img.shields.io/cocoapods/metrics/doc-percent/RepositoryKit.svg)](http://cocoadocs.org/docsets/RepositoryKit)
+[![Version](https://img.shields.io/cocoapods/v/RepositoryKit.svg)](http://cocoapods.org/pods/RepositoryKit)
+[![License](https://img.shields.io/github/license/LucianoPolit/RepositoryKit.svg)](https://github.com/LucianoPolit/RepositoryKit/blob/master/LICENSE)
 
 ## Index
 
