@@ -26,7 +26,8 @@ import CoreData
 import PromiseKit
 
 // MARK: - Main
-extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKSynchronizable,
+// The repository is a *CRUD Synchronizable Networking Storage Repository* and the entity is a *Storage Entity*.
+extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
 Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
     
     /**
@@ -129,7 +130,7 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
 }
 
 // MARK: - Util
-extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKSynchronizable,
+extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
 Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
     
     /// Sets the synchronizable attribute to the state specified by performing a selector.

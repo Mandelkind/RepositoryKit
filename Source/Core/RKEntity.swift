@@ -79,14 +79,6 @@ public protocol RKDictionaryContextInitializable: class {
     
 }
 
-/// Represents if an object is synchronized or not.
-public protocol RKSynchronizable {
-    
-    /// The property that represents if the object is synchronized or not.
-    var synchronized: NSNumber? { get }
-    
-}
-
 /// Keeps a dictionary memory.
 public protocol RKPatchable {
     

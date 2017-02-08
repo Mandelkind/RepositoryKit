@@ -16,7 +16,7 @@ import CoreData
     - RKSynchronizable: it allows to keep synchronized the both type of Repositories.
     - RKPatchable: it allows to be used to make PATCH requests.
  */
-class User: NSManagedObject, RKNetworkingStorageEntity, RKSynchronizable, RKPatchable {
+class User: NSManagedObject, RKNetworkingStorageEntity, RKPatchable {
     
     // MARK: - Properties
     // It is changed to print some cleaner code.
