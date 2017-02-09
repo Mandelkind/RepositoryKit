@@ -9,7 +9,7 @@
 import RepositoryKit
 
 // MARK: - Main
-struct Message: RKIdentifiable, RKPatchable {
+struct Message: Identifiable, Patchable {
     
     // Entity identification.
     var id: String
@@ -22,7 +22,7 @@ struct Message: RKIdentifiable, RKPatchable {
 }
 
 // MARK: - Dictionary Initializable implementation
-extension Message: RKDictionaryInitializable {
+extension Message: DictionaryInitializable {
     
     // Initialize with a dictionary.
     init?(dictionary: Dictionary<String, Any>) {
@@ -51,7 +51,7 @@ extension Message: RKDictionaryInitializable {
 }
 
 // MARK: - Dictionary Representable implementation
-extension Message: RKDictionaryRepresentable {
+extension Message: DictionaryRepresentable {
     
     // Dictionary representation.
     var dictionary: Dictionary<String, Any> {

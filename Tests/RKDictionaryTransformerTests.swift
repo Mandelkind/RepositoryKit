@@ -13,30 +13,30 @@ class RKDictionaryTransformerTests: XCTestCase {
     
     func testMerge() {
         
-        let firstDict: RKDictionaryEntity = [
+        let firstDict: DictionaryEntity = [
             "firstName": "Luciano",
             "lastName": "Polit"
         ]
-        let secondDict: RKDictionaryEntity = [
+        let secondDict: DictionaryEntity = [
             "firstName": "Lucho",
             "_id": "q1w2e3"
         ]
         
-        let expectedMerge: RKDictionaryEntity = [
+        let expectedMerge: DictionaryEntity = [
             "firstName": "Lucho",
             "lastName": "Polit",
             "_id": "q1w2e3"
         ]
         
-        let merged = RKDictionaryTransformer.merge(old: firstDict, new: secondDict)
+        let merged = DictionaryTransformer.merge(old: firstDict, new: secondDict)
         
-        XCTAssertTrue(RKDictionaryTransformer.difference(old: expectedMerge, new: merged).isEmpty)
+        XCTAssertTrue(DictionaryTransformer.difference(old: expectedMerge, new: merged).isEmpty)
         
     }
     
     func testDifference() {
         
-        let firstDictionary: RKDictionaryEntity = [
+        let firstDictionary: DictionaryEntity = [
             "firstName": "Luciano",
             "lastName": "Polit",
             "age": 21,
@@ -46,7 +46,7 @@ class RKDictionaryTransformerTests: XCTestCase {
                 "b": 456
             ]
         ]
-        let secondDictionary: RKDictionaryEntity = [
+        let secondDictionary: DictionaryEntity = [
             "firstName": "Lucho",
             "lastName": "Polit",
             "owner": ["567", "678", "789"],
@@ -60,7 +60,7 @@ class RKDictionaryTransformerTests: XCTestCase {
             ]
         ]
         
-        let expectedDifference: RKDictionaryEntity = [
+        let expectedDifference: DictionaryEntity = [
             "firstName": "Lucho",
             "age": NSNull(),
             "_id": "q1w2e3",
@@ -73,9 +73,9 @@ class RKDictionaryTransformerTests: XCTestCase {
             ]
         ]
         
-        let difference = RKDictionaryTransformer.difference(old: firstDictionary, new: secondDictionary)
+        let difference = DictionaryTransformer.difference(old: firstDictionary, new: secondDictionary)
         
-        XCTAssertTrue(RKDictionaryTransformer.difference(old: expectedDifference, new: difference).isEmpty)
+        XCTAssertTrue(DictionaryTransformer.difference(old: expectedDifference, new: difference).isEmpty)
         
     }
     

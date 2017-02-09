@@ -9,11 +9,11 @@
 import RepositoryKit
 import PromiseKit
 
-class FakeNetworkingSession: RKNetworkingSession {
+class FakeNetworkingSession: NetworkingSession {
     
     // MARK: - Parameters
     var lastPath: String!
-    var lastMethod: RKMethod!
+    var lastMethod: HTTPMethod!
     var lastParameters: [String: Any]?
     var callback: ((Void) -> Void)?
     var answer: Any!
@@ -24,7 +24,7 @@ class FakeNetworkingSession: RKNetworkingSession {
     }
     
     // MARK: - Request
-    override func request(method: RKMethod, path: String, parameters: [String : Any]? = nil, headers: [String : String]? = nil) -> Promise<Any> {
+    override func request(method: HTTPMethod, path: String, parameters: [String : Any]? = nil, headers: [String : String]? = nil) -> Promise<Any> {
         // Save last info.
         lastPath = path
         lastMethod = method

@@ -9,7 +9,7 @@
 import CoreData
 import RepositoryKit
 
-class FakeCoreDataStack: RKCoreDataStack {
+class FakeCoreDataStack: CoreDataStack {
     
     // MARK: - Initialization
     override init(modelName: String, bundle: Bundle = Bundle.main, addStore: Bool = false) throws {

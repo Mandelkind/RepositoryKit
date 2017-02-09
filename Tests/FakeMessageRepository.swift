@@ -8,19 +8,19 @@
 
 import RepositoryKit
 
-class MessageRepository: RKCRUDNetworkingRepository, RKPatchableRepository {
+class MessageRepository: CRUDNetworkingRepository, PatchableRepository {
     
     // It is the entity that the repository operates.
     typealias Entity = Message
     
     // It will make the requests.
-    var store: RKNetworking
+    var store: Networking
     
     // The path that represents the repository.
     var path: String = "messages"
     
     // Initialize it with a networking store.
-    init(store: RKNetworking) {
+    init(store: Networking) {
         self.store = store
     }
     
