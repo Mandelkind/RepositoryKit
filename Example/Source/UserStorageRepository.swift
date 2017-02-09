@@ -13,19 +13,19 @@ import RepositoryKit
  It needs to conform:
     - RKCRUDStorageRepository: it is needed to manage CRUD operations on the local storage.
  */
-class UserStorageRepository: RKCRUDStorageRepository {
+class UserStorageRepository: CRUDStorageRepository {
     
     // MARK: - Typealiases
     typealias Entity = User
     
     // MARK: - Properties
     // The data store.
-    var store: RKStorage
+    var store: Storage
     // The name that is used to identify the entity.
     var name: String = "User"
     
     // MARK: - Initialization
-    init(store: RKStorage) {
+    init(store: Storage) {
         self.store = store
     }
     

@@ -13,10 +13,9 @@ import CoreData
 /*
  It needs to conform:
     - RKNetworkingStorageEntity: it allows to be used as a `Networking entity` and a `Storage entity`.
-    - RKSynchronizable: it allows to keep synchronized the both type of Repositories.
     - RKPatchable: it allows to be used to make PATCH requests.
  */
-class User: NSManagedObject, RKNetworkingStorageEntity, RKPatchable {
+class User: NSManagedObject, NetworkingStorageEntity, Patchable {
     
     // MARK: - Properties
     // It is changed to print some cleaner code.

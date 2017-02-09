@@ -14,14 +14,14 @@ import RepositoryKit
     - RKCRUDNetworkingRepository: it is needed to manage CRUD operations on the networking store.
     - RKDictionaryIdentifier: it is needed to be able to identify the entities with an id.
  */
-class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifier {
+class UserNetworkingRepository: CRUDNetworkingRepository, DictionaryIdentifier {
     
     // MARK: - Typealiases
     typealias Entity = Dictionary<String, Any>
     
     // MARK: - Properties
     // The data store.
-    var store: RKNetworking
+    var store: Networking
     // The path which identifies the repository on the store.
     var path: String = "users"
     // The key that is used to identify the user on the dictionary.
@@ -30,7 +30,7 @@ class UserNetworkingRepository: RKCRUDNetworkingRepository, RKDictionaryIdentifi
     }
     
     // MARK: - Initialization
-    init(store: RKNetworking) {
+    init(store: Networking) {
         self.store = store
     }
     

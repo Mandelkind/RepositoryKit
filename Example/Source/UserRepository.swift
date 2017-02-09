@@ -15,7 +15,7 @@ import RepositoryKit
     - RKSynchronizableRepository: it allows to synchronize both repositories.
     - RKPatchableRepository: it allows to make PATCH requests, updating partially the entity, avoiding sending a big amount of data.
  */
-class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizableRepository, RKPatchableRepository {
+class UserRepository: CRUDNetworkingStorageRepository, SynchronizableRepository, PatchableRepository {
     
     // MARK: - Typealiases
     typealias Entity = User
@@ -32,7 +32,7 @@ class UserRepository: RKCRUDNetworkingStorageRepository, RKSynchronizableReposit
     }
     
     // MARK: - Initialization
-    init(coreDataStack: RKCoreDataStack, networkingSession: RKNetworkingSession) {
+    init(coreDataStack: CoreDataStack, networkingSession: NetworkingSession) {
         storage = StorageRepository(store: coreDataStack)
         networking = UserNetworkingRepository(store: networkingSession)
     }

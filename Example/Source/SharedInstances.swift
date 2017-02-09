@@ -9,6 +9,6 @@
 import RepositoryKit
 
 /// Shared instance of a Core Data stack.
-var coreDataStack = try! RKCoreDataStack(modelName: "Model")
+var coreDataStack = try! CoreDataStack(modelName: "Model")
 /// Shared instance of a Networking session.
-var networkingSession = RKNetworkingSession(url: "http://localhost:3000")
+var networkingSession = NetworkingSession(url: "http://localhost:3000")
