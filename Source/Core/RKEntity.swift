@@ -31,7 +31,7 @@ public typealias RKDictionaryEntity = Dictionary<String, Any>
 public typealias RKNetworkingEntity = RKIdentifiable & RKDictionaryRepresentable & RKDictionaryInitializable
 
 /// It is required to be considered a *Networking Storage Entity*.
-public typealias RKNetworkingStorageEntity = RKDictionaryContextInitializable & RKDictionaryRepresentable & RKDictionaryUpdateable & RKIdentifiable
+public typealias RKNetworkingStorageEntity = RKDictionaryContextInitializable & RKDictionaryRepresentable & RKDictionaryUpdatable & RKIdentifiable
 
 /// It is required to be considered a *Storage Entity*.
 public typealias RKStorageEntity = RKDictionaryContextInitializable
@@ -64,7 +64,7 @@ public protocol RKDictionaryRepresentable {
 }
 
 /// Updates an object with a `Dictionary`.
-public protocol RKDictionaryUpdateable: class {
+public protocol RKDictionaryUpdatable: class {
     
     /// The method that updates the object with a `Dictionary`.
     func update(_ dictionary: Dictionary<String, Any>)

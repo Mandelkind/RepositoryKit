@@ -156,12 +156,12 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     }
     
     /// Updates an `Entity` with the specific `Dictionary`.
-    /// If it is dictionary updateable, call update method (it should be a class).
+    /// If it is dictionary updatable, call update method (it should be a class).
     /// If it is not a dictionary, initialize a new one (it should be a struct).
     internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, Any>) -> Promise<Entity> {
         
-        if let updateableEntity = entity as? RKDictionaryUpdateable {
-            updateableEntity.update(dictionary)
+        if let updatableEntity = entity as? RKDictionaryUpdatable {
+            updatableEntity.update(dictionary)
             return Promise(value: entity)
         } else {
             return parse(dictionary)
