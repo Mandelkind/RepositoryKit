@@ -24,7 +24,7 @@
 
 import Foundation
 
-/// Represents the possible errors that can be produced by the repositories methods.
+/// Represents the possible errors that can be produced by this KIT.
 public enum RKError: Error {
     
     /// Occurs when a dictionary can not be identified.
