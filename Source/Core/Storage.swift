@@ -1,5 +1,5 @@
 //
-//  RKPatchableRepository.swift
+//  Storage.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -22,19 +22,37 @@
 //  THE SOFTWARE.
 //
 
+import CoreData
 import PromiseKit
 
-/// It is needed to be considered a *Patchable Repository* and includes the patch method.
-public protocol RKPatchableRepository: RKRepository {
+/// It is needed to be considered a *Storage Recipe* by a *Repository*.
+public protocol Storage {
     
-    // MARK: - Patch
     /**
-     Updates an entity in the repository without sending unnecessary data, just the modified fields. It is a partial update.
+     Attempts to commit unsaved changes from the main context to the persistence context.
      
-     - Parameter entity: A reference of the entity to be updated.
+     - Parameter t: A generic type that will be returned with a promise.
      
-     - Returns: A promise of `Entity`.
+     - Returns: A promise of the generic type.
      */
-    func patch(_ entity: Entity) -> Promise<Entity>
+    func save<T>(_ t: T) -> Promise<T>
+    
+    /**
+     Performs an operation in the main queue.
+     
+     - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
+     
+     - Returns: A promise of a generic type.
+     */
+    func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
+    
+    /**
+     Performs an operation in a background queue.
+     
+     - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
+     
+     - Returns: A promise of a generic type.
+     */
+    func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
     
 }

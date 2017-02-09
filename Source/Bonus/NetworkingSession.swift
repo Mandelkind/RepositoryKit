@@ -1,5 +1,5 @@
 //
-//  RKNetworkingSession.swift
+//  NetworkingSession.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,7 +27,7 @@ import PromiseKit
 
 // MARK: - Main
 /// A networking session that makes requests to a server (which url is specified).
-open class RKNetworkingSession: RKNetworking {
+open class NetworkingSession: Networking {
     
     // MARK: - Properties
     /// The url of the server.
@@ -56,7 +56,7 @@ open class RKNetworkingSession: RKNetworking {
      
      - Returns: A promise of `Any`.
      */
-    open func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Any> {
+    open func request(method: HTTPMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Any> {
         
         return requestWithData(method, "\(url)/\(path)", parameters: parameters, headers: headers)
             .then { request in
@@ -94,13 +94,13 @@ open class RKNetworkingSession: RKNetworking {
 }
 
 // MARK: - Util
-extension RKNetworkingSession {
+extension NetworkingSession {
     
     fileprivate func initConfiguration() {
         URLSession.shared.configuration.urlCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
     }
     
-    fileprivate func requestWithData(_ method: RKMethod, _ urlString: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<URLRequest> {
+    fileprivate func requestWithData(_ method: HTTPMethod, _ urlString: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<URLRequest> {
         
         return Promise { success, failure in
             

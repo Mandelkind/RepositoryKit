@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+NetworkingStorage.swift
+//  CRUDRepository+NetworkingStorage.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,19 +27,19 @@ import PromiseKit
 
 // MARK: - Main
 /// Represents a *CRUD Networking Storage Repository* and its entity is a *Networking Storage Entity*.
-public protocol RKCRUDNetworkingStorageRepository: RKCRUDRepository, RKNetworkingStorageRepository {
+public protocol CRUDNetworkingStorageRepository: CRUDRepository, NetworkingStorageRepository {
     
     /// The associated entity type.
-    associatedtype Entity: RKNetworkingStorageEntity
+    associatedtype Entity: NetworkingStorageEntity
     /// The associated networking repository type.
-    associatedtype NetworkingRepository: RKCRUDNetworkingDictionaryRepository
+    associatedtype NetworkingRepository: CRUDNetworkingDictionaryRepository
     /// The associated storage repository type.
-    associatedtype StorageRepository: RKCRUDStorageRepository
+    associatedtype StorageRepository: CRUDStorageRepository
     
 }
 
 // MARK: - Create
-extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+extension CRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == DictionaryEntity {
     
     /**
      Creates an object on the *Storage Repository Store* and the *Networking Repository Store*.
@@ -65,7 +65,7 @@ extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == En
 }
 
 // MARK: - Read
-extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+extension CRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == DictionaryEntity {
     
     /**
      Searches all objects created on the *Networking Repository Store* and creates it on the *Storage Repository Store*.
@@ -83,7 +83,7 @@ extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == En
 }
 
 // MARK: - Update
-extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+extension CRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == DictionaryEntity {
     
     /**
      Updates an object on the *Networking Repository Store* and the *Storage Repository Store*.
@@ -105,7 +105,7 @@ extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == En
 }
 
 // MARK: - Delete
-extension RKCRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == RKDictionaryEntity {
+extension CRUDNetworkingStorageRepository where StorageRepository.Entity == Entity, NetworkingRepository.Entity == DictionaryEntity {
     
     /**
      Deletes an object on the *Networking Repository Store* and the *Storage Repository Store*.

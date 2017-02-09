@@ -1,5 +1,5 @@
 //
-//  RKMethod.swift
+//  HTTPMethod.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,7 +25,7 @@
 import Foundation
 
 /// HTTP methods.
-public enum RKMethod: String {
+public enum HTTPMethod: String {
     
     /// HTTP method type.
     case GET, POST, PUT, PATCH, DELETE

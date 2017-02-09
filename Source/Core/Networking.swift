@@ -1,5 +1,5 @@
 //
-//  RKNetworking.swift
+//  Networking.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -26,7 +26,7 @@ import PromiseKit
 
 // MARK: - Main
 /// It is needed to be considered a *Networking Recipe* by a *Repository*.
-public protocol RKNetworking {
+public protocol Networking {
     
     /// The url of the server.
     var url: String { get }
@@ -41,15 +41,12 @@ public protocol RKNetworking {
      
      - Returns: A promise of `Any`.
      */
-    func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<Any>
+    func request(method: HTTPMethod, path: String, parameters: Dictionary<String, Any>?, headers: Dictionary<String, String>?) -> Promise<Any>
     
 }
 
 // MARK: - Util
-extension RKNetworking {
-    
-    /// Typealias that represent an `Entity` of the type `Dictionary`.
-    public typealias DictionaryEntity = Dictionary<String, Any>
+extension Networking {
     
     /**
      Creates a promise with the response of a request for the specified method, url, parameters and headers.
@@ -61,7 +58,7 @@ extension RKNetworking {
      
      - Returns: A promise of `DictionaryEntity`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<DictionaryEntity> {
+    public func request(method: HTTPMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<DictionaryEntity> {
         
         return request(method: method, path: path, parameters: parameters, headers: headers)
             .then { (result: Any) in
@@ -87,7 +84,7 @@ extension RKNetworking {
      
      - Returns: A promise of an `Array` of `DictionaryEntity`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<[DictionaryEntity]> {
+    public func request(method: HTTPMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<[DictionaryEntity]> {
         
         return request(method: method, path: path, parameters: parameters, headers: headers)
             .then { (result: Any) in
@@ -112,7 +109,7 @@ extension RKNetworking {
      
      - Returns: A promise of `Void`.
      */
-    public func request(method: RKMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Void> {
+    public func request(method: HTTPMethod, path: String, parameters: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil) -> Promise<Void> {
         
         return request(method: method, path: path, parameters: parameters, headers: headers)
             .then { (result: Any) -> Void in }

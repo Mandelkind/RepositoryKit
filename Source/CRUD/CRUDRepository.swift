@@ -1,5 +1,5 @@
 //
-//  RKPatchableRepository+CRUDNetworking.swift
+//  CRUDRepository.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -24,33 +24,45 @@
 
 import PromiseKit
 
-// The repository is a *CRUD Patchable Networking Repository* and the entity is a *Patchable Networking Entity*.
-extension RKPatchableRepository where Self: RKCRUDNetworkingRepository, Entity: RKNetworkingEntity, Entity: RKPatchable {
+/// It is needed to be considered a *CRUD Repository* and includes **C**reate, **R**ead, **U**pdate and **D**elete methods.
+public protocol CRUDRepository: Repository {
     
-    // MARK: - Patch
+    // MARK: - Create
     /**
-     Updates an entity in the repository without sending unnecessary data, just the modified fields. It is a partial update.
+     Creates an entity in the repository.
+     
+     - Parameter entity: A `Dictionary` that will initialize the entity.
+     
+     - Returns: A promise of `Entity`.
+     */
+    func create(_ entity: Dictionary<String, Any>) -> Promise<Entity>
+    
+    // MARK: - Read
+    /**
+     Searches all entities in the repository.
+     
+     - Returns: A promise of an `Array` of `Entity`.
+     */
+    func search() -> Promise<[Entity]>
+    
+    // MARK: - Update
+    /**
+     Updates an entity in the repository.
      
      - Parameter entity: A reference of the entity to be updated.
      
-     - Returns: A promise of the `Entity` updated.
+     - Returns: A promise of `Entity`.
      */
-    public func patch(_ entity: Entity) -> Promise<Entity> {
-        
-        let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
-        
-        if difference.isEmpty {
-            return Promise(value: entity)
-        }
-        
-        return store.request(method: .PATCH, path: "\(path)/\(entity.id)", parameters: difference)
-            .then { dictionary in
-                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
-            }
-            .then { dictionary in
-                self.update(entity: entity, withDictionary: dictionary)
-        }
-        
-    }
+    func update(_ entity: Entity) -> Promise<Entity>
+    
+    // MARK: - Delete
+    /**
+     Deletes an entity in the repository.
+     
+     - Parameter entity: A reference of the entity to be deleted.
+     
+     - Returns: A promise of `Void`.
+     */
+    func delete(_ entity: Entity) -> Promise<Void>
     
 }

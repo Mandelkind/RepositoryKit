@@ -1,5 +1,5 @@
 //
-//  RKRepository.swift
+//  Repository.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,7 +25,7 @@
 import Foundation
 
 /// It is needed to be considered a *Repository*.
-public protocol RKRepository {
+public protocol Repository {
     
     /// The associated entity type.
     associatedtype Entity
@@ -33,10 +33,10 @@ public protocol RKRepository {
 }
 
 /// It is needed to be considered a *Networking Repository*.
-public protocol RKNetworkingRepository: RKRepository {
+public protocol NetworkingRepository: Repository {
     
     /// The store that will be able to make the HTTP requests.
-    var store: RKNetworking { get }
+    var store: Networking { get }
     
     /// The url of the server.
     var path: String { get }
@@ -44,10 +44,10 @@ public protocol RKNetworkingRepository: RKRepository {
 }
 
 /// It is needed to be considered a *Storage Repository*.
-public protocol RKStorageRepository: RKRepository {
+public protocol StorageRepository: Repository {
     
     /// The object that will manage the local storage.
-    var store: RKStorage { get }
+    var store: Storage { get }
     
     /// The name of the entity of the model.
     var name: String { get }
@@ -55,12 +55,12 @@ public protocol RKStorageRepository: RKRepository {
 }
 
 /// It is needed to be considered a *Networking Storage Repository*.
-public protocol RKNetworkingStorageRepository: RKRepository {
+public protocol NetworkingStorageRepository: Repository {
     
     /// The associated networking repository type.
-    associatedtype NetworkingRepository: RKNetworkingRepository
+    associatedtype NetworkingRepository: RepositoryKit.NetworkingRepository
     /// The associated storage repository type.
-    associatedtype StorageRepository: RKStorageRepository
+    associatedtype StorageRepository: RepositoryKit.StorageRepository
     
     /// The networking repository.
     var networking: NetworkingRepository { get }
@@ -70,7 +70,7 @@ public protocol RKNetworkingStorageRepository: RKRepository {
 }
 
 /// Enables the repository to know how to identify a `Dictionary`.
-public protocol RKDictionaryIdentifier {
+public protocol DictionaryIdentifier {
     
     /// The key that identifies the `Dictionary`.
     var identificationKey: String { get }

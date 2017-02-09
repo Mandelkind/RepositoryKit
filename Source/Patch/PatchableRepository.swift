@@ -1,5 +1,5 @@
 //
-//  RKPatchableRepository+CRUDNetworkingStorage.swift
+//  PatchableRepository.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -22,12 +22,10 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
 import PromiseKit
 
-// The repository is a *CRUD Patchable Networking Storage Repository* and the entity is a *Patchable Storage Entity*.
-extension RKPatchableRepository where Self: RKCRUDNetworkingStorageRepository, Entity: RKPatchable,
-Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
+/// It is needed to be considered a *Patchable Repository* and includes the patch method.
+public protocol PatchableRepository: Repository {
     
     // MARK: - Patch
     /**
@@ -37,31 +35,6 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
      
      - Returns: A promise of `Entity`.
      */
-    public func patch(_ entity: Entity) -> Promise<Entity> {
-        
-        return storage.update(entity)
-            .then(execute: networkingPatch)
-            .then(execute: entity.update)
-            .then { entity }
-            .then(execute: storage.update)
-        
-    }
-    
-    // MARK: - Util
-    /// Given the entity, it gets the difference and updates the *Networking Repository Store* by a *PATCH* request.
-    private func networkingPatch(_ entity: Entity) -> Promise<NetworkingRepository.Entity> {
-        
-        let difference = RKDictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
-        
-        if difference.isEmpty {
-            return Promise(value: difference)
-        }
-        
-        return networking.store.request(method: .PATCH, path: "\(networking.path)/\(entity.id)", parameters: difference)
-            .then { dictionary in
-                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
-        }
-        
-    }
+    func patch(_ entity: Entity) -> Promise<Entity>
     
 }

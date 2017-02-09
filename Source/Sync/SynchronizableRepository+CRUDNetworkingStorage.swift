@@ -1,5 +1,5 @@
 //
-//  RKSynchronizableRepository+CRUDNetworkingStorage.swift
+//  SynchronizableRepository+CRUDNetworkingStorage.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,8 +27,8 @@ import PromiseKit
 
 // MARK: - Main
 // The repository is a *CRUD Synchronizable Networking Storage Repository* and the entity is a *Storage Entity*.
-extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
-Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
+extension SynchronizableRepository where Self: CRUDNetworkingStorageRepository,
+Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == DictionaryEntity {
     
     /**
      Synchronizes both stores.
@@ -130,8 +130,8 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
 }
 
 // MARK: - Util
-extension RKSynchronizableRepository where Self: RKCRUDNetworkingStorageRepository,
-Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKDictionaryEntity {
+extension SynchronizableRepository where Self: CRUDNetworkingStorageRepository,
+Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == DictionaryEntity {
     
     /// Sets the synchronizable attribute to the state specified by performing a selector.
     fileprivate func setSynchronize(objects: [StorageRepository.Entity], state: Bool) -> Promise<[StorageRepository.Entity]> {
@@ -141,7 +141,7 @@ Self.StorageRepository.Entity == Entity, Self.NetworkingRepository.Entity == RKD
         }
         
         let synchronizeSelector = Selector(attribute: synchronizableAttribute)
-        
+
         for object in objects {
             (object as? NSObject)?.performSelector(onMainThread: synchronizeSelector, with: state, waitUntilDone: true)
         }

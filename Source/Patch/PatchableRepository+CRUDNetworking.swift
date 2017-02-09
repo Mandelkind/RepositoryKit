@@ -1,5 +1,5 @@
 //
-//  RKStorage.swift
+//  PatchableRepository+CRUDNetworking.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -22,37 +22,35 @@
 //  THE SOFTWARE.
 //
 
-import CoreData
 import PromiseKit
 
-/// It is needed to be considered a *Storage Recipe* by a *Repository*.
-public protocol RKStorage {
+// The repository is a *CRUD Patchable Networking Repository* and the entity is a *Patchable Networking Entity*.
+extension PatchableRepository where Self: CRUDNetworkingRepository, Entity: NetworkingEntity, Entity: Patchable {
     
+    // MARK: - Patch
     /**
-     Attempts to commit unsaved changes from the main context to the persistence context.
+     Updates an entity in the repository without sending unnecessary data, just the modified fields. It is a partial update.
      
-     - Parameter t: A generic type that will be returned with a promise.
+     - Parameter entity: A reference of the entity to be updated.
      
-     - Returns: A promise of the generic type.
+     - Returns: A promise of the `Entity` updated.
      */
-    func save<T>(_ t: T) -> Promise<T>
-    
-    /**
-     Performs an operation in the main queue.
-     
-     - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
-     
-     - Returns: A promise of a generic type.
-     */
-    func performOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
-    
-    /**
-     Performs an operation in a background queue.
-     
-     - Parameter block: the closure to perform (receive the context and return a promise of a generic type).
-     
-     - Returns: A promise of a generic type.
-     */
-    func performBackgroundOperation<T>(_ block: @escaping (NSManagedObjectContext) -> Promise<T>) -> Promise<T>
+    public func patch(_ entity: Entity) -> Promise<Entity> {
+        
+        let difference = DictionaryTransformer.difference(old: entity.dictionaryMemory, new: entity.dictionary)
+        
+        if difference.isEmpty {
+            return Promise(value: entity)
+        }
+        
+        return store.request(method: .PATCH, path: "\(path)/\(entity.id)", parameters: difference)
+            .then { dictionary in
+                DictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
+            }
+            .then { dictionary in
+                self.update(entity: entity, withDictionary: dictionary)
+        }
+        
+    }
     
 }

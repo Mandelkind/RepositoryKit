@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+Networking.swift
+//  CRUDRepository+NetworkingDictionary.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,11 +25,11 @@
 import PromiseKit
 
 // MARK: - Main
-/// Represents a *CRUD Networking Repository* and its entity is a *Networking Entity*.
-public protocol RKCRUDNetworkingRepository: RKCRUDRepository, RKNetworkingRepository { }
+/// Represents a *CRUD Networking Dictionary Repository*.
+public typealias CRUDNetworkingDictionaryRepository = CRUDNetworkingRepository & DictionaryIdentifier
 
 // MARK: - Create
-extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+extension CRUDNetworkingRepository where Self: CRUDNetworkingDictionaryRepository, Entity == DictionaryEntity {
     
     /**
      Makes a request to the *Store* with the purpose of creating a new entity.
@@ -42,16 +42,15 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
         
         return store.request(method: .POST, path: "\(path)", parameters: entity)
             .then { dictionary in
-                RKDictionaryTransformer.merge(old: entity, new: dictionary)
-            }
-            .then(execute: parse)
+                DictionaryTransformer.merge(old: entity, new: dictionary)
+        }
         
     }
     
 }
 
 // MARK: - Read
-extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+extension CRUDNetworkingRepository where Self: CRUDNetworkingDictionaryRepository, Entity == DictionaryEntity {
     
     /**
      Makes a request to the *Store* with the purpose of finding an entity with a specified unique identifier.
@@ -63,7 +62,6 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     public func search(_ identifier: CustomStringConvertible) -> Promise<Entity> {
         
         return store.request(method: .GET, path: "\(path)/\(identifier)")
-            .then(execute: parse)
         
     }
     
@@ -75,14 +73,13 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
     public func search() -> Promise<[Entity]> {
         
         return store.request(method: .GET, path: "\(path)")
-            .then(execute: parse)
         
     }
     
 }
 
 // MARK: - Update
-extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+extension CRUDNetworkingRepository where Self: CRUDNetworkingDictionaryRepository, Entity == DictionaryEntity {
     
     /**
      Makes a request to the *Store* with the purpose of updating an entity with a specific unique identifier.
@@ -93,12 +90,13 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
      */
     public func update(_ entity: Entity) -> Promise<Entity> {
         
-        return store.request(method: .PUT, path: "\(path)/\(entity.id)", parameters: entity.dictionary)
-            .then { dictionary in
-                RKDictionaryTransformer.merge(old: entity.dictionary, new: dictionary)
+        return Promise(value: entity)
+            .then(execute: entityIdentifiable)
+            .then { identifier in
+                self.store.request(method: .PUT, path: "\(self.path)/\(identifier)", parameters: entity)
             }
             .then { dictionary in
-                self.update(entity: entity, withDictionary: dictionary)
+                DictionaryTransformer.merge(old: entity, new: dictionary)
         }
         
     }
@@ -106,7 +104,7 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
 }
 
 // MARK: - Delete
-extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+extension CRUDNetworkingRepository where Self: CRUDNetworkingDictionaryRepository, Entity == DictionaryEntity {
     
     /**
      Makes a request to the *Store* with the purpose of deleting an entity with a specific unique identifier.
@@ -117,55 +115,27 @@ extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
      */
     public func delete(_ entity: Entity) -> Promise<Void> {
         
-        return store.request(method: .DELETE, path: "\(path)/\(entity.id)")
+        return Promise(value: entity)
+            .then(execute: entityIdentifiable)
+            .then { identifier in
+                self.store.request(method: .DELETE, path: "\(self.path)/\(identifier)")
+        }
         
     }
     
 }
 
 // MARK: - Util
-extension RKCRUDNetworkingRepository where Entity: RKNetworkingEntity {
+extension CRUDNetworkingRepository where Self: CRUDNetworkingDictionaryRepository, Entity == DictionaryEntity {
     
-    /// Parses a `Dictionary` into an `Entity`.
-    public func parse(_ dictionary: Dictionary<String, Any>) -> Promise<Entity> {
+    /// Attempts to recognize the entity by the identification key.
+    fileprivate func entityIdentifiable(_ entity: Entity) throws -> CustomStringConvertible {
         
-        return Promise { success, failure in
-            guard let entity = Entity(dictionary: dictionary) else {
-                failure(RKError.parsing)
-                return
-            }
-            
-            success(entity)
+        guard let identifier = entity[identificationKey] as? CustomStringConvertible else {
+            throw RKError.unidentifiable
         }
-        
-    }
-    
-    /// Parses an `Array` of `Dictionary` into an `Array` of `Entity`.
-    public func parse(_ array: [Dictionary<String, Any>]) -> Promise<[Entity]> {
-        
-        var entities = Array<Entity>()
-        
-        for dictionary in array {
-            if let entity = Entity(dictionary: dictionary) {
-                entities.append(entity)
-            }
-        }
-        
-        return Promise(value: entities)
-        
-    }
-    
-    /// Updates an `Entity` with the specific `Dictionary`.
-    /// If it is dictionary updatable, call update method (it should be a class).
-    /// If it is not a dictionary, initialize a new one (it should be a struct).
-    internal func update(entity: Entity, withDictionary dictionary: Dictionary<String, Any>) -> Promise<Entity> {
-        
-        if let updatableEntity = entity as? RKDictionaryUpdatable {
-            updatableEntity.update(dictionary)
-            return Promise(value: entity)
-        } else {
-            return parse(dictionary)
-        }
+
+        return identifier
         
     }
     

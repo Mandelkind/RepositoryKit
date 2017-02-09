@@ -1,5 +1,5 @@
 //
-//  RKDictionaryTransformer.swift
+//  DictionaryTransformer.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -25,7 +25,7 @@
 import PromiseKit
 
 /// It contains the methods to transform the *Dictionary Entities*.
-public class RKDictionaryTransformer {
+public class DictionaryTransformer {
     
     /**
      Given two `DictionaryEntity`, it merges them and returns the result of the merging.
@@ -36,7 +36,7 @@ public class RKDictionaryTransformer {
      
      - Returns: The result of the merging.
      */
-    public class func merge(old: RKDictionaryEntity, new: RKDictionaryEntity) -> RKDictionaryEntity {
+    public class func merge(old: DictionaryEntity, new: DictionaryEntity) -> DictionaryEntity {
         
         var dictionary = old
         
@@ -59,9 +59,9 @@ public class RKDictionaryTransformer {
      
      - Returns: The result of the difference.
      */
-    public class func difference(old: RKDictionaryEntity, new: RKDictionaryEntity) -> RKDictionaryEntity {
+    public class func difference(old: DictionaryEntity, new: DictionaryEntity) -> DictionaryEntity {
         
-        var dictionary = RKDictionaryEntity()
+        var dictionary = DictionaryEntity()
         
         // Iterate over the new dictionary to find the new differences.
         for (key, value) in new {
@@ -70,11 +70,11 @@ public class RKDictionaryTransformer {
             if value is Array<Any> { continue }
             
             // Check if it is a dictionary.
-            if let newDictionary = value as? RKDictionaryEntity {
+            if let newDictionary = value as? DictionaryEntity {
                 // Check if it exists in the old one and it is a dictionary.
-                if let oldDictionary = old[key] as? RKDictionaryEntity {
+                if let oldDictionary = old[key] as? DictionaryEntity {
                     // If it exists, get the difference.
-                    let diff: RKDictionaryEntity = difference(old: oldDictionary, new: newDictionary)
+                    let diff: DictionaryEntity = difference(old: oldDictionary, new: newDictionary)
                     // add the field with the new difference.
                     if !diff.isEmpty { dictionary[key] = diff }
                 } else {

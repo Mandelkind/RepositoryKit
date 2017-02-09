@@ -1,5 +1,5 @@
 //
-//  RKCRUDRepository+Storage.swift
+//  CRUDRepository+Storage.swift
 //
 //  Copyright (c) 2016-2017 Luciano Polit <lucianopolit@gmail.com>
 //
@@ -27,15 +27,15 @@ import PromiseKit
 
 // MARK: - Main
 /// Represents a *CRUD Storage Repository* and its entity is a *Storage Entity*.
-public protocol RKCRUDStorageRepository: RKCRUDRepository, RKStorageRepository {
+public protocol CRUDStorageRepository: CRUDRepository, StorageRepository {
     
     /// The associated entity type.
-    associatedtype Entity: RKStorageEntity
+    associatedtype Entity: StorageEntity
     
 }
 
 // MARK: - Create
-extension RKCRUDStorageRepository {
+extension CRUDStorageRepository {
     
     /**
      Creates a managed object on the main context with the specified `Dictionary`.
@@ -88,7 +88,7 @@ extension RKCRUDStorageRepository {
 }
 
 // MARK: - Read
-extension RKCRUDStorageRepository {
+extension CRUDStorageRepository {
     
     /**
      Searches all managed objects on the main context.
@@ -135,7 +135,7 @@ extension RKCRUDStorageRepository {
 }
 
 // MARK: - Update
-extension RKCRUDStorageRepository {
+extension CRUDStorageRepository {
     
     /**
      Updates all uncommited changes for the specified entity on the main context.
@@ -164,7 +164,7 @@ extension RKCRUDStorageRepository {
 }
 
 // MARK: - Delete
-extension RKCRUDStorageRepository {
+extension CRUDStorageRepository {
     
     /**
      Deletes the specified entity on the main context.
